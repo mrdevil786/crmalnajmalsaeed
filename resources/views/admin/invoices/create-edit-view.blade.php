@@ -1,151 +1,203 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('admin.layout.main')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Invoice</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+@section('admin-page-title', 'Create Invoices')
 
-<body>
-    <div class="container mt-5">
-        <h1>Create Invoice</h1>
-        <form id="invoice-form" action="{{ route('admin.invoices.store') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="customer_id">Customer:</label>
-                <select class="form-control" name="customer_id" id="customer_id" required>
-                    <option value="">Select Customer</option>
-                    @foreach ($customers as $customer)
-                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                    @endforeach
-                </select>
-                @error('customer_id')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
+@section('admin-main-section')
 
-            <div class="form-group">
-                <label for="type">Invoice Type:</label>
-                <select class="form-control" name="type" id="type" required>
-                    <option value="invoice">Invoice</option>
-                    <option value="quote">Quote</option>
-                </select>
-            </div>
+    <!-- PAGE-HEADER -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="page-title">Create Invoice</h1>
+        </div>
+    </div>
+    <!-- PAGE-HEADER END -->
 
-            <div class="form-group">
-                <label for="issue_date">Issue Date:</label>
-                <input type="date" class="form-control" name="issue_date" id="issue_date" required>
-            </div>
+    <!-- Row -->
+    <div class="row row-sm">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Invoice Details</h3>
+                </div>
+                <div class="card-body">
 
-            <div class="form-group" id="due-date-group">
-                <label for="due_date">Due Date:</label>
-                <input type="date" class="form-control" name="due_date" id="due_date">
-            </div>
+                    <!-- Invoice Form -->
+                    <form id="invoice-form" action="{{ route('admin.invoices.store') }}" method="POST">
+                        @csrf
+                        <div class="form-row">
+                            <!-- Customer Section -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label" for="customer_id">Customer</label>
+                                <select class="form-select form-control" name="customer_id" id="customer_id" required>
+                                    <option value="">Select Customer</option>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('customer_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-            <div class="form-group">
-                <label for="vat_percentage">VAT Percentage:</label>
-                <input type="number" class="form-control" name="vat_percentage" id="vat_percentage" value="15"
-                    step="0.01" required>
-            </div>
+                            <!-- Invoice Type -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label" for="type">Invoice Type</label>
+                                <select class="form-select form-control" name="type" id="type" required>
+                                    <option value="invoice">Invoice</option>
+                                    <option value="quote">Quote</option>
+                                </select>
+                            </div>
 
-            <div class="form-group">
-                <label for="discount">Discount:</label>
-                <input type="number" class="form-control" name="discount" id="discount" value="0" step="0.01">
-            </div>
+                            <!-- Issue Date -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label" for="issue_date">Issue Date</label>
+                                <input type="date" class="form-control" name="issue_date" id="issue_date" required>
+                            </div>
 
-            <h2>Items</h2>
-            <div id="items" class="mb-3">
-                <div class="item mb-3">
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="product_id">Product:</label>
-                            <select class="form-control" name="items[0][product_id]" required>
-                                <option value="">Select Product</option>
-                                @foreach ($products as $product)
-                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}">
-                                        {{ $product->name }}</option>
-                                @endforeach
-                            </select>
+                            <!-- Due Date -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label" for="due_date">Due Date</label>
+                                <input type="date" class="form-control" name="due_date" id="due_date">
+                            </div>
+
+                            <!-- VAT Percentage -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label" for="vat_percentage">VAT Percentage</label>
+                                <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
+                                    value="15" step="0.01" required>
+                            </div>
+
+                            <!-- Discount -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label" for="discount">Discount Percentage</label>
+                                <input type="number" class="form-control" name="discount" id="discount" value="0"
+                                    step="0.01">
+                            </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" class="form-control" name="items[0][quantity]" value="1"
-                                required>
+
+                        <div class="form-row">
+                            <!-- Items Section -->
+                            <div class="col-lg-12 mb-3">
+                                <h4>Items</h4>
+                                <div id="items">
+                                    <div class="item mb-3">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" for="product_id">Product</label>
+                                                <select class="form-select form-control" name="items[0][product_id]"
+                                                    required>
+                                                    <option value="">Select Product</option>
+                                                    @foreach ($products as $product)
+                                                        <option value="{{ $product->id }}"
+                                                            data-price="{{ $product->price }}">{{ $product->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" for="quantity">Quantity</label>
+                                                <input type="number" class="form-control" name="items[0][quantity]"
+                                                    value="1" required>
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" for="price">Price</label>
+                                                <input type="number" class="form-control" name="items[0][price]" readonly
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Button to Add New Items -->
+                                <button type="button" id="add-item" class="btn btn-primary">Add Item</button>
+                            </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="price">Price:</label>
-                            <input type="number" class="form-control" name="items[0][price]" required readonly>
+
+                        <!-- Notes Section -->
+                        <div class="form-row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="form-label" for="notes">Notes</label>
+                                <textarea class="form-control" name="notes" id="notes"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <button type="button" class="btn btn-danger remove-item">Remove</button>
+
+                        <!-- Submit Button -->
+                        <center>
+                            <button type="submit" class="btn btn-success">Create Invoice</button>
+                        </center>
+                    </form>
                 </div>
             </div>
-            <button type="button" id="add-item" class="btn btn-primary">Add Item</button>
-
-            <div class="form-group mt-3">
-                <label for="notes">Notes:</label>
-                <textarea class="form-control" name="notes" id="notes"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-success">Create Invoice</button>
-        </form>
+        </div>
     </div>
+    <!-- End Row -->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+@endsection
+
+@section('custom-script')
     <script>
         $(document).ready(function() {
-            // Update price on product selection
-            $(document).on('change', 'select[name^="items"][name$="[product_id]"]', function() {
+            // Update price on product selection for the permanent item
+            $('select[name="items[0][product_id]"]').change(function() {
                 const selectedOption = $(this).find('option:selected');
-                const priceInput = $(this).closest('.item').find('input[name$="[price]"]');
+                const priceInput = $(this).closest('.item').find('input[name="items[0][price]"]');
                 priceInput.val(selectedOption.data('price'));
             });
 
-            // Add new item
+            // Add new item (with remove button)
             $('#add-item').click(function() {
                 const itemCount = $('.item').length;
-                const itemDiv = $(`
-                    <div class="item mb-3">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="product_id">Product:</label>
-                                <select class="form-control" name="items[${itemCount}][product_id]" required>
-                                    <option value="">Select Product</option>
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="price">Price:</label>
-                                <input type="number" class="form-control" name="items[${itemCount}][price]" required readonly>
-                            </div>
+                const itemDiv = $(`<div class="item mb-3">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="product_id">Product</label>
+                            <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
+                                <option value="">Select Product</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <button type="button" class="btn btn-danger remove-item">Remove</button>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="quantity">Quantity</label>
+                            <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="price">Price</label>
+                            <input type="number" class="form-control" name="items[${itemCount}][price]" readonly required>
+                        </div>
                     </div>
-                `);
+                    <button type="button" class="btn btn-danger remove-item">Remove</button>
+                </div>`);
+
                 $('#items').append(itemDiv);
 
                 // Update price when the new product is selected
-                itemDiv.find('select[name^="items"][name$="[product_id]"]').change();
+                itemDiv.find('select[name^="items"][name$="[product_id]"]').change(function() {
+                    const selectedOption = $(this).find('option:selected');
+                    const priceInput = $(this).closest('.item').find('input[name$="[price]"]');
+                    priceInput.val(selectedOption.data('price'));
+                });
 
+                // Remove item
                 itemDiv.find('.remove-item').click(function() {
                     itemDiv.remove();
                 });
             });
 
-            // Remove item
-            $(document).on('click', '.remove-item', function() {
-                $(this).closest('.item').remove();
-            });
+            // Trigger price update for the first item on load
+            $('select[name="items[0][product_id]"]').trigger('change');
         });
     </script>
-</body>
 
-</html>
+    <!-- FILE UPLOADES JS -->
+    <script src="{{ asset('../assets/plugins/fileuploads/js/fileupload.js') }}"></script>
+    <script src="{{ asset('../assets/plugins/fileuploads/js/file-upload.js') }}"></script>
+
+    <!-- INPUT MASK JS-->
+    <script src="{{ asset('assets/plugins/input-mask/jquery.mask.min.js') }}"></script>
+
+    <!-- FORMVALIDATION JS -->
+    <script src="{{ asset('assets/js/form-validation.js') }}"></script>
+@endsection
