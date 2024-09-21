@@ -5,6 +5,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InvoicesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
 
@@ -20,7 +21,31 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('user.logout');
 
-    // Item management routes
+    // Invoices management routes
+    Route::prefix('invoices')->name('invoices.')->controller(InvoicesController::class)->group(function () {
+
+        // Routes for admins
+        Route::middleware('admin')->group(function () {
+            Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::put('status', 'status')->name('status');
+            Route::get('create', 'cerate')->name('create');
+        });
+
+        // Routes for managers
+        Route::middleware('manager')->group(function () {
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
+        });
+
+        // Routes for members
+        Route::middleware('member')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
+        });
+    });
+
+    // Products management routes
     Route::prefix('products')->name('products.')->controller(ProductsController::class)->group(function () {
 
         // Routes for admins

@@ -31,6 +31,16 @@ return [
             ],
         ],
     ],
+    'invoice' => [
+        'items' => [
+            [
+                'label' => 'Invoices',
+                'icon' => 'fe fe-file-text',
+                'route' => 'admin.invoices.index',
+                'active' => 'admin/invoices*',
+            ],
+        ],
+    ],
     'tools' => [
         'title' => 'Tools & Management',
         'items' => [
