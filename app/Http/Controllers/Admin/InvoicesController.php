@@ -84,4 +84,22 @@ class InvoicesController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'Invoice creation failed: ' . $e->getMessage()]);
         }
     }
+
+    public function destroy($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+
+        DB::beginTransaction();
+
+        try {
+            $invoice->items()->delete();
+            $invoice->delete();
+            
+            DB::commit();
+            return redirect()->route('admin.invoices.index')->with('success', 'Invoice deleted successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Invoice deletion failed: ' . $e->getMessage()]);
+        }
+    }
 }
