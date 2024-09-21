@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Item;
+use App\Models\Customer; // Import Customer model
+use App\Models\Product; // Import Product model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class InvoicesController extends Controller
 {
-    // RETRIEVE ALL CUSTOMERS AND DISPLAY THEM IN A VIEW
     public function index()
     {
         $invoices = Invoice::all();
@@ -19,11 +20,17 @@ class InvoicesController extends Controller
 
     public function create()
     {
-        return view('admin.invoices.create-edit-view');
+        // Fetch customers and products
+        $customers = Customer::all();
+        $products = Product::all();
+
+        // Pass them to the view
+        return view('admin.invoices.create-edit-view', compact('customers', 'products'));
     }
 
     public function store(Request $request)
     {
+        // Validation rules
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'type' => 'required|in:invoice,quote',

@@ -13,8 +13,13 @@
         <h1>Create Invoice</h1>
         <form id="invoice-form">
             <div class="form-group">
-                <label for="customer_id">Customer ID:</label>
-                <input type="number" class="form-control" id="customer_id" required>
+                <label for="customer_id">Customer:</label>
+                <select class="form-control" id="customer_id" required>
+                    <option value="">Select Customer</option>
+                    @foreach ($customers as $customer)
+                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="form-group">
@@ -50,8 +55,13 @@
                 <div class="item mb-3">
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="product_id">Product ID:</label>
-                            <input type="number" class="form-control product_id" required>
+                            <label for="product_id">Product:</label>
+                            <select class="form-control product_id" required>
+                                <option value="">Select Product</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="quantity">Quantity:</label>
@@ -59,7 +69,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="price">Price:</label>
-                            <input type="number" class="form-control price" required>
+                            <input type="number" class="form-control price" required readonly>
                         </div>
                     </div>
                     <button type="button" class="btn btn-danger remove-item">Remove</button>
@@ -81,31 +91,53 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+        function updatePrice(selectElement, priceInput) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            priceInput.value = selectedOption ? selectedOption.dataset.price : '';
+        }
+
         document.getElementById('add-item').addEventListener('click', function() {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'item mb-3';
             itemDiv.innerHTML = `
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="product_id">Product ID:</label>
-                <input type="number" class="form-control product_id" required>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="quantity">Quantity:</label>
-                <input type="number" class="form-control quantity" value="1" required>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="price">Price:</label>
-                <input type="number" class="form-control price" required>
-            </div>
-        </div>
-        <button type="button" class="btn btn-danger remove-item">Remove</button>
-    `;
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="product_id">Product:</label>
+                        <select class="form-control product_id" required>
+                            <option value="">Select Product</option>
+                            @foreach ($products as $product)
+                                <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" class="form-control quantity" value="1" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="price">Price:</label>
+                        <input type="number" class="form-control price" required readonly>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger remove-item">Remove</button>
+            `;
             document.getElementById('items').appendChild(itemDiv);
+
+            const productSelect = itemDiv.querySelector('.product_id');
+            const priceInput = itemDiv.querySelector('.price');
+
+            productSelect.addEventListener('change', function() {
+                updatePrice(productSelect, priceInput);
+            });
 
             itemDiv.querySelector('.remove-item').addEventListener('click', function() {
                 itemDiv.remove();
             });
+        });
+
+        // Initialize price for the first item on load
+        document.querySelector('.product_id').addEventListener('change', function() {
+            updatePrice(this, document.querySelector('.price'));
         });
 
         document.getElementById('invoice-form').addEventListener('submit', function(event) {
@@ -136,21 +168,23 @@
                 items: items,
             };
 
-            fetch('/api/invoices', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(invoiceData),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Invoice created successfully!');
-                    // Optionally, reset the form or redirect
-                })
-                .catch(error => {
-                    alert('Error creating invoice: ' + error.message);
-                });
+            fetch('/admin/invoices/store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify(invoiceData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Invoice created successfully!');
+                document.getElementById('invoice-form').reset();
+                document.getElementById('items').innerHTML = ''; // Clear items
+            })
+            .catch(error => {
+                alert('Error creating invoice: ' + error.message);
+            });
         });
     </script>
 </body>
