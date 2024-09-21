@@ -8,7 +8,7 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">Manage Invoices</h1>
-            <a href="{{ route('') }}">
+            <a href="{{ route('admin.invoices.create') }}">
                 <button class="btn btn-primary off-canvas" type="button">Add Invoice</button>
             </a>
         </div>

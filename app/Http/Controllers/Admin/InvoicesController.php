@@ -17,6 +17,11 @@ class InvoicesController extends Controller
         return view('admin.invoices.index', compact('invoices'));
     }
 
+    public function create()
+    {
+        return view('admin.invoices.create-edit-view');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
