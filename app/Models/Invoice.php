@@ -20,14 +20,16 @@ class Invoice extends Model
         'discount',
         'vat_amount',
         'total',
-        'notes',
+        'notes'
     ];
 
+    // An invoice belongs to a customer
     public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
 
+    // An invoice can have many items
     public function items()
     {
         return $this->hasMany(Item::class);

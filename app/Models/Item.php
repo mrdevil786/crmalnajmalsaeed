@@ -11,15 +11,21 @@ class Item extends Model
 
     protected $fillable = [
         'invoice_id',
-        'description',
-        'unit',
+        'product_id',
         'quantity',
         'price',
-        'total',
+        'total'
     ];
 
+    // An item belongs to an invoice
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);
+    }
+
+    // An item belongs to a product
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }
