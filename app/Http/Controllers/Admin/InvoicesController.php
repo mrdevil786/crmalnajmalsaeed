@@ -85,6 +85,7 @@ class InvoicesController extends Controller
         }
     }
 
+
     public function destroy($id)
     {
         $invoice = Invoice::findOrFail($id);
@@ -92,10 +93,14 @@ class InvoicesController extends Controller
         DB::beginTransaction();
 
         try {
+            // Delete associated items
             $invoice->items()->delete();
+
+            // Delete the invoice
             $invoice->delete();
-            
+
             DB::commit();
+
             return redirect()->route('admin.invoices.index')->with('success', 'Invoice deleted successfully');
         } catch (\Exception $e) {
             DB::rollBack();
