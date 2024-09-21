@@ -1,15 +1,15 @@
 @extends('admin.layout.main')
 
-@section('admin-page-title', 'Items')
+@section('admin-page-title', 'Products')
 
 @section('admin-main-section')
 
     <!-- PAGE-HEADER -->
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
-            <h1 class="page-title">Manage Items</h1>
+            <h1 class="page-title">Manage Products</h1>
             <button class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Add Item</button>
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Add Product</button>
         </div>
     </div>
     <!-- PAGE-HEADER END -->
@@ -19,7 +19,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">All Items</h3>
+                    <h3 class="card-title">All Products</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -37,28 +37,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($items as $item)
+                                @foreach ($products as $product)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->description }}</td>
-                                        <td>{{ $item->price }}</td>
-                                        <td>{{ $item->unit }}</td>
-                                        <td>{{ $item->created_at }}</td>
-                                        <td>{{ $item->updated_at }}</td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->description }}</td>
+                                        <td>{{ $product->price }}</td>
+                                        <td>{{ $product->unit }}</td>
+                                        <td>{{ $product->created_at }}</td>
+                                        <td>{{ $product->updated_at }}</td>
                                         <td class="text-center">
                                             <x-buttons.action-pill-button iconClass="fa fa-eye" iconColor="secondary"
-                                                href="{{ route('admin.items.view', $item->id) }}" />
+                                                href="{{ route('admin.products.view', $product->id) }}" />
 
                                             @if (auth()->user()->user_role != 3)
                                                 <x-buttons.action-pill-button
-                                                    href="{{ route('admin.items.edit', $item->id) }}"
+                                                    href="{{ route('admin.products.edit', $product->id) }}"
                                                     iconClass="fa fa-pencil" iconColor="warning"
-                                                    modalTarget="editItemModal" />
+                                                    modalTarget="editProductModal" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
                                                 <x-buttons.action-pill-button
-                                                    href="{{ route('admin.items.destroy', $item->id) }}"
+                                                    href="{{ route('admin.products.destroy', $product->id) }}"
                                                     iconClass="fa fa-trash" iconColor="danger" />
                                             @endif
                                         </td>
@@ -74,9 +74,9 @@
     <!-- End Row -->
 
     <!--Add Modal - Right Offcanvas-->
-    <x-Modal.Right-Offcanvas title="Add New Item" action="{{ route('admin.items.store') }}" method="POST">
+    <x-Modal.Right-Offcanvas title="Add New Product" action="{{ route('admin.products.store') }}" method="POST">
 
-        <x-fields.input-field label="Item Name" name="name" />
+        <x-fields.input-field label="Product Name" name="name" />
         <x-fields.input-field label="Description" name="description" />
         <x-fields.input-field label="Price" name="price" type="number" step="0.01" />
         <x-fields.input-field label="Unit" name="unit" />

@@ -21,13 +21,13 @@ return [
             ],
         ],
     ],
-    'item' => [
+    'product' => [
         'items' => [
             [
-                'label' => 'Items',
+                'label' => 'Products',
                 'icon' => 'fe fe-tag',
-                'route' => 'admin.items.index',
-                'active' => 'admin/items*',
+                'route' => 'admin.products.index',
+                'active' => 'admin/products*',
             ],
         ],
     ],

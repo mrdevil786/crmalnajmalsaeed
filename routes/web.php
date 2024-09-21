@@ -5,7 +5,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ItemsController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
 
 // Guest routes
@@ -21,7 +21,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
     Route::get('logout', [AuthController::class, 'logout'])->name('user.logout');
 
     // Item management routes
-    Route::prefix('items')->name('items.')->controller(ItemsController::class)->group(function () {
+    Route::prefix('products')->name('products.')->controller(ProductsController::class)->group(function () {
 
         // Routes for admins
         Route::middleware('admin')->group(function () {
