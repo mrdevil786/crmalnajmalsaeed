@@ -30,14 +30,14 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="issue_date">Issue Date:</label>
-                <input type="date" class="form-control" id="issue_date" required>
+            <div class="form-group" id="due-date-group">
+                <label for="due_date">Due Date:</label>
+                <input type="date" class="form-control" id="due_date">
             </div>
 
             <div class="form-group">
-                <label for="due_date">Due Date:</label>
-                <input type="date" class="form-control" id="due_date">
+                <label for="issue_date">Issue Date:</label>
+                <input type="date" class="form-control" id="issue_date" required>
             </div>
 
             <div class="form-group">
@@ -96,6 +96,19 @@
             priceInput.value = selectedOption ? selectedOption.dataset.price : '';
         }
 
+        function toggleDueDate() {
+            const invoiceType = document.getElementById('type').value;
+            const dueDateGroup = document.getElementById('due-date-group');
+            if (invoiceType === 'invoice') {
+                dueDateGroup.style.display = 'none';
+            } else {
+                dueDateGroup.style.display = 'block';
+            }
+        }
+
+        document.getElementById('type').addEventListener('change', toggleDueDate);
+        document.addEventListener('DOMContentLoaded', toggleDueDate); // Call on load
+
         document.getElementById('add-item').addEventListener('click', function() {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'item mb-3';
@@ -111,9 +124,9 @@
                         </select>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" class="form-control quantity" value="1" required>
-                    </div>
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" class="form-control quantity" value="1" required>
+                        </div>
                     <div class="form-group col-md-4">
                         <label for="price">Price:</label>
                         <input type="number" class="form-control price" required readonly>
@@ -161,7 +174,7 @@
                 customer_id: customerId,
                 type: type,
                 issue_date: issueDate,
-                due_date: dueDate,
+                due_date: (type === 'invoice') ? null : dueDate, // Send null if invoice type
                 vat_percentage: vatPercentage,
                 discount: discount,
                 notes: notes,
