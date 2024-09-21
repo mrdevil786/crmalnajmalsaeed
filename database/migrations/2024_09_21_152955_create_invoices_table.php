@@ -14,15 +14,21 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
-            $table->string('type')->default('invoice');  // Can be 'invoice' or 'quotation'
-            $table->decimal('total_amount', 10, 2);
-            $table->decimal('discount', 10, 2)->nullable();  // Optional discount
-            $table->decimal('vat', 10, 2);                  // VAT percentage or amount
-            $table->decimal('final_amount', 10, 2);         // Total after VAT and discount
+            $table->string('invoice_number')->unique();
+            $table->enum('type', ['invoice', 'quote'])->default('invoice');
+            $table->date('issue_date');
+            $table->date('due_date')->nullable();
+            $table->decimal('vat_percentage', 5, 2)->default(15);
+            $table->decimal('subtotal', 10, 2);
+            $table->decimal('discount', 10, 2)->nullable();
+            $table->decimal('vat_amount', 10, 2);
+            $table->decimal('total', 10, 2);
+            $table->text('notes')->nullable();
             $table->timestamps();
-
+        
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
+        
     }
 
     /**

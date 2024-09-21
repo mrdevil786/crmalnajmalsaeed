@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('invoice_id');
             $table->string('description');
-            $table->decimal('price', 10, 2);
+            $table->string('unit');
             $table->integer('quantity');
-            $table->string('unit');  // e.g., piece, kg, etc.
-            $table->decimal('total', 10, 2);  // price * quantity
+            $table->decimal('price', 10, 2);
+            $table->decimal('total', 10, 2);
             $table->timestamps();
 
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
