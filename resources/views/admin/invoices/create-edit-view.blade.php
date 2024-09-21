@@ -11,43 +11,48 @@
 <body>
     <div class="container mt-5">
         <h1>Create Invoice</h1>
-        <form id="invoice-form">
+        <form id="invoice-form" action="{{ route('admin.invoices.store') }}" method="POST">
+            @csrf
             <div class="form-group">
                 <label for="customer_id">Customer:</label>
-                <select class="form-control" id="customer_id" required>
+                <select class="form-control" name="customer_id" id="customer_id" required>
                     <option value="">Select Customer</option>
                     @foreach ($customers as $customer)
                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                     @endforeach
                 </select>
+                @error('customer_id')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="type">Invoice Type:</label>
-                <select class="form-control" id="type" required>
+                <select class="form-control" name="type" id="type" required>
                     <option value="invoice">Invoice</option>
                     <option value="quote">Quote</option>
                 </select>
             </div>
 
-            <div class="form-group" id="due-date-group">
-                <label for="due_date">Due Date:</label>
-                <input type="date" class="form-control" id="due_date">
-            </div>
-
             <div class="form-group">
                 <label for="issue_date">Issue Date:</label>
-                <input type="date" class="form-control" id="issue_date" required>
+                <input type="date" class="form-control" name="issue_date" id="issue_date" required>
+            </div>
+
+            <div class="form-group" id="due-date-group">
+                <label for="due_date">Due Date:</label>
+                <input type="date" class="form-control" name="due_date" id="due_date">
             </div>
 
             <div class="form-group">
                 <label for="vat_percentage">VAT Percentage:</label>
-                <input type="number" class="form-control" id="vat_percentage" value="15" step="0.01" required>
+                <input type="number" class="form-control" name="vat_percentage" id="vat_percentage" value="15"
+                    step="0.01" required>
             </div>
 
             <div class="form-group">
                 <label for="discount">Discount:</label>
-                <input type="number" class="form-control" id="discount" value="0" step="0.01">
+                <input type="number" class="form-control" name="discount" id="discount" value="0" step="0.01">
             </div>
 
             <h2>Items</h2>
@@ -56,20 +61,22 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="product_id">Product:</label>
-                            <select class="form-control product_id" required>
+                            <select class="form-control" name="items[0][product_id]" required>
                                 <option value="">Select Product</option>
                                 @foreach ($products as $product)
-                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}">
+                                        {{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="quantity">Quantity:</label>
-                            <input type="number" class="form-control quantity" value="1" required>
+                            <input type="number" class="form-control" name="items[0][quantity]" value="1"
+                                required>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="price">Price:</label>
-                            <input type="number" class="form-control price" required readonly>
+                            <input type="number" class="form-control" name="items[0][price]" required readonly>
                         </div>
                     </div>
                     <button type="button" class="btn btn-danger remove-item">Remove</button>
@@ -79,124 +86,63 @@
 
             <div class="form-group mt-3">
                 <label for="notes">Notes:</label>
-                <textarea class="form-control" id="notes"></textarea>
+                <textarea class="form-control" name="notes" id="notes"></textarea>
             </div>
 
             <button type="submit" class="btn btn-success">Create Invoice</button>
         </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
-        function updatePrice(selectElement, priceInput) {
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
-            priceInput.value = selectedOption ? selectedOption.dataset.price : '';
-        }
+        $(document).ready(function() {
+            // Update price on product selection
+            $(document).on('change', 'select[name^="items"][name$="[product_id]"]', function() {
+                const selectedOption = $(this).find('option:selected');
+                const priceInput = $(this).closest('.item').find('input[name$="[price]"]');
+                priceInput.val(selectedOption.data('price'));
+            });
 
-        function toggleDueDate() {
-            const invoiceType = document.getElementById('type').value;
-            const dueDateGroup = document.getElementById('due-date-group');
-            if (invoiceType === 'invoice') {
-                dueDateGroup.style.display = 'none';
-            } else {
-                dueDateGroup.style.display = 'block';
-            }
-        }
-
-        document.getElementById('type').addEventListener('change', toggleDueDate);
-        document.addEventListener('DOMContentLoaded', toggleDueDate); // Call on load
-
-        document.getElementById('add-item').addEventListener('click', function() {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'item mb-3';
-            itemDiv.innerHTML = `
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="product_id">Product:</label>
-                        <select class="form-control product_id" required>
-                            <option value="">Select Product</option>
-                            @foreach ($products as $product)
-                                <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4">
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" class="form-control quantity" value="1" required>
+            // Add new item
+            $('#add-item').click(function() {
+                const itemCount = $('.item').length;
+                const itemDiv = $(`
+                    <div class="item mb-3">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="product_id">Product:</label>
+                                <select class="form-control" name="items[${itemCount}][product_id]" required>
+                                    <option value="">Select Product</option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="price">Price:</label>
+                                <input type="number" class="form-control" name="items[${itemCount}][price]" required readonly>
+                            </div>
                         </div>
-                    <div class="form-group col-md-4">
-                        <label for="price">Price:</label>
-                        <input type="number" class="form-control price" required readonly>
+                        <button type="button" class="btn btn-danger remove-item">Remove</button>
                     </div>
-                </div>
-                <button type="button" class="btn btn-danger remove-item">Remove</button>
-            `;
-            document.getElementById('items').appendChild(itemDiv);
+                `);
+                $('#items').append(itemDiv);
 
-            const productSelect = itemDiv.querySelector('.product_id');
-            const priceInput = itemDiv.querySelector('.price');
+                // Update price when the new product is selected
+                itemDiv.find('select[name^="items"][name$="[product_id]"]').change();
 
-            productSelect.addEventListener('change', function() {
-                updatePrice(productSelect, priceInput);
+                itemDiv.find('.remove-item').click(function() {
+                    itemDiv.remove();
+                });
             });
 
-            itemDiv.querySelector('.remove-item').addEventListener('click', function() {
-                itemDiv.remove();
-            });
-        });
-
-        // Initialize price for the first item on load
-        document.querySelector('.product_id').addEventListener('change', function() {
-            updatePrice(this, document.querySelector('.price'));
-        });
-
-        document.getElementById('invoice-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const customerId = document.getElementById('customer_id').value;
-            const type = document.getElementById('type').value;
-            const issueDate = document.getElementById('issue_date').value;
-            const dueDate = document.getElementById('due_date').value;
-            const vatPercentage = document.getElementById('vat_percentage').value;
-            const discount = document.getElementById('discount').value;
-            const notes = document.getElementById('notes').value;
-
-            const items = Array.from(document.querySelectorAll('.item')).map(item => ({
-                product_id: item.querySelector('.product_id').value,
-                quantity: item.querySelector('.quantity').value,
-                price: item.querySelector('.price').value,
-            }));
-
-            const invoiceData = {
-                customer_id: customerId,
-                type: type,
-                issue_date: issueDate,
-                due_date: (type === 'invoice') ? null : dueDate, // Send null if invoice type
-                vat_percentage: vatPercentage,
-                discount: discount,
-                notes: notes,
-                items: items,
-            };
-
-            fetch('/admin/invoices/store', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                },
-                body: JSON.stringify(invoiceData),
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Invoice created successfully!');
-                document.getElementById('invoice-form').reset();
-                document.getElementById('items').innerHTML = ''; // Clear items
-            })
-            .catch(error => {
-                alert('Error creating invoice: ' + error.message);
+            // Remove item
+            $(document).on('click', '.remove-item', function() {
+                $(this).closest('.item').remove();
             });
         });
     </script>

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Item;
-use App\Models\Customer; // Import Customer model
-use App\Models\Product; // Import Product model
+use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,17 +20,13 @@ class InvoicesController extends Controller
 
     public function create()
     {
-        // Fetch customers and products
         $customers = Customer::all();
         $products = Product::all();
-
-        // Pass them to the view
         return view('admin.invoices.create-edit-view', compact('customers', 'products'));
     }
 
     public function store(Request $request)
     {
-        // Validation rules
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'type' => 'required|in:invoice,quote',
@@ -46,19 +42,16 @@ class InvoicesController extends Controller
         DB::beginTransaction();
 
         try {
-            // Generate the next invoice number
             $lastInvoice = Invoice::orderBy('id', 'desc')->first();
             $nextInvoiceNumber = $lastInvoice ? 'INV-' . str_pad((int)substr($lastInvoice->invoice_number, 4) + 1, 6, '0', STR_PAD_LEFT) : 'INV-000001';
 
-            // Calculate invoice totals
-            $subtotal = 0;
-            foreach ($request->items as $item) {
-                $subtotal += $item['quantity'] * $item['price'];
-            }
+            $subtotal = array_reduce($request->items, function ($carry, $item) {
+                return $carry + ($item['quantity'] * $item['price']);
+            }, 0);
+
             $vat_amount = ($subtotal * $request->vat_percentage) / 100;
             $total = $subtotal + $vat_amount - ($request->discount ?? 0);
 
-            // Create the invoice
             $invoice = Invoice::create([
                 'customer_id' => $request->customer_id,
                 'invoice_number' => $nextInvoiceNumber,
@@ -73,7 +66,6 @@ class InvoicesController extends Controller
                 'notes' => $request->notes,
             ]);
 
-            // Create each invoice item
             foreach ($request->items as $item) {
                 Item::create([
                     'invoice_id' => $invoice->id,
@@ -86,10 +78,10 @@ class InvoicesController extends Controller
 
             DB::commit();
 
-            return response()->json(['message' => 'Invoice created successfully', 'invoice' => $invoice], 201);
+            return redirect()->route('admin.invoices.index')->with('success', 'Invoice created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Invoice creation failed: ' . $e->getMessage()], 500);
+            return redirect()->back()->withInput()->withErrors(['error' => 'Invoice creation failed: ' . $e->getMessage()]);
         }
     }
 }

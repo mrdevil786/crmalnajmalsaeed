@@ -32,9 +32,7 @@
                                     <th class="wd-15p border-bottom-0">Customer</th>
                                     <th class="wd-15p border-bottom-0">Issue Date</th>
                                     <th class="wd-15p border-bottom-0">Total Amount</th>
-                                    <th class="wd-25p border-bottom-0">Status</th>
                                     <th class="wd-25p border-bottom-0">Created At</th>
-                                    <th class="wd-25p border-bottom-0">Updated At</th>
                                     <th class="wd-25p border-bottom-0">Action</th>
                                 </tr>
                             </thead>
@@ -46,9 +44,7 @@
                                         <td>{{ $invoice->customer->name }}</td>
                                         <td>{{ $invoice->issue_date }}</td>
                                         <td>{{ $invoice->total }}</td>
-                                        <td>{{ $invoice->status }}</td>
                                         <td>{{ $invoice->created_at }}</td>
-                                        <td>{{ $invoice->updated_at }}</td>
                                         <td class="text-center">
                                             <x-buttons.action-pill-button iconClass="fa fa-eye" iconColor="secondary"
                                                 href="{{ route('admin.invoices.view', $invoice->id) }}" />
