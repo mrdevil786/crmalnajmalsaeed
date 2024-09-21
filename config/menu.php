@@ -11,6 +11,26 @@ return [
             ],
         ],
     ],
+    'customer' => [
+        'items' => [
+            [
+                'label' => 'Customers',
+                'icon' => 'fe fe-users',
+                'route' => 'admin.customers.index',
+                'active' => 'admin/customers*',
+            ],
+        ],
+    ],
+    'item' => [
+        'items' => [
+            [
+                'label' => 'Items',
+                'icon' => 'fe fe-tag',
+                'route' => 'admin.items.index',
+                'active' => 'admin/items*',
+            ],
+        ],
+    ],
     'tools' => [
         'title' => 'Tools & Management',
         'items' => [

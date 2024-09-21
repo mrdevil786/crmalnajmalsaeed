@@ -684,6 +684,9 @@
 <!-- FORMVALIDATION JS -->
 <script src="{{ asset('../assets/js/form-validation.js') }}"></script>
 
+<!-- INTERNAL Notifications js -->
+<script src="{{ asset('../assets/plugins/notify/js/jquery.growl.js') }}"></script>
+
 @yield('custom-script')
 
 <script>

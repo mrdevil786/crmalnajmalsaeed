@@ -16,12 +16,6 @@ class UsersController extends Controller
         return view('admin.user.index', compact('users'));
     }
 
-    // CREATE PAGE FOR A SPECIFIC USER
-    public function create()
-    {
-        return view('admin.user.create');
-    }
-
     // VALIDATE AND STORE A NEW USER
     public function store(Request $request)
     {
