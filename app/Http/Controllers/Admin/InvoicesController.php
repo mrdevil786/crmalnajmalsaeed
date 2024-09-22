@@ -83,6 +83,7 @@ class InvoicesController extends Controller
 
             DB::commit();
 
+            $this->generatePdf($invoice->id);
             return redirect()->route('admin.invoices.index')->with('success', 'Invoice created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -117,7 +118,6 @@ class InvoicesController extends Controller
             'name' => 'Al Najm Al Saeed Co. Ltd.',
             'address' => '456 Corporate Blvd, Business City',
             'code' => '54321',
-            // 'phone' => '098-765-4321',
             'custom_fields' => [
                 'email' => 'info@alsaeedstar.com',
             ],
@@ -127,7 +127,6 @@ class InvoicesController extends Controller
             'name' => $invoice->customer->name,
             'address' => '456 Corporate Blvd, Business City',
             'code' => '35443',
-            'phone' => $invoice->customer->phone,
             'custom_fields' => [
                 'email' => $invoice->customer->email,
             ],
@@ -159,7 +158,5 @@ class InvoicesController extends Controller
             ->notes($invoice->notes ?? 'Thank you for your business!');
 
         $pdfInvoice->save('public');
-
-        return $pdfInvoice->stream();
     }
 }
