@@ -96,15 +96,13 @@
                                             alt="logo">
                                     </a>
                                     <div class="header-nav-right d-none d-lg-flex">
-                                        @if (Auth::check())
+                                        @if (Auth()->Check())
                                             <a href="{{ route('admin.dashboard') }}"
-                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">
-                                                Dashboard
+                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">Dashboard
                                             </a>
                                         @else
                                             <a href="{{ route('admin.view.login') }}"
-                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">
-                                                Login
+                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">Login
                                             </a>
                                         @endif
                                     </div>
@@ -121,13 +119,13 @@
                             <div class="col-xl-6 col-lg-6 mb-5 pb-5 animation-zidex pos-relative">
                                 <h4 class="fw-semibold mt-7">Manage Your Business</h4>
                                 <h1 class="text-start fw-bold">We Help to Build Your Dream Project with <span
-                                        class="text-primary animate-heading">Sash</span></h1>
+                                        class="text-primary animate-heading">ERP</span></h1>
                                 <h6 class="pb-3">
-                                    Sash - Now you can use this admin template to design stunning dashboards
-                                    that will wow your target viewers or users to no end. To create a good and
-                                    well-structured dashboard,
-                                    you need to start from scratch with HTML, SCSS, CSS, and JS and with lots of coding,
-                                    but by using this Sash-Admin template.</h6>
+                                    At Al Najm Al Saeed Co. Ltd., we empower you to create exceptional projects across
+                                    various sectors, including construction, HVAC, and IT services. Our comprehensive
+                                    solutions are designed to meet the diverse needs of our clients, ensuring quality
+                                    and efficiency in every endeavor.
+                                </h6>
 
                                 <a href="https://themeforest.net/item/sash-bootstrap-5-admin-dashboard-template/35183671"
                                     target="_blank" class="btn ripple btn-min w-lg mb-3 me-2 btn-primary"><i
@@ -244,34 +242,34 @@
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 
     <!-- JQUERY JS -->
-    <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('../assets/js/jquery.min.js') }}"></script>
 
     <!-- BOOTSTRAP JS -->
-    <script src="{{ asset('public/assets/plugins/bootstrap/js/popper.min.js') }}"></script>
-    <script src="{{ asset('public/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- COUNTERS JS -->
-    <script src="{{ asset('public/assets/plugins/counters/counterup.min.js') }}"></script>
-    <script src="{{ asset('public/assets/plugins/counters/waypoints.min.js') }}"></script>
-    <script src="{{ asset('public/assets/plugins/counters/counters-1.js') }}"></script>
+    <!-- COUNTERS JS-->
+    <script src="../assets/plugins/counters/counterup.min.js"></script>
+    <script src="../assets/plugins/counters/waypoints.min.js"></script>
+    <script src="../assets/plugins/counters/counters-1.js"></script>
 
-    <!-- Perfect SCROLLBAR JS -->
-    <script src="{{ asset('public/assets/plugins/owl-carousel/owl.carousel.js') }}"></script>
-    <script src="{{ asset('public/assets/plugins/company-slider/slider.js') }}"></script>
+    <!-- Perfect SCROLLBAR JS-->
+    <script src="../assets/plugins/owl-carousel/owl.carousel.js"></script>
+    <script src="../assets/plugins/company-slider/slider.js"></script>
 
-    <!-- Star Rating JS -->
-    <script src="{{ asset('public/assets/plugins/rating/jquery-rate-picker.js') }}"></script>
-    <script src="{{ asset('public/assets/plugins/rating/rating-picker.js') }}"></script>
+    <!-- Star Rating Js-->
+    <script src="../assets/plugins/rating/jquery-rate-picker.js"></script>
+    <script src="../assets/plugins/rating/rating-picker.js"></script>
 
-    <!-- Star Rating-1 JS -->
-    <script src="{{ asset('public/assets/plugins/ratings-2/jquery.star-rating.js') }}"></script>
-    <script src="{{ asset('public/assets/plugins/ratings-2/star-rating.js') }}"></script>
+    <!-- Star Rating-1 Js-->
+    <script src="../assets/plugins/ratings-2/jquery.star-rating.js"></script>
+    <script src="../assets/plugins/ratings-2/star-rating.js"></script>
 
-    <!-- Sticky JS -->
-    <script src="{{ asset('public/assets/js/sticky.js') }}"></script>
+    <!-- Sticky js -->
+    <script src="../assets/js/sticky.js"></script>
 
     <!-- CUSTOM JS -->
-    <script src="{{ asset('public/assets/js/landing.js') }}"></script>
+    <script src="../assets/js/landing.js"></script>
 
 </body>
 
