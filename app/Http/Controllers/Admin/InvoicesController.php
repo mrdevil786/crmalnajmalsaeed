@@ -7,8 +7,13 @@ use App\Models\Invoice;
 use App\Models\Item;
 use App\Models\Customer;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Invoice as PDFInvoice;
 
 class InvoicesController extends Controller
 {
@@ -85,7 +90,6 @@ class InvoicesController extends Controller
         }
     }
 
-
     public function destroy($id)
     {
         $invoice = Invoice::findOrFail($id);
@@ -93,10 +97,7 @@ class InvoicesController extends Controller
         DB::beginTransaction();
 
         try {
-            // Delete associated items
             $invoice->items()->delete();
-
-            // Delete the invoice
             $invoice->delete();
 
             DB::commit();
@@ -106,5 +107,59 @@ class InvoicesController extends Controller
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => 'Invoice deletion failed: ' . $e->getMessage()]);
         }
+    }
+
+    public function generatePdf($invoiceId)
+    {
+        $invoice = Invoice::with(['customer', 'items.product'])->findOrFail($invoiceId);
+
+        $seller = new Party([
+            'name' => 'Al Najm Al Saeed Co. Ltd.',
+            'address' => '456 Corporate Blvd, Business City',
+            'code' => '54321',
+            'phone' => '098-765-4321',
+            'custom_fields' => [
+                'email' => 'info@alsaeedstar.com',
+            ],
+        ]);
+
+        $buyer = new Buyer([
+            'name' => $invoice->customer->name,
+            'address' => '456 Corporate Blvd, Business City',
+            'code' => '35443',
+            'phone' => $invoice->customer->phone,
+            'custom_fields' => [
+                'email' => $invoice->customer->email,
+            ],
+        ]);
+
+        $invoiceItems = [];
+        foreach ($invoice->items as $item) {
+            $invoiceItems[] = (new InvoiceItem())
+                ->title($item->product->name)
+                ->description('Description of ' . $item->product->name)
+                ->pricePerUnit($item->price)
+                ->quantity($item->quantity)
+                ->discountByPercent($item->discount ?? 5);
+        }
+
+        $pdfInvoice = PDFInvoice::make('invoice', 'default')
+            ->serialNumberFormat($invoice->invoice_number)
+            ->date(Carbon::parse($invoice->issue_date))
+            ->dateFormat('d/m/Y')
+            ->seller($seller)
+            ->buyer($buyer)
+            ->addItems($invoiceItems)
+            ->taxRate($invoice->vat_percentage)
+            ->currencySymbol('SAR')
+            ->currencyCode('SAR')
+            ->currencyFraction('halalas.')
+            ->filename('INVOICE-' . $invoice->invoice_number)
+            ->logo(public_path('assets\images\brand\logo-3.png'))
+            ->notes($invoice->notes ?? 'Thank you for your business!');
+
+        $pdfInvoice->save('public');
+
+        return $pdfInvoice->stream();
     }
 }

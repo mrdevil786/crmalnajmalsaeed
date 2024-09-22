@@ -28,6 +28,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
         Route::middleware('admin')->group(function () {
             Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE INVOICE
             Route::put('status', 'status')->name('status'); // UPDATE INVOICE STATUS
+            Route::get('generatePdf/{invoiceId}', 'generatePdf')->name('generatePdf'); // UPDATE INVOICE STATUS
         });
 
         // ROUTES FOR MANAGERS
