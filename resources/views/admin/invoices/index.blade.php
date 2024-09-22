@@ -8,9 +8,11 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">Manage Invoices</h1>
-            <a href="{{ route('admin.invoices.create') }}">
-                <button class="btn btn-primary off-canvas" type="button">Add Invoice</button>
-            </a>
+            @if (Auth->User()->user_role != 3)
+                <a href="{{ route('admin.invoices.create') }}">
+                    <button class="btn btn-primary off-canvas" type="button">Add Invoice</button>
+                </a>
+            @endif
         </div>
     </div>
     <!-- PAGE-HEADER END -->
