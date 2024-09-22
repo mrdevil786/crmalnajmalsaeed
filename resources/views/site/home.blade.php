@@ -96,9 +96,17 @@
                                             alt="logo">
                                     </a>
                                     <div class="header-nav-right d-none d-lg-flex">
-                                        <a href="{{ route('admin.view.login') }}"
-                                            class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">Login
-                                        </a>
+                                        @if (Auth::check())
+                                            <a href="{{ route('admin.dashboard') }}"
+                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">
+                                                Dashboard
+                                            </a>
+                                        @else
+                                            <a href="{{ route('admin.view.login') }}"
+                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">
+                                                Login
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -234,7 +242,7 @@
 
     <!-- BACK-TO-TOP -->
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
-    
+
     <!-- JQUERY JS -->
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
 
