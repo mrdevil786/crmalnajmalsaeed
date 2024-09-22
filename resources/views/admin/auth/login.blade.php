@@ -93,35 +93,9 @@
                                                 <input class="input100 border-start-0 form-control ms-0" type="password"
                                                     placeholder="Password" name="password">
                                             </div>
-                                            <div class="text-end pt-4">
-                                                <p class="mb-0"><a href="forgot-password.html"
-                                                        class="text-primary ms-1">Forgot Password?</a></p>
-                                            </div>
                                             <div class="container-login100-form-btn">
                                                 <button class="login100-form-btn btn-primary"
                                                     type="submit">Login</button>
-                                            </div>
-                                            <div class="text-center pt-3">
-                                                <p class="text-dark mb-0">Not a member?<a href="register.html"
-                                                        class="text-primary ms-1">Sign UP</a></p>
-                                            </div>
-                                            <label class="login-social-icon"><span>Login with Social</span></label>
-                                            <div class="d-flex justify-content-center">
-                                                <a href="javascript:void(0)">
-                                                    <div class="social-login me-4 text-center">
-                                                        <i class="fa fa-google"></i>
-                                                    </div>
-                                                </a>
-                                                <a href="javascript:void(0)">
-                                                    <div class="social-login me-4 text-center">
-                                                        <i class="fa fa-facebook"></i>
-                                                    </div>
-                                                </a>
-                                                <a href="javascript:void(0)">
-                                                    <div class="social-login text-center">
-                                                        <i class="fa fa-twitter"></i>
-                                                    </div>
-                                                </a>
                                             </div>
                                         </div>
 

@@ -92,13 +92,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex country">
+                                        {{-- <div class="d-flex country">
                                             <a class="nav-link icon text-center" data-bs-target="#country-selector"
                                                 data-bs-toggle="modal">
                                                 <i class="fe fe-globe"></i><span
                                                     class="fs-16 ms-2 d-none d-xl-block">English</span>
                                             </a>
-                                        </div>
+                                        </div> --}}
                                         <!-- COUNTRY -->
                                         <div class="d-flex country">
                                             <a class="nav-link icon theme-layout layout-setting">
@@ -133,13 +133,6 @@
                                                 <div class="dropdown-divider m-0"></div>
                                                 <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
                                                     <i class="dropdown-icon fe fe-user"></i> Profile
-                                                </a>
-                                                <a class="dropdown-item" href="email-inbox.html">
-                                                    <i class="dropdown-icon fe fe-mail"></i> Inbox
-                                                    <span class="badge bg-danger rounded-pill float-end">5</span>
-                                                </a>
-                                                <a class="dropdown-item" href="lockscreen.html">
-                                                    <i class="dropdown-icon fe fe-lock"></i> Lockscreen
                                                 </a>
                                                 <a class="dropdown-item" href="{{ route('admin.user.logout') }}">
                                                     <i class="dropdown-icon fe fe-alert-circle"></i> Sign out

@@ -29,7 +29,8 @@
     <link href="{{ asset('../assets/css/icons.css') }}" rel="stylesheet" />
 
     <!-- COLOR SKIN CSS -->
-    <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ asset('../assets/colors/color1.css') }}" />
+    <link id="theme" rel="stylesheet" type="text/css" media="all"
+        href="{{ asset('../assets/colors/color1.css') }}" />
 
 </head>
 
@@ -51,7 +52,8 @@
                     <div class="d-flex">
                         <!-- sidebar-toggle-->
                         <a class="logo-horizontal " href="index.html">
-                            <img src="../assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
+                            <img src="../assets/images/brand/logo.png" class="header-brand-img desktop-logo"
+                                alt="logo">
                             <img src="../assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
                                 alt="logo">
                         </a>
@@ -88,11 +90,14 @@
                             <div class="row">
                                 <div class="main-sidemenu navbar px-0">
                                     <a class="navbar-brand ps-0 d-none d-lg-block" href="index.html">
-                                        <img alt="" class="logo-2" src="{{ asset('../assets/images/brand/logo-3.png') }}">
-                                        <img src="{{ asset('../assets/images/brand/logo.png') }}" class="logo-3" alt="logo">
+                                        <img alt="" class="logo-2"
+                                            src="{{ asset('../assets/images/brand/logo-3.png') }}">
+                                        <img src="{{ asset('../assets/images/brand/logo.png') }}" class="logo-3"
+                                            alt="logo">
                                     </a>
                                     <div class="header-nav-right d-none d-lg-flex">
-                                        <a href="{{ route('admin.view.login') }}" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">Login
+                                        <a href="{{ route('admin.view.login') }}"
+                                            class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">Login
                                         </a>
                                     </div>
                                 </div>
@@ -101,7 +106,8 @@
                     </div>
                     <!--/APP-SIDEBAR-->
                 </div>
-                <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">
+                <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal"
+                    id="home">
                     <div class="container px-sm-0">
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 mb-5 pb-5 animation-zidex pos-relative">
@@ -211,7 +217,8 @@
                             <footer class="main-footer px-0 pb-0 text-center">
                                 <div class="row ">
                                     <div class="col-md-12 col-sm-12">
-                                        Copyright © <span id="year"></span> <a href="javascript:void(0)">Sash</a>.
+                                        Copyright © <span id="year"></span> <a
+                                            href="javascript:void(0)">Sash</a>.
                                         Designed with <span class="fa fa-heart text-danger"></span> by <a
                                             href="javascript:void(0)"> Spruko </a> All rights reserved.
                                     </div>
@@ -227,36 +234,36 @@
 
     <!-- BACK-TO-TOP -->
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
-
+    
     <!-- JQUERY JS -->
-    <script src="../assets/js/jquery.min.js"></script>
+    <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
 
     <!-- BOOTSTRAP JS -->
-    <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 
-    <!-- COUNTERS JS-->
-    <script src="../assets/plugins/counters/counterup.min.js"></script>
-    <script src="../assets/plugins/counters/waypoints.min.js"></script>
-    <script src="../assets/plugins/counters/counters-1.js"></script>
+    <!-- COUNTERS JS -->
+    <script src="{{ asset('public/assets/plugins/counters/counterup.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/counters/waypoints.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/counters/counters-1.js') }}"></script>
 
-    <!-- Perfect SCROLLBAR JS-->
-    <script src="../assets/plugins/owl-carousel/owl.carousel.js"></script>
-    <script src="../assets/plugins/company-slider/slider.js"></script>
+    <!-- Perfect SCROLLBAR JS -->
+    <script src="{{ asset('public/assets/plugins/owl-carousel/owl.carousel.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/company-slider/slider.js') }}"></script>
 
-    <!-- Star Rating Js-->
-    <script src="../assets/plugins/rating/jquery-rate-picker.js"></script>
-    <script src="../assets/plugins/rating/rating-picker.js"></script>
+    <!-- Star Rating JS -->
+    <script src="{{ asset('public/assets/plugins/rating/jquery-rate-picker.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/rating/rating-picker.js') }}"></script>
 
-    <!-- Star Rating-1 Js-->
-    <script src="../assets/plugins/ratings-2/jquery.star-rating.js"></script>
-    <script src="../assets/plugins/ratings-2/star-rating.js"></script>
+    <!-- Star Rating-1 JS -->
+    <script src="{{ asset('public/assets/plugins/ratings-2/jquery.star-rating.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/ratings-2/star-rating.js') }}"></script>
 
-    <!-- Sticky js -->
-    <script src="../assets/js/sticky.js"></script>
+    <!-- Sticky JS -->
+    <script src="{{ asset('public/assets/js/sticky.js') }}"></script>
 
     <!-- CUSTOM JS -->
-    <script src="../assets/js/landing.js"></script>
+    <script src="{{ asset('public/assets/js/landing.js') }}"></script>
 
 </body>
 
