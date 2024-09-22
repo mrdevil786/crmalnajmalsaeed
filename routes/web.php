@@ -26,8 +26,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
 
         // ROUTES FOR ADMINS
         Route::middleware('admin')->group(function () {
-            Route::put('status', 'status')->name('status'); // UPDATE INVOICE STATUS
             Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE INVOICE
+            Route::put('status', 'status')->name('status'); // UPDATE INVOICE STATUS
         });
 
         // ROUTES FOR MANAGERS
@@ -50,8 +50,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
 
         // ROUTES FOR ADMINS
         Route::middleware('admin')->group(function () {
-            Route::put('status', 'status')->name('status'); // UPDATE PRODUCT STATUS
             Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE PRODUCT
+            Route::put('status', 'status')->name('status'); // UPDATE PRODUCT STATUS
         });
 
         // ROUTES FOR MANAGERS

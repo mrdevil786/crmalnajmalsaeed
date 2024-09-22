@@ -8,7 +8,7 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">Manage Invoices</h1>
-            @if (Auth->User()->user_role != 3)
+            @if (Auth()->User()->user_role != 3)
                 <a href="{{ route('admin.invoices.create') }}">
                     <button class="btn btn-primary off-canvas" type="button">Add Invoice</button>
                 </a>
@@ -58,9 +58,15 @@
                                                     modalTarget="editInvoiceModal" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
-                                                <x-buttons.action-pill-button
-                                                    href="{{ route('admin.invoices.destroy', $invoice->id) }}"
-                                                    iconClass="fa fa-trash" iconColor="danger" />
+                                                <form action="{{ route('admin.invoices.destroy', $invoice->id) }}"
+                                                    method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger btn-pill btn-sm"
+                                                        onclick="return confirm('Are you sure you want to delete this invoice?');">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             @endif
                                         </td>
                                     </tr>

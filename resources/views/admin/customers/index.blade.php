@@ -53,9 +53,15 @@
                                                     modalTarget="editUserModal" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
-                                                <x-buttons.action-pill-button
-                                                    href="{{ route('admin.customers.destroy', $customer->id) }}"
-                                                    iconClass="fa fa-trash" iconColor="danger" />
+                                                <form action="{{ route('admin.customers.destroy', $customer->id) }}"
+                                                    method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger btn-pill btn-sm"
+                                                        onclick="return confirm('Are you sure you want to delete this customer?');">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             @endif
                                         </td>
                                     </tr>
