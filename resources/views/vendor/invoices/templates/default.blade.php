@@ -159,11 +159,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="border-0 pl-0 party-header" width="48.5%">
+                    <th class="border-1 pl-0 party-header" width="48.5%">
                         {{ __('invoices::invoice.seller') }}
                     </th>
                     <th class="border-0" width="3%"></th>
-                    <th class="border-0 pl-0 party-header">
+                    <th class="border-1 pl-0 party-header">
                         {{ __('invoices::invoice.buyer') }}
                     </th>
                 </tr>

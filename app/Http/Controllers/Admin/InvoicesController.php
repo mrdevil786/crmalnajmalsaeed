@@ -117,7 +117,7 @@ class InvoicesController extends Controller
             'name' => 'Al Najm Al Saeed Co. Ltd.',
             'address' => '456 Corporate Blvd, Business City',
             'code' => '54321',
-            'phone' => '098-765-4321',
+            // 'phone' => '098-765-4321',
             'custom_fields' => [
                 'email' => 'info@alsaeedstar.com',
             ],
