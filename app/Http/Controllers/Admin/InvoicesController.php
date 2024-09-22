@@ -155,7 +155,7 @@ class InvoicesController extends Controller
             ->currencyCode('SAR')
             ->currencyFraction('halalas.')
             ->filename('INVOICE-' . $invoice->invoice_number)
-            ->logo(public_path('assets\images\brand\logo-3.png'))
+            ->logo(public_path('assets\images\brand\logo-no-background.png'))
             ->notes($invoice->notes ?? 'Thank you for your business!');
 
         $pdfInvoice->save('public');
