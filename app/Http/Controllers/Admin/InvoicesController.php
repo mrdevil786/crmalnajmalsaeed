@@ -139,7 +139,7 @@ class InvoicesController extends Controller
                 ->description('Description of ' . $item->product->name)
                 ->pricePerUnit($item->price)
                 ->quantity($item->quantity)
-                ->discountByPercent($item->discount ?? 5);
+                ->discountByPercent($item->discount ?? 0);
         }
 
         $pdfInvoice = PDFInvoice::make('invoice', 'default')
