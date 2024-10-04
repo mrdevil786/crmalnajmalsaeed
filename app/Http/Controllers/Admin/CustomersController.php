@@ -21,11 +21,15 @@ class CustomersController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:customers,email',
+            'address' => 'required|string|max:255',
+            'tax_number' => 'nullable|string|max:50',
         ]);
 
         $customer = new Customer();
         $customer->name = $request->name;
         $customer->email = $request->email;
+        $customer->address = $request->address;
+        $customer->tax_number = $request->tax_number;
 
         $customer->save();
 
@@ -45,11 +49,15 @@ class CustomersController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:customers,email,' . $id,
+            'address' => 'required|string|max:255',
+            'tax_number' => 'nullable|string|max:50',
         ]);
 
         $customer = Customer::findOrFail($id);
         $customer->name = $request->name;
         $customer->email = $request->email;
+        $customer->address = $request->address;
+        $customer->tax_number = $request->tax_number;
 
         $customer->save();
 
