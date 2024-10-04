@@ -125,8 +125,8 @@ class InvoicesController extends Controller
 
         $buyer = new Buyer([
             'name' => $invoice->customer->name,
-            'address' => '456 Corporate Blvd, Business City',
-            'code' => '35443',
+            'address' => $invoice->customer->address,
+            'code' => $invoice->customer->tax_number,
             'custom_fields' => [
                 'email' => $invoice->customer->email,
             ],
