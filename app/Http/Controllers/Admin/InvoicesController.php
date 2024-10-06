@@ -148,7 +148,7 @@ class InvoicesController extends Controller
         foreach ($invoice->items as $item) {
             $invoiceItems[] = (new InvoiceItem())
                 ->title($item->product->name)
-                ->description($item->description ?? 'No Description available for ' . $item->product->name . '.')
+                ->description($item->product->description ?? 'No Description available for ' . $item->product->name . '.')
                 ->pricePerUnit($item->price)
                 ->quantity($item->quantity)
                 ->discountByPercent($item->discount ?? 0);
