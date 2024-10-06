@@ -69,9 +69,17 @@
                                 <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
                                     <!-- SEARCH -->
                                     <div class="header-nav-right p-5">
-                                        <a href="login.html" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"
-                                            target="_blank">Login
-                                        </a>
+                                        @if (Auth()->Check())
+                                            <a href="{{ route('admin.dashboard') }}"
+                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto"
+                                                target="_blank">Dashboard
+                                            </a>
+                                        @else
+                                            <a href="{{ route('admin.view.login') }}"
+                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto"
+                                                target="_blank">Login
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
