@@ -165,7 +165,7 @@ class InvoicesController extends Controller
             ->currencySymbol('SAR')
             ->currencyCode('SAR')
             ->currencyFraction('halalas.')
-            ->filename('INVOICE-' . $invoice->invoice_number)
+            ->filename($invoice->invoice_number)
             ->logo(public_path('assets/images/brand/logo-no-background.png'))
             ->notes($invoice->notes ?? 'Thank you for your business!')
             ->setCustomData(['qrCodeData' => $qrCodeData]);
