@@ -143,7 +143,7 @@ class InvoicesController extends Controller
         $buyer = new Buyer([
             'name' => $invoice->customer->name,
             'address' => $invoice->customer->address,
-            'code' => $invoice->customer->code,
+            'code' => $invoice->customer->pincode,
             'vat' => $invoice->customer->tax_number,
             'custom_fields' => [
                 'email' => $invoice->customer->email,
