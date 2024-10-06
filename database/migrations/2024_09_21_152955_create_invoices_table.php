@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('vat_amount', 10, 2);
             $table->decimal('total', 10, 2);
             $table->text('notes')->nullable();
+            $table->text('pdf_path')->nullable();
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');

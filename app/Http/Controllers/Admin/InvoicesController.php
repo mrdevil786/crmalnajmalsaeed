@@ -48,8 +48,7 @@ class InvoicesController extends Controller
         DB::beginTransaction();
 
         try {
-            $lastInvoice = Invoice::orderBy('id', 'desc')->first();
-            $nextInvoiceNumber = $lastInvoice ? 'INV-' . str_pad((int)substr($lastInvoice->invoice_number, 4) + 1, 6, '0', STR_PAD_LEFT) : 'INV-000001';
+            $nextInvoiceNumber = $this->generateInvoiceNumber();
 
             $subtotal = array_reduce($request->items, function ($carry, $item) {
                 return $carry + ($item['quantity'] * $item['price']);
@@ -109,6 +108,14 @@ class InvoicesController extends Controller
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => 'Invoice deletion failed: ' . $e->getMessage()]);
         }
+    }
+
+    private function generateInvoiceNumber()
+    {
+        $lastInvoice = Invoice::orderBy('id', 'desc')->first();
+        return $lastInvoice
+            ? 'INV-' . str_pad((int)substr($lastInvoice->invoice_number, 4) + 1, 6, '0', STR_PAD_LEFT)
+            : 'INV-000001';
     }
 
     private function generatePdf($invoiceId)
