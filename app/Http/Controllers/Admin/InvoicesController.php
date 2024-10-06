@@ -80,10 +80,15 @@ class InvoicesController extends Controller
                 ]);
             }
 
-            DB::commit();
+            $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
 
-            $this->generatePdf($invoice->id);
-            return redirect()->route('admin.invoices.index')->with('success', 'Invoice created successfully');
+            if ($qrCodeData) {
+                $this->generatePdf($invoice->id, $qrCodeData);
+                DB::commit();
+                return redirect()->route('admin.invoices.index')->with('success', 'Invoice created successfully');
+            } else {
+                throw new \Exception('QR Code generation failed.');
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withInput()->withErrors(['error' => 'Invoice creation failed: ' . $e->getMessage()]);
@@ -121,7 +126,7 @@ class InvoicesController extends Controller
             : 'INV-000001';
     }
 
-    private function generatePdf($invoiceId)
+    private function generatePdf($invoiceId, $qrCodeData)
     {
         $invoice = Invoice::with(['customer', 'items.product'])->findOrFail($invoiceId);
 
@@ -145,8 +150,6 @@ class InvoicesController extends Controller
             ],
         ]);
 
-        $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
-
         $invoiceItems = [];
         foreach ($invoice->items as $item) {
             $invoiceItems[] = (new InvoiceItem())
@@ -157,23 +160,27 @@ class InvoicesController extends Controller
                 ->discountByPercent($item->discount ?? 0);
         }
 
-        $pdfInvoice = PDFInvoice::make('invoice', 'default')
-            ->serialNumberFormat($invoice->invoice_number)
-            ->date(Carbon::parse($invoice->issue_date))
-            ->dateFormat('d/m/Y')
-            ->seller($seller)
-            ->buyer($buyer)
-            ->addItems($invoiceItems)
-            ->taxRate($invoice->vat_percentage)
-            ->currencySymbol('SAR')
-            ->currencyCode('SAR')
-            ->currencyFraction('halalas.')
-            ->filename($invoice->invoice_number)
-            ->logo(public_path('assets/images/brand/logo-no-background.png'))
-            ->notes($invoice->notes ?? 'Thank you for your business!')
-            ->setCustomData(['qrCodeData' => $qrCodeData]);
+        try {
+            $pdfInvoice = PDFInvoice::make('invoice', 'default')
+                ->serialNumberFormat($invoice->invoice_number)
+                ->date(Carbon::parse($invoice->issue_date))
+                ->dateFormat('d/m/Y')
+                ->seller($seller)
+                ->buyer($buyer)
+                ->addItems($invoiceItems)
+                ->taxRate($invoice->vat_percentage)
+                ->currencySymbol('SAR')
+                ->currencyCode('SAR')
+                ->currencyFraction('halalas.')
+                ->filename($invoice->invoice_number)
+                ->logo(public_path('assets/images/brand/logo-no-background.png'))
+                ->notes($invoice->notes ?? 'Thank you for your business!')
+                ->setCustomData(['qrCodeData' => $qrCodeData]);
 
-        $pdfInvoice->save('invoices');
+            $pdfInvoice->save('invoices');
+        } catch (\Exception $e) {
+            throw new \Exception('PDF generation failed: ' . $e->getMessage());
+        }
     }
 
     public function download($id)
@@ -182,7 +189,12 @@ class InvoicesController extends Controller
         $pdfPath = storage_path('app/public/invoices/' . $invoice->invoice_number . '.pdf');
 
         if (!file_exists($pdfPath)) {
-            $this->generatePdf($invoice->id);
+            try {
+                $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
+                $this->generatePdf($invoice->id, $qrCodeData);
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['error' => 'PDF generation failed: ' . $e->getMessage()]);
+            }
         }
 
         return response()->download($pdfPath);
@@ -194,7 +206,12 @@ class InvoicesController extends Controller
         $pdfPath = storage_path('app/public/invoices/' . $invoice->invoice_number . '.pdf');
 
         if (!file_exists($pdfPath)) {
-            $this->generatePdf($invoice->id);
+            try {
+                $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
+                $this->generatePdf($invoice->id, $qrCodeData);
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['error' => 'PDF generation failed: ' . $e->getMessage()]);
+            }
         }
 
         return response()->stream(function () use ($pdfPath) {
