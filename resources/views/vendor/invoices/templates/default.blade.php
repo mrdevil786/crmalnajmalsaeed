@@ -396,7 +396,6 @@
         <img src="{{ $invoice->getCustomData()['qrCodeData'] }}" alt="QR Code" style="width: 100px; height: 100px;" />
     @endif
 
-
     <script type="text/php">
             if (isset($pdf) && $PAGE_COUNT > 1) {
                 $text = "{{ __('invoices::invoice.page') }} {PAGE_NUM} / {PAGE_COUNT}";
