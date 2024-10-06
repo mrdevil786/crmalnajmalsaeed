@@ -48,8 +48,11 @@
                                         <td>{{ $invoice->total }}</td>
                                         <td>{{ $invoice->created_at }}</td>
                                         <td class="text-center">
+                                            <x-buttons.action-pill-button iconClass="fa fa-download" iconColor="success"
+                                                href="{{ route('admin.invoices.download', $invoice->id) }}" />
+
                                             <x-buttons.action-pill-button iconClass="fa fa-eye" iconColor="secondary"
-                                                href="{{ route('admin.invoices.view', $invoice->id) }}" />
+                                                href="{{ route('admin.invoices.stream', $invoice->id) }}" />
 
                                             @if (auth()->user()->user_role != 3)
                                                 <x-buttons.action-pill-button

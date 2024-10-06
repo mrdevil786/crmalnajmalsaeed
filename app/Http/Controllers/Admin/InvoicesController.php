@@ -98,6 +98,10 @@ class InvoicesController extends Controller
 
         try {
             $invoice->items()->delete();
+            $pdfPath = storage_path('app/public/invoices/' . $invoice->invoice_number . '.pdf');
+            if (file_exists($pdfPath)) {
+                unlink($pdfPath);
+            }
             $invoice->delete();
 
             DB::commit();
@@ -169,6 +173,35 @@ class InvoicesController extends Controller
             ->notes($invoice->notes ?? 'Thank you for your business!')
             ->setCustomData(['qrCodeData' => $qrCodeData]);
 
-        $pdfInvoice->save('public');
+        $pdfInvoice->save('invoices');
+    }
+
+    public function download($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $pdfPath = storage_path('app/public/invoices/' . $invoice->invoice_number . '.pdf');
+
+        if (!file_exists($pdfPath)) {
+            $this->generatePdf($invoice->id);
+        }
+
+        return response()->download($pdfPath);
+    }
+
+    public function stream($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $pdfPath = storage_path('app/public/invoices/' . $invoice->invoice_number . '.pdf');
+
+        if (!file_exists($pdfPath)) {
+            $this->generatePdf($invoice->id);
+        }
+
+        return response()->stream(function () use ($pdfPath) {
+            return readfile($pdfPath);
+        }, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . basename($pdfPath) . '"',
+        ]);
     }
 }

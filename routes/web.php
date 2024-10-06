@@ -43,6 +43,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
         Route::middleware('member')->group(function () {
             Route::get('/', 'index')->name('index'); // LIST INVOICES
             Route::get('view/{id}', 'view')->name('view'); // VIEW INVOICE DETAILS
+            Route::get('download/{id}', 'download')->name('download'); // DOWNLOAD INVOICE PDF
+            Route::get('stream/{id}', 'stream')->name('stream'); // DOWNLOAD INVOICE PDF
         });
     });
 
