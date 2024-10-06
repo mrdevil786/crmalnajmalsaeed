@@ -48,12 +48,6 @@
                                 </select>
                             </div>
 
-                            <!-- Issue Date -->
-                            <div class="col-lg-6 mb-3">
-                                <label class="form-label" for="issue_date">Issue Date</label>
-                                <input type="date" class="form-control" name="issue_date" id="issue_date" required>
-                            </div>
-
                             <!-- Due Date -->
                             <div class="col-lg-6 mb-3">
                                 <label class="form-label" for="due_date">Due Date</label>

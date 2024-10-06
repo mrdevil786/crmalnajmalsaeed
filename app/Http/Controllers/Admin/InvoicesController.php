@@ -36,7 +36,6 @@ class InvoicesController extends Controller
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'type' => 'required|in:invoice,quote',
-            'issue_date' => 'required|date',
             'due_date' => 'nullable|date',
             'vat_percentage' => 'required|numeric',
             'items' => 'required|array',
@@ -61,7 +60,7 @@ class InvoicesController extends Controller
                 'customer_id' => $request->customer_id,
                 'invoice_number' => $nextInvoiceNumber,
                 'type' => $request->type,
-                'issue_date' => $request->issue_date,
+                'issue_date' => now(),
                 'due_date' => $request->due_date,
                 'vat_percentage' => $request->vat_percentage,
                 'subtotal' => $subtotal,

@@ -80,20 +80,6 @@
     </div>
     <!-- End Row -->
 
-    <!--Add Modal - Right Offcanvas-->
-    <x-Modal.Right-Offcanvas title="Add New Invoice" action="{{ route('admin.invoices.store') }}" method="POST">
-
-        <x-fields.input-field label="Customer ID" name="customer_id" type="number" required />
-        <x-fields.input-field label="Invoice Type" name="type" />
-        <x-fields.input-field label="Issue Date" name="issue_date" type="date" required />
-        <x-fields.input-field label="Due Date" name="due_date" type="date" />
-        <x-fields.input-field label="VAT Percentage" name="vat_percentage" type="number" step="0.01" />
-        <x-fields.input-field label="Discount" name="discount" type="number" step="0.01" />
-        <x-fields.input-field label="Notes" name="notes" type="textarea" />
-
-    </x-Modal.Right-Offcanvas>
-    <!--/Right Offcanvas-->
-
 @endsection
 
 @section('custom-script')
