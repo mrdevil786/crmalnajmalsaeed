@@ -21,7 +21,8 @@ class CustomersController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:customers,email',
-            'address' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'pincode' => 'nullable|string|max:10',
             'tax_number' => 'nullable|string|max:50',
         ]);
 
@@ -29,6 +30,7 @@ class CustomersController extends Controller
         $customer->name = $request->name;
         $customer->email = $request->email;
         $customer->address = $request->address;
+        $customer->pincode = $request->pincode;
         $customer->tax_number = $request->tax_number;
 
         $customer->save();
@@ -49,7 +51,8 @@ class CustomersController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:customers,email,' . $id,
-            'address' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'pincode' => 'nullable|string|max:10',
             'tax_number' => 'nullable|string|max:50',
         ]);
 
@@ -57,6 +60,7 @@ class CustomersController extends Controller
         $customer->name = $request->name;
         $customer->email = $request->email;
         $customer->address = $request->address;
+        $customer->pincode = $request->pincode;
         $customer->tax_number = $request->tax_number;
 
         $customer->save();

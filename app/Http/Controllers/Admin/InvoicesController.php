@@ -124,8 +124,9 @@ class InvoicesController extends Controller
 
         $seller = new Party([
             'name' => 'Al Najm Al Saeed Co. Ltd.',
-            'address' => '456 Corporate Blvd, Business City',
-            'code' => '54321',
+            'address' => '8611 Thabit Ibn Uddai, Ad Dhubbat, Riyadh',
+            'code' => '12623',
+            'vat' => '312508185500003',
             'custom_fields' => [
                 'email' => 'info@alsaeedstar.com',
             ],
@@ -134,7 +135,8 @@ class InvoicesController extends Controller
         $buyer = new Buyer([
             'name' => $invoice->customer->name,
             'address' => $invoice->customer->address,
-            'code' => $invoice->customer->tax_number,
+            'code' => $invoice->customer->code,
+            'vat' => $invoice->customer->tax_number,
             'custom_fields' => [
                 'email' => $invoice->customer->email,
             ],
@@ -146,7 +148,7 @@ class InvoicesController extends Controller
         foreach ($invoice->items as $item) {
             $invoiceItems[] = (new InvoiceItem())
                 ->title($item->product->name)
-                ->description('Description of ' . $item->product->name)
+                ->description($item->description ?? 'No Description available for ' . $item->product->name . '.')
                 ->pricePerUnit($item->price)
                 ->quantity($item->quantity)
                 ->discountByPercent($item->discount ?? 0);

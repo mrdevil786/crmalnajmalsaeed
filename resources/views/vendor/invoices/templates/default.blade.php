@@ -151,9 +151,21 @@
 
 <body>
     {{-- Header --}}
-    @if ($invoice->logo)
-        <img src="{{ $invoice->getLogo() }}" alt="logo" height="100">
-    @endif
+    <table width="100%">
+        <tr>
+            <td width="70%">
+                @if ($invoice->logo)
+                    <img src="{{ $invoice->getLogo() }}" alt="logo" height="100">
+                @endif
+            </td>
+            <td width="30%" class="text-right">
+                @if ($invoice->getCustomData()['qrCodeData'] ?? false)
+                    <img src="{{ $invoice->getCustomData()['qrCodeData'] }}" alt="QR Code"
+                        style="width: 100px; height: 100px;" />
+                @endif
+            </td>
+        </tr>
+    </table>
 
     <table class="table mt-5">
         <tbody>
@@ -388,13 +400,10 @@
     <p>
         {{ __('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}
     </p>
-    <p>
-        {{ __('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
-    </p>
 
-    @if ($invoice->getCustomData()['qrCodeData'] ?? false)
-        <img src="{{ $invoice->getCustomData()['qrCodeData'] }}" alt="QR Code" style="width: 100px; height: 100px;" />
-    @endif
+    {{-- <p>
+        {{ __('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
+    </p> --}}
 
     <script type="text/php">
             if (isset($pdf) && $PAGE_COUNT > 1) {

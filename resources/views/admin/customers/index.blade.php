@@ -30,8 +30,9 @@
                                     <th class="wd-20p border-bottom-0">Name</th>
                                     <th class="wd-15p border-bottom-0">Email</th>
                                     <th class="wd-15p border-bottom-0">Address</th>
+                                    <th class="wd-15p border-bottom-0">Pincode</th>
                                     <th class="wd-15p border-bottom-0">Tax Number</th>
-                                    <th class="wd-25p border-bottom-0">Created At</th>
+                                    {{-- <th class="wd-25p border-bottom-0">Created At</th> --}}
                                     <th class="wd-25p border-bottom-0">Updated At</th>
                                     <th class="wd-25p border-bottom-0">Action</th>
                                 </tr>
@@ -43,8 +44,9 @@
                                         <td>{{ $customer->name }}</td>
                                         <td>{{ $customer->email }}</td>
                                         <td>{{ $customer->address }}</td>
+                                        <td>{{ $customer->pincode }}</td>
                                         <td>{{ $customer->tax_number }}</td>
-                                        <td>{{ $customer->created_at }}</td>
+                                        {{-- <td>{{ $customer->created_at }}</td> --}}
                                         <td>{{ $customer->updated_at }}</td>
                                         <td class="text-center">
                                             <x-buttons.action-pill-button iconClass="fa fa-eye" iconColor="secondary"
@@ -85,6 +87,7 @@
         <x-fields.input-field label="Full Name" name="name" />
         <x-fields.input-field label="Email" name="email" />
         <x-fields.input-field label="Address" name="address" />
+        <x-fields.input-field label="Pincode" name="pincode" />
         <x-fields.input-field label="Tax Number" name="tax_number" />
 
     </x-Modal.Right-Offcanvas>
