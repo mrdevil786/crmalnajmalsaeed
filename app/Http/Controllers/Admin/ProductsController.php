@@ -39,8 +39,17 @@ class ProductsController extends Controller
     // SHOW A FORM FOR EDITING THE SPECIFIED PRODUCT
     public function edit($id)
     {
+        $isEdit = true;
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        return view('admin.products.edit', compact('product', 'isEdit'));
+    }
+
+    // VIEW A SPECIFIC USER
+    public function view($id)
+    {
+        $isEdit = false;
+        $product = Product::findOrFail($id);
+        return view('admin.products.edit', compact('product', 'isEdit'));
     }
 
     // VALIDATE AND UPDATE THE SPECIFIED PRODUCT

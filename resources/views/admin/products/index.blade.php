@@ -31,7 +31,7 @@
                                     <th class="wd-15p border-bottom-0">Description</th>
                                     <th class="wd-15p border-bottom-0">Price</th>
                                     <th class="wd-15p border-bottom-0">Unit</th>
-                                    <th class="wd-25p border-bottom-0">Created At</th>
+                                    {{-- <th class="wd-25p border-bottom-0">Created At</th> --}}
                                     <th class="wd-25p border-bottom-0">Updated At</th>
                                     <th class="wd-25p border-bottom-0">Action</th>
                                 </tr>
@@ -44,7 +44,7 @@
                                         <td>{{ $product->description }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>{{ $product->unit }}</td>
-                                        <td>{{ $product->created_at }}</td>
+                                        {{-- <td>{{ $product->created_at }}</td> --}}
                                         <td>{{ $product->updated_at }}</td>
                                         <td class="text-center">
                                             <x-buttons.action-pill-button iconClass="fa fa-eye" iconColor="secondary"
