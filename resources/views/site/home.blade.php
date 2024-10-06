@@ -71,13 +71,11 @@
                                     <div class="header-nav-right p-5">
                                         @if (Auth()->Check())
                                             <a href="{{ route('admin.dashboard') }}"
-                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto"
-                                                target="_blank">Dashboard
+                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto">Dashboard
                                             </a>
                                         @else
                                             <a href="{{ route('admin.view.login') }}"
-                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto"
-                                                target="_blank">Login
+                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto">Login
                                             </a>
                                         @endif
                                     </div>
