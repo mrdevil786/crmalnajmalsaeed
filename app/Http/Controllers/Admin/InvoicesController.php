@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\QRCodeHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Item;
@@ -110,7 +111,7 @@ class InvoicesController extends Controller
         }
     }
 
-    public function generatePdf($invoiceId)
+    private function generatePdf($invoiceId)
     {
         $invoice = Invoice::with(['customer', 'items.product'])->findOrFail($invoiceId);
 
@@ -131,6 +132,8 @@ class InvoicesController extends Controller
                 'email' => $invoice->customer->email,
             ],
         ]);
+
+        $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
 
         $invoiceItems = [];
         foreach ($invoice->items as $item) {
@@ -154,8 +157,9 @@ class InvoicesController extends Controller
             ->currencyCode('SAR')
             ->currencyFraction('halalas.')
             ->filename('INVOICE-' . $invoice->invoice_number)
-            ->logo(public_path('assets\images\brand\logo-no-background.png'))
-            ->notes($invoice->notes ?? 'Thank you for your business!');
+            ->logo(public_path('assets/images/brand/logo-no-background.png'))
+            ->notes($invoice->notes ?? 'Thank you for your business!')
+            ->setCustomData(['qrCodeData' => $qrCodeData]);
 
         $pdfInvoice->save('public');
     }
