@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\QRCodeHelper;
-use App\Http\Controllers\Controller;
-use App\Models\Invoice;
-use App\Models\Item;
-use App\Models\Customer;
-use App\Models\Product;
 use Carbon\Carbon;
+use App\Models\Item;
+use App\Models\Product;
+use App\Models\Invoice;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Helpers\QRCodeHelper;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use LaravelDaily\Invoices\Classes\Buyer;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Invoice as PDFInvoice;
 
 class InvoicesController extends Controller
