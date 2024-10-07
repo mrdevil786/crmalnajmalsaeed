@@ -31,6 +31,16 @@ return [
             ],
         ],
     ],
+    'quotation' => [
+        'items' => [
+            [
+                'label' => 'Quotations',
+                'icon' => 'fe fe-message-circle',
+                'route' => 'admin.quotations.index',
+                'active' => 'admin/quotations*',
+            ],
+        ],
+    ],
     'invoice' => [
         'items' => [
             [

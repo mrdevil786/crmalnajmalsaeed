@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InvoicesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
+use App\Http\Controllers\Admin\QuotationsController;
 
 // GUEST ROUTES
 Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
@@ -20,6 +21,33 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
 
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('user.logout');
+
+    // QUOTATIONS MANAGEMENT ROUTES
+    Route::prefix('quotations')->name('quotations.')->controller(QuotationsController::class)->group(function () {
+
+        // ROUTES FOR ADMINS
+        Route::middleware('admin')->group(function () {
+            Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE INVOICE
+            Route::put('status', 'status')->name('status'); // UPDATE INVOICE STATUS
+            Route::get('generatePdf/{invoiceId}', 'generatePdf')->name('generatePdf'); // UPDATE INVOICE STATUS
+        });
+
+        // ROUTES FOR MANAGERS
+        Route::middleware('manager')->group(function () {
+            Route::get('create', 'create')->name('create'); // CREATE INVOICE VIEW
+            Route::post('store', 'store')->name('store'); // STORE INVOICE
+            Route::get('edit/{id}', 'edit')->name('edit'); // EDIT INVOICE VIEW
+            Route::put('update/{id}', 'update')->name('update'); // UPDATE INVOICE
+        });
+
+        // ROUTES FOR MEMBERS
+        Route::middleware('member')->group(function () {
+            Route::get('/', 'index')->name('index'); // LIST INVOICES
+            Route::get('view/{id}', 'view')->name('view'); // VIEW INVOICE DETAILS
+            Route::get('download/{id}', 'download')->name('download'); // DOWNLOAD INVOICE PDF
+            Route::get('stream/{id}', 'stream')->name('stream'); // DOWNLOAD INVOICE PDF
+        });
+    });
 
     // INVOICES MANAGEMENT ROUTES
     Route::prefix('invoices')->name('invoices.')->controller(InvoicesController::class)->group(function () {

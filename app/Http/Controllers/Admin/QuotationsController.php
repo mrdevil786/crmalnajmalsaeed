@@ -118,8 +118,8 @@ class QuotationsController extends Controller
     {
         $lastInvoice = Invoice::orderBy('id', 'desc')->first();
         return $lastInvoice
-            ? 'QT-' . str_pad((int)substr($lastInvoice->invoice_number, 3) + 1, 6, '0', STR_PAD_LEFT)
-            : 'QT-000001';
+            ? 'QUT-' . str_pad((int)substr($lastInvoice->invoice_number, 3) + 1, 6, '0', STR_PAD_LEFT)
+            : 'QUT-000001';
     }
 
     private function generatePdf($invoiceId, $qrCodeData)
