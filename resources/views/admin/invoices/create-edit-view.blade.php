@@ -33,13 +33,13 @@
                                 @enderror
                             </div>
 
-                            <div class="col-lg-6 mb-3">
+                            <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="vat_percentage">VAT Percentage</label>
                                 <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
                                     value="15" step="0.01" required>
                             </div>
 
-                            <div class="col-lg-6 mb-3">
+                            <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="discount">Discount Percentage</label>
                                 <input type="number" class="form-control" name="discount" id="discount" value="0"
                                     step="0.01">
