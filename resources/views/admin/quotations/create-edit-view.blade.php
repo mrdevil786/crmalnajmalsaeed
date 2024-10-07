@@ -34,6 +34,14 @@
                             </div>
 
                             <div class="col-lg-3 mb-3">
+                                <label class="form-label" for="due_date">Due Date</label>
+                                <input type="date" class="form-control" name="due_date" id="due_date" required>
+                                @error('due_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="vat_percentage">VAT Percentage</label>
                                 <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
                                     value="15" step="0.01" required>

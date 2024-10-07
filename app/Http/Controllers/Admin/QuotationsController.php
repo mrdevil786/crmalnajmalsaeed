@@ -36,6 +36,7 @@ class QuotationsController extends Controller
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'vat_percentage' => 'required|numeric',
+            'due_date' => 'required|date',
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
@@ -59,6 +60,7 @@ class QuotationsController extends Controller
                 'invoice_number' => $nextQuotationNumber,
                 'type' => 'quotation',
                 'issue_date' => now(),
+                'due_date' => $request->due_date,
                 'vat_percentage' => $request->vat_percentage,
                 'subtotal' => $subtotal,
                 'discount' => $request->discount,
