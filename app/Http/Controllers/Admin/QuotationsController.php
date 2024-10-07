@@ -86,6 +86,84 @@ class QuotationsController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $quotation = Invoice::with('items.product')->findOrFail($id);
+        $customers = Customer::all();
+        $products = Product::all();
+
+        return view('admin.quotations.create-edit-view', compact('quotation', 'customers', 'products'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'vat_percentage' => 'required|numeric',
+            'due_date' => 'required|date',
+            'items' => 'required|array',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.price' => 'required|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $invoice = Invoice::findOrFail($id);
+
+            $subtotal = array_reduce($request->items, function ($carry, $item) {
+                return $carry + ($item['quantity'] * $item['price']);
+            }, 0);
+
+            $vat_amount = ($subtotal * $request->vat_percentage) / 100;
+            $total = $subtotal + $vat_amount - ($request->discount ?? 0);
+
+            $invoice->update([
+                'customer_id' => $request->customer_id,
+                'due_date' => $request->due_date,
+                'vat_percentage' => $request->vat_percentage,
+                'subtotal' => $subtotal,
+                'discount' => $request->discount,
+                'vat_amount' => $vat_amount,
+                'total' => $total,
+                'notes' => $request->notes,
+            ]);
+
+            $existingItemIds = array_column($request->items, 'id');
+            $invoice->items()->whereNotIn('id', $existingItemIds)->delete();
+
+            foreach ($request->items as $item) {
+                if (isset($item['id'])) {
+                    $existingItem = Item::find($item['id']);
+                    $existingItem->update([
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                        'total' => $item['quantity'] * $item['price'],
+                    ]);
+                } else {
+                    Item::create([
+                        'invoice_id' => $invoice->id,
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                        'total' => $item['quantity'] * $item['price'],
+                    ]);
+                }
+            }
+
+            $this->generatePdf($invoice->id);
+
+            DB::commit();
+            return redirect()->route('admin.quotations.index')->with('success', 'Quotation updated successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors(['error' => 'Quotation update failed: ' . $e->getMessage()]);
+        }
+    }
+
     public function destroy($id)
     {
         $invoice = Invoice::findOrFail($id);
