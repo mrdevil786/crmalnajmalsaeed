@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\Invoice;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use App\Helpers\QRCodeHelper;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use LaravelDaily\Invoices\Classes\Buyer;
@@ -79,15 +78,8 @@ class QuotationsController extends Controller
                 ]);
             }
 
-            $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
-
-            if ($qrCodeData) {
-                $this->generatePdf($invoice->id, $qrCodeData);
-                DB::commit();
-                return redirect()->route('admin.quotations.index')->with('success', 'Quotation created successfully');
-            } else {
-                throw new \Exception('QR Code generation failed.');
-            }
+            DB::commit();
+            return redirect()->route('admin.quotations.index')->with('success', 'Quotation created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withInput()->withErrors(['error' => 'Quotation creation failed: ' . $e->getMessage()]);
@@ -124,7 +116,7 @@ class QuotationsController extends Controller
             : 'QUT-000001';
     }
 
-    private function generatePdf($invoiceId, $qrCodeData)
+    private function generatePdf($invoiceId)
     {
         $invoice = Invoice::with(['customer', 'items.product'])->findOrFail($invoiceId);
 
@@ -171,8 +163,7 @@ class QuotationsController extends Controller
                 ->currencyFraction('halalas.')
                 ->filename($invoice->invoice_number)
                 ->logo(public_path('assets/images/brand/logo-no-background.png'))
-                ->notes($invoice->notes ?? 'Thank you for your business!')
-                ->setCustomData(['qrCodeData' => $qrCodeData]);
+                ->notes($invoice->notes ?? 'Thank you for your business!');
 
             $pdfInvoice->save('invoices');
         } catch (\Exception $e) {
@@ -187,8 +178,7 @@ class QuotationsController extends Controller
 
         if (!file_exists($pdfPath)) {
             try {
-                $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
-                $this->generatePdf($invoice->id, $qrCodeData);
+                $this->generatePdf($invoice->id);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['error' => 'PDF generation failed: ' . $e->getMessage()]);
             }
@@ -204,8 +194,7 @@ class QuotationsController extends Controller
 
         if (!file_exists($pdfPath)) {
             try {
-                $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
-                $this->generatePdf($invoice->id, $qrCodeData);
+                $this->generatePdf($invoice->id);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['error' => 'PDF generation failed: ' . $e->getMessage()]);
             }
