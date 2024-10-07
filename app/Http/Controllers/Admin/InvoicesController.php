@@ -20,10 +20,10 @@ class InvoicesController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('type', 'invoice')->get();
         return view('admin.invoices.index', compact('invoices'));
     }
-
+    
     public function create()
     {
         $customers = Customer::all();
