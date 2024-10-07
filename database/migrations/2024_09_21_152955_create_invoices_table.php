@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->string('invoice_number')->unique();
-            $table->enum('type', ['invoice', 'quote'])->default('invoice');
+            $table->enum('type', ['invoice', 'quotation'])->default('invoice');
             $table->date('issue_date');
             $table->date('due_date')->nullable();
             $table->decimal('vat_percentage', 5, 2)->default(15);
