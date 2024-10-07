@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\InvoiceHelper;
 use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\Product;
@@ -45,7 +46,7 @@ class QuotationsController extends Controller
         DB::beginTransaction();
 
         try {
-            $nextQuotationNumber = $this->generateInvoiceNumber();
+            $nextQuotationNumber = InvoiceHelper::generateQuotationNumber();
 
             $subtotal = array_reduce($request->items, function ($carry, $item) {
                 return $carry + ($item['quantity'] * $item['price']);
@@ -78,6 +79,7 @@ class QuotationsController extends Controller
                 ]);
             }
 
+            $this->generatePdf($invoice->id);
             DB::commit();
             return redirect()->route('admin.quotations.index')->with('success', 'Quotation created successfully');
         } catch (\Exception $e) {
@@ -184,14 +186,6 @@ class QuotationsController extends Controller
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => 'Quotation deletion failed: ' . $e->getMessage()]);
         }
-    }
-
-    private function generateInvoiceNumber()
-    {
-        $lastInvoice = Invoice::orderBy('id', 'desc')->first();
-        return $lastInvoice
-            ? 'QUT-' . str_pad((int)substr($lastInvoice->invoice_number, 3) + 1, 6, '0', STR_PAD_LEFT)
-            : 'QUT-000001';
     }
 
     private function generatePdf($invoiceId)
