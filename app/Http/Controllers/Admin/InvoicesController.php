@@ -35,8 +35,6 @@ class InvoicesController extends Controller
     {
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
-            'type' => 'required|in:invoice,quote',
-            'due_date' => 'nullable|date',
             'vat_percentage' => 'required|numeric',
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
@@ -59,9 +57,8 @@ class InvoicesController extends Controller
             $invoice = Invoice::create([
                 'customer_id' => $request->customer_id,
                 'invoice_number' => $nextInvoiceNumber,
-                'type' => $request->type,
+                'type' => 'invoice',
                 'issue_date' => now(),
-                'due_date' => $request->due_date,
                 'vat_percentage' => $request->vat_percentage,
                 'subtotal' => $subtotal,
                 'discount' => $request->discount,
@@ -161,7 +158,7 @@ class InvoicesController extends Controller
         }
 
         try {
-            $pdfInvoice = PDFInvoice::make('invoice', 'default')
+            $pdfInvoice = PDFInvoice::make($invoice->type, 'default')
                 ->serialNumberFormat($invoice->invoice_number)
                 ->date(Carbon::parse($invoice->issue_date))
                 ->dateFormat('d/m/Y')

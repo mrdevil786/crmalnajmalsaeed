@@ -34,19 +34,6 @@
                             </div>
 
                             <div class="col-lg-6 mb-3">
-                                <label class="form-label" for="type">Invoice Type</label>
-                                <select class="form-select form-control" name="type" id="type" required>
-                                    <option value="invoice">Invoice</option>
-                                    <option value="quote">Quote</option>
-                                </select>
-                            </div>
-
-                            <div class="col-lg-6 mb-3" id="due-date-container">
-                                <label class="form-label" for="due_date">Due Date</label>
-                                <input type="date" class="form-control" name="due_date" id="due_date">
-                            </div>
-
-                            <div class="col-lg-6 mb-3">
                                 <label class="form-label" for="vat_percentage">VAT Percentage</label>
                                 <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
                                     value="15" step="0.01" required>
@@ -132,7 +119,7 @@
                 totalPriceInput.val((productPrice * quantity).toFixed(2));
             }
 
-            $('select[name="items[0][product_id]"]').change(function() {
+            $(document).on('change', 'select[name^="items"][name$="[product_id]"]', function() {
                 const itemDiv = $(this).closest('.item');
                 updatePrice(itemDiv);
             });
@@ -142,40 +129,31 @@
                 updatePrice(itemDiv);
             });
 
-            $('#type').change(function() {
-                const selectedType = $(this).val();
-                if (selectedType === 'quote') {
-                    $('#due-date-container').show();
-                } else {
-                    $('#due-date-container').hide();
-                }
-            });
-
             $('#add-item').click(function() {
                 const itemCount = $('.item').length;
                 const itemDiv = $(`<div class="item mb-3">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label class="form-label" for="product_id">Product</label>
-                    <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
-                        <option value="">Select Product</option>
-                        @foreach ($products as $product)
-                            <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label class="form-label" for="quantity">Quantity</label>
-                    <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" required>
-                </div>
-                <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
-                <div class="col-md-4 mb-3">
-                    <label class="form-label" for="total_price">Total Price</label>
-                    <input type="text" class="form-control" id="total_price" readonly>
-                </div>
-            </div>
-            <button type="button" class="btn btn-danger remove-item"><i class="fe fe-trash"></i></button>
-        </div>`);
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="product_id">Product</label>
+                            <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
+                                <option value="">Select Product</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="quantity">Quantity</label>
+                            <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" required>
+                        </div>
+                        <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="total_price">Total Price</label>
+                            <input type="text" class="form-control" id="total_price" readonly>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger remove-item"><i class="fe fe-trash"></i></button>
+                </div>`);
 
                 $('#items').append(itemDiv);
 
@@ -193,7 +171,6 @@
             });
 
             $('select[name="items[0][product_id]"]').trigger('change');
-            $('#type').trigger('change');
         });
     </script>
 
