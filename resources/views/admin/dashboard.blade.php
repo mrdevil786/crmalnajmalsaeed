@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('admin-page-title','Dashboard')
+@section('admin-page-title', 'Dashboard')
 
 @section('admin-main-section')
     <!-- PAGE-HEADER -->
@@ -18,8 +18,8 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="mt-2">
-                                    <h6 class="">Total Users</h6>
-                                    <h2 class="mb-0 number-font">44,278</h2>
+                                    <h6 class="">Total Customers</h6>
+                                    <h2 class="mb-0 number-font">{{ $totalCustomers }}</h2>
                                 </div>
                                 <div class="ms-auto">
                                     <div class="chart-wrapper mt-1">
@@ -27,9 +27,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="text-muted fs-12"><span class="text-secondary"><i
-                                        class="fe fe-arrow-up-circle  text-secondary"></i> 5%</span>
-                                Last week</span>
+                            <span class="text-muted fs-12">
+                                <span class="text-secondary">
+                                    <i class="fe fe-arrow-up-circle text-secondary"></i>
+                                    {{ $customerPercentageChange > 0 ? '+' : '' }}{{ round($customerPercentageChange, 2) }}%
+                                </span>
+                                Last week
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -38,8 +42,8 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="mt-2">
-                                    <h6 class="">Total Profit</h6>
-                                    <h2 class="mb-0 number-font">67,987</h2>
+                                    <h6 class="">Total Products</h6>
+                                    <h2 class="mb-0 number-font">{{ $totalProducts }}</h2>
                                 </div>
                                 <div class="ms-auto">
                                     <div class="chart-wrapper mt-1">
@@ -47,9 +51,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="text-muted fs-12"><span class="text-pink"><i
-                                        class="fe fe-arrow-down-circle text-pink"></i> 0.75%</span>
-                                Last 6 days</span>
+                            <span class="text-muted fs-12">
+                                <span class="text-pink">
+                                    <i class="fe fe-arrow-down-circle text-pink"></i>
+                                    {{ $productPercentageChange > 0 ? '+' : '' }}{{ round($productPercentageChange, 2) }}%
+                                </span>
+                                Last 6 days
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -67,9 +75,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="text-muted fs-12"><span class="text-green"><i
-                                        class="fe fe-arrow-up-circle text-green"></i> 0.9%</span>
-                                Last 9 days</span>
+                            <span class="text-muted fs-12">
+                                <span class="text-green"><i class="fe fe-arrow-up-circle text-green"></i> 0.9%</span> Last 9
+                                days
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -87,9 +96,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="text-muted fs-12"><span class="text-warning"><i
-                                        class="fe fe-arrow-up-circle text-warning"></i> 0.6%</span>
-                                Last year</span>
+                            <span class="text-muted fs-12">
+                                <span class="text-warning"><i class="fe fe-arrow-up-circle text-warning"></i> 0.6%</span>
+                                Last year
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -107,10 +117,12 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex mx-auto text-center justify-content-center mb-4">
-                        <div class="d-flex text-center justify-content-center me-3"><span
-                                class="dot-label bg-primary my-auto"></span>Total Sales</div>
-                        <div class="d-flex text-center justify-content-center"><span
-                                class="dot-label bg-secondary my-auto"></span>Total Orders</div>
+                        <div class="d-flex text-center justify-content-center me-3">
+                            <span class="dot-label bg-primary my-auto"></span>Total Sales
+                        </div>
+                        <div class="d-flex text-center justify-content-center">
+                            <span class="dot-label bg-secondary my-auto"></span>Total Orders
+                        </div>
                     </div>
                     <div class="chartjs-wrapper-demo">
                         <canvas id="transactions" class="chart-dropshadow"></canvas>
@@ -135,24 +147,22 @@
                         </div>
                         <div class="">
                             <h6 class="mb-1 fw-semibold">Delivered Orders</h6>
-                            <p class="fw-normal fs-12"> <span class="text-success">3.5%</span>
-                                increased </p>
+                            <p class="fw-normal fs-12"><span class="text-success">3.5%</span> increased</p>
                         </div>
-                        <div class=" ms-auto my-auto">
-                            <p class="fw-bold fs-20"> 1,768 </p>
+                        <div class="ms-auto my-auto">
+                            <p class="fw-bold fs-20">1,768</p>
                         </div>
                     </div>
                     <div class="d-flex">
-                        <div class="avatar  avatar-md bg-pink-transparent text-pink bradius me-3">
+                        <div class="avatar avatar-md bg-pink-transparent text-pink bradius me-3">
                             <i class="fe fe-x"></i>
                         </div>
                         <div class="">
                             <h6 class="mb-1 fw-semibold">Cancelled Orders</h6>
-                            <p class="fw-normal fs-12"> <span class="text-success">1.2%</span>
-                                increased </p>
+                            <p class="fw-normal fs-12"><span class="text-success">1.2%</span> increased</p>
                         </div>
-                        <div class=" ms-auto my-auto">
-                            <p class="fw-bold fs-20 mb-0"> 3,675 </p>
+                        <div class="ms-auto my-auto">
+                            <p class="fw-bold fs-20 mb-0">3,675</p>
                         </div>
                     </div>
                 </div>
