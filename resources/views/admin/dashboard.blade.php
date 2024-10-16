@@ -14,52 +14,56 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                    <div class="card overflow-hidden">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="mt-2">
-                                    <h6 class="">Total Customers</h6>
-                                    <h2 class="mb-0 number-font">{{ $totalCustomers }}</h2>
-                                </div>
-                                <div class="ms-auto">
-                                    <div class="chart-wrapper mt-1">
-                                        <canvas id="saleschart" class="h-8 w-9 chart-dropshadow"></canvas>
+                    <a href="{{ route('admin.customers.index') }}" style="color: inherit; text-decoration: none;">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="mt-2">
+                                        <h6 class="">Total Customers</h6>
+                                        <h2 class="mb-0 number-font">{{ $totalCustomers }}</h2>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="chart-wrapper mt-1">
+                                            <canvas id="saleschart" class="h-8 w-9 chart-dropshadow"></canvas>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <span class="text-muted fs-12">
-                                <span class="text-secondary">
-                                    <i class="fe fe-arrow-up-circle text-secondary"></i>
-                                    {{ $customerPercentageChange > 0 ? '+' : '' }}{{ round($customerPercentageChange, 2) }}%
+                                <span class="text-muted fs-12">
+                                    <span class="text-secondary">
+                                        <i class="fe fe-arrow-up-circle text-secondary"></i>
+                                        {{ $customerPercentageChange > 0 ? '+' : '' }}{{ round($customerPercentageChange, 2) }}%
+                                    </span>
+                                    Last week
                                 </span>
-                                Last week
-                            </span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                    <div class="card overflow-hidden">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="mt-2">
-                                    <h6 class="">Total Products</h6>
-                                    <h2 class="mb-0 number-font">{{ $totalProducts }}</h2>
-                                </div>
-                                <div class="ms-auto">
-                                    <div class="chart-wrapper mt-1">
-                                        <canvas id="leadschart" class="h-8 w-9 chart-dropshadow"></canvas>
+                    <a href="{{ route('admin.products.index') }}" style="color: inherit; text-decoration: none;">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="mt-2">
+                                        <h6 class="">Total Products</h6>
+                                        <h2 class="mb-0 number-font">{{ $totalProducts }}</h2>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="chart-wrapper mt-1">
+                                            <canvas id="leadschart" class="h-8 w-9 chart-dropshadow"></canvas>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <span class="text-muted fs-12">
-                                <span class="text-pink">
-                                    <i class="fe fe-arrow-down-circle text-pink"></i>
-                                    {{ $productPercentageChange > 0 ? '+' : '' }}{{ round($productPercentageChange, 2) }}%
+                                <span class="text-muted fs-12">
+                                    <span class="text-pink">
+                                        <i class="fe fe-arrow-down-circle text-pink"></i>
+                                        {{ $productPercentageChange > 0 ? '+' : '' }}{{ round($productPercentageChange, 2) }}%
+                                    </span>
+                                    Last 6 days
                                 </span>
-                                Last 6 days
-                            </span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
                     <div class="card overflow-hidden">
