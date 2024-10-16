@@ -43,7 +43,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $invoice->invoice_number }}</td>
-                                        <td>{{ $invoice->customer->name }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($invoice->customer->name, 20, '...') }}</td>
                                         <td>{{ $invoice->issue_date }}</td>
                                         <td>{{ $invoice->total }}</td>
                                         <td>{{ $invoice->created_at }}</td>

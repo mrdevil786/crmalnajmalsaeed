@@ -48,7 +48,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $quotation->invoice_number }}</td>
-                                        <td>{{ $quotation->customer->name }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($quotation->customer->name, 20, '...') }}</td>
                                         <td>{{ $quotation->issue_date }}</td>
                                         <td>{{ $quotation->due_date }}</td>
                                         <td>{{ $quotation->total }}</td>
