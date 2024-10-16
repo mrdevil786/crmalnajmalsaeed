@@ -36,6 +36,9 @@
                                     <th class="wd-15p border-bottom-0">Due Date</th>
                                     <th class="wd-15p border-bottom-0">Total Amount</th>
                                     <th class="wd-25p border-bottom-0">Created At</th>
+                                    @if (auth()->user()->user_role == 1)
+                                        <th class="wd-25p border-bottom-0">Convert</th>
+                                    @endif
                                     <th class="wd-25p border-bottom-0">Action</th>
                                 </tr>
                             </thead>
@@ -50,6 +53,18 @@
                                         <td>{{ $quotation->due_date }}</td>
                                         <td>{{ $quotation->total }}</td>
                                         <td>{{ $quotation->created_at }}</td>
+                                        @if (auth()->user()->user_role == 1)
+                                            <td class="text-center">
+                                                <form action="{{ route('admin.quotations.convert', $quotation->id) }}"
+                                                    method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-outline-success btn-pill btn-sm"
+                                                        onclick="return confirm('Are you sure you want to convert this quotation to an invoice?');">
+                                                        <i class="fa fa-exchange"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        @endif
                                         <td class="text-center">
                                             <x-buttons.action-pill-button iconClass="fa fa-download" iconColor="success"
                                                 href="{{ route('admin.quotations.download', $quotation->id) }}" />

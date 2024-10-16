@@ -161,6 +161,47 @@ class QuotationsController extends Controller
         }
     }
 
+    public function convertToInvoice($id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $quotation = Invoice::with('items')->where('id', $id)->where('type', 'quotation')->firstOrFail();
+
+            $invoice = Invoice::create([
+                'customer_id' => $quotation->customer_id,
+                'invoice_number' => str_replace('QUT', 'INV', $quotation->invoice_number),
+                'type' => 'invoice',
+                'issue_date' => now(),
+                'due_date' => $quotation->due_date,
+                'vat_percentage' => $quotation->vat_percentage,
+                'subtotal' => $quotation->subtotal,
+                'discount' => $quotation->discount,
+                'vat_amount' => $quotation->vat_amount,
+                'total' => $quotation->total,
+                'notes' => $quotation->notes,
+            ]);
+
+            foreach ($quotation->items as $item) {
+                Item::create([
+                    'invoice_id' => $invoice->id,
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'total' => $item->total,
+                ]);
+            }
+
+            PDFHelper::generateInvoicePdf($invoice->id);
+
+            DB::commit();
+            return redirect()->route('admin.invoices.index')->with('success', 'Invoice created from quotation successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Conversion failed: ' . $e->getMessage()]);
+        }
+    }
+
     public function destroy($id)
     {
         $invoice = Invoice::findOrFail($id);
