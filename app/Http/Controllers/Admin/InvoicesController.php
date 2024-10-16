@@ -33,10 +33,11 @@ class InvoicesController extends Controller
     {
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
-            'vat_percentage' => 'required|numeric',
+            'vat_percentage' => 'required|numeric|min:0',
+            'discount' => 'required|numeric|min:0',
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.quantity' => 'required|numeric|min:1',
             'items.*.price' => 'required|numeric|min:0',
         ]);
 
