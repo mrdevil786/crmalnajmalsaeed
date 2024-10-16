@@ -54,18 +54,12 @@
                                 <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
                                     value="{{ isset($quotation) ? $quotation->vat_percentage : 15 }}" step="0.01"
                                     required>
-                                @error('vat_percentage')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
                             </div>
 
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="discount">Discount Percentage</label>
                                 <input type="number" class="form-control" name="discount" id="discount"
                                     value="{{ isset($quotation) ? $quotation->discount : 0 }}" step="0.01">
-                                @error('discount')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
 
@@ -93,9 +87,9 @@
 
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label" for="quantity">Quantity</label>
-                                                        <input type="text" class="form-control"
+                                                        <input type="number" class="form-control"
                                                             name="items[{{ $index }}][quantity]"
-                                                            value="{{ $item->quantity }}" pattern="^\d*\.?\d+$" required>
+                                                            value="{{ $item->quantity }}" required>
                                                     </div>
 
                                                     <input type="hidden" class="form-control"
@@ -132,8 +126,8 @@
 
                                                 <div class="col-md-4 mb-3">
                                                     <label class="form-label" for="quantity">Quantity</label>
-                                                    <input type="text" class="form-control" name="items[0][quantity]"
-                                                        value="1" pattern="^\d*\.?\d+$" required>
+                                                    <input type="number" class="form-control" name="items[0][quantity]"
+                                                        value="1" required>
                                                 </div>
 
                                                 <input type="hidden" class="form-control" name="items[0][price]"
@@ -213,7 +207,7 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="quantity">Quantity</label>
-                                <input type="text" class="form-control" name="items[${itemCount}][quantity]" value="1" pattern="^\d*\.?\d+$" required>
+                                <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" required>
                             </div>
                             <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
                             <div class="col-md-4 mb-3">
