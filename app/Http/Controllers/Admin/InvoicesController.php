@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\InvoiceHelper;
-use App\Helpers\PDFHelper; // Import the PDFHelper
-use Carbon\Carbon;
+use App\Helpers\PDFHelper;
 use App\Models\Item;
 use App\Models\Product;
 use App\Models\Invoice;
@@ -79,7 +78,7 @@ class InvoicesController extends Controller
             $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
 
             if ($qrCodeData) {
-                PDFHelper::generateInvoicePdf($invoice->id, $qrCodeData); // Use PDFHelper
+                PDFHelper::generateInvoicePdf($invoice->id, $qrCodeData);
                 DB::commit();
                 return redirect()->route('admin.invoices.index')->with('success', 'Invoice created successfully');
             } else {
@@ -122,7 +121,7 @@ class InvoicesController extends Controller
         if (!file_exists($pdfPath)) {
             try {
                 $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
-                PDFHelper::generateInvoicePdf($invoice->id, $qrCodeData); // Use PDFHelper
+                PDFHelper::generateInvoicePdf($invoice->id, $qrCodeData);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['error' => 'PDF generation failed: ' . $e->getMessage()]);
             }
@@ -139,7 +138,7 @@ class InvoicesController extends Controller
         if (!file_exists($pdfPath)) {
             try {
                 $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
-                PDFHelper::generateInvoicePdf($invoice->id, $qrCodeData); // Use PDFHelper
+                PDFHelper::generateInvoicePdf($invoice->id, $qrCodeData);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['error' => 'PDF generation failed: ' . $e->getMessage()]);
             }
