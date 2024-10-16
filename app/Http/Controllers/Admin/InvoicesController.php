@@ -43,7 +43,7 @@ class InvoicesController extends Controller
         DB::beginTransaction();
 
         try {
-            $nextInvoiceNumber = InvoiceHelper::generateInvoiceNumber();
+            $nextInvoiceNumber = InvoiceHelper::generateNumber('INV');
 
             $subtotal = array_reduce($request->items, function ($carry, $item) {
                 return $carry + ($item['quantity'] * $item['price']);

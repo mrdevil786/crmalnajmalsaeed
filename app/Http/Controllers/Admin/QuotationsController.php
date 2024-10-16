@@ -42,7 +42,7 @@ class QuotationsController extends Controller
         DB::beginTransaction();
 
         try {
-            $nextQuotationNumber = InvoiceHelper::generateQuotationNumber();
+            $nextQuotationNumber = InvoiceHelper::generateNumber('QUT');
 
             $subtotal = array_reduce($request->items, function ($carry, $item) {
                 return $carry + ($item['quantity'] * $item['price']);
