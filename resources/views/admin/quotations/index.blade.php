@@ -30,11 +30,11 @@
                             <thead>
                                 <tr>
                                     <th class="wd-15p border-bottom-0">#</th>
-                                    <th class="wd-20p border-bottom-0">Quotation Number</th>
+                                    <th class="wd-20p border-bottom-0">Serial</th>
                                     <th class="wd-15p border-bottom-0">Customer</th>
                                     <th class="wd-15p border-bottom-0">Issue Date</th>
                                     <th class="wd-15p border-bottom-0">Due Date</th>
-                                    <th class="wd-15p border-bottom-0">Total Amount</th>
+                                    <th class="wd-15p border-bottom-0">Total</th>
                                     <th class="wd-25p border-bottom-0">Created At</th>
                                     @if (auth()->user()->user_role == 1)
                                         <th class="wd-25p border-bottom-0">Convert</th>

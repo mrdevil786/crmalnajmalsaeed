@@ -30,10 +30,10 @@
                             <thead>
                                 <tr>
                                     <th class="wd-15p border-bottom-0">#</th>
-                                    <th class="wd-20p border-bottom-0">Invoice Number</th>
+                                    <th class="wd-20p border-bottom-0">Serial</th>
                                     <th class="wd-15p border-bottom-0">Customer</th>
                                     <th class="wd-15p border-bottom-0">Issue Date</th>
-                                    <th class="wd-15p border-bottom-0">Total Amount</th>
+                                    <th class="wd-15p border-bottom-0">Total</th>
                                     <th class="wd-25p border-bottom-0">Created At</th>
                                     <th class="wd-25p border-bottom-0">Action</th>
                                 </tr>
