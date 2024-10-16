@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\InvoiceHelper;
+use App\Helpers\PDFHelper;
 use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\Product;
@@ -11,10 +12,6 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use LaravelDaily\Invoices\Classes\Buyer;
-use LaravelDaily\Invoices\Classes\Party;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
-use LaravelDaily\Invoices\Invoice as PDFInvoice;
 
 class QuotationsController extends Controller
 {
@@ -79,7 +76,7 @@ class QuotationsController extends Controller
                 ]);
             }
 
-            $this->generatePdf($invoice->id);
+            PDFHelper::generateInvoicePdf($invoice->id);
             DB::commit();
             return redirect()->route('admin.quotations.index')->with('success', 'Quotation created successfully');
         } catch (\Exception $e) {
@@ -156,8 +153,7 @@ class QuotationsController extends Controller
                 }
             }
 
-            $this->generatePdf($invoice->id);
-
+            PDFHelper::generateInvoicePdf($invoice->id);
             DB::commit();
             return redirect()->route('admin.quotations.index')->with('success', 'Quotation updated successfully');
         } catch (\Exception $e) {
@@ -188,61 +184,6 @@ class QuotationsController extends Controller
         }
     }
 
-    private function generatePdf($invoiceId)
-    {
-        $invoice = Invoice::with(['customer', 'items.product'])->findOrFail($invoiceId);
-
-        $seller = new Party([
-            'name' => 'Al Najm Al Saeed Co. Ltd.',
-            'address' => '8611 Thabit Ibn Uddai, Ad Dhubbat, Riyadh',
-            'code' => '12623',
-            'vat' => '312508185500003',
-            'custom_fields' => [
-                'email' => 'info@alsaeedstar.com',
-            ],
-        ]);
-
-        $buyer = new Buyer([
-            'name' => $invoice->customer->name,
-            'address' => $invoice->customer->address,
-            'code' => $invoice->customer->pincode,
-            'vat' => $invoice->customer->tax_number,
-            'custom_fields' => [
-                'email' => $invoice->customer->email,
-            ],
-        ]);
-
-        $quotationItems = [];
-        foreach ($invoice->items as $item) {
-            $quotationItems[] = (new InvoiceItem())
-                ->title($item->product->name)
-                ->description($item->product->description ?? 'No Description available for ' . $item->product->name . '.')
-                ->pricePerUnit($item->price)
-                ->quantity($item->quantity);
-        }
-
-        try {
-            $pdfInvoice = PDFInvoice::make('quotation', 'default')
-                ->serialNumberFormat($invoice->invoice_number)
-                ->date(Carbon::parse($invoice->issue_date))
-                ->dateFormat('d/m/Y')
-                ->seller($seller)
-                ->buyer($buyer)
-                ->addItems($quotationItems)
-                ->taxRate($invoice->vat_percentage)
-                ->currencySymbol('SAR')
-                ->currencyCode('SAR')
-                ->currencyFraction('halalas.')
-                ->filename($invoice->invoice_number)
-                ->logo(public_path('assets/images/brand/logo-no-background.png'))
-                ->notes($invoice->notes ?? 'Thank you for your business!');
-
-            $pdfInvoice->save('invoices');
-        } catch (\Exception $e) {
-            throw new \Exception('PDF generation failed: ' . $e->getMessage());
-        }
-    }
-
     public function download($id)
     {
         $invoice = Invoice::findOrFail($id);
@@ -250,7 +191,7 @@ class QuotationsController extends Controller
 
         if (!file_exists($pdfPath)) {
             try {
-                $this->generatePdf($invoice->id);
+                PDFHelper::generateInvoicePdf($invoice->id);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['error' => 'PDF generation failed: ' . $e->getMessage()]);
             }
@@ -266,7 +207,7 @@ class QuotationsController extends Controller
 
         if (!file_exists($pdfPath)) {
             try {
-                $this->generatePdf($invoice->id);
+                PDFHelper::generateInvoicePdf($invoice->id);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['error' => 'PDF generation failed: ' . $e->getMessage()]);
             }
