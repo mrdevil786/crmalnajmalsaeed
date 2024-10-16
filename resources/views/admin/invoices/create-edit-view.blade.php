@@ -48,12 +48,18 @@
                                 <label class="form-label" for="vat_percentage">VAT Percentage</label>
                                 <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
                                     value="{{ isset($invoice) ? $invoice->vat_percentage : 15 }}" step="0.01" required>
+                                @error('vat_percentage')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="discount">Discount Percentage</label>
                                 <input type="number" class="form-control" name="discount" id="discount"
                                     value="{{ isset($invoice) ? $invoice->discount : 0 }}" step="0.01">
+                                @error('discount')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 

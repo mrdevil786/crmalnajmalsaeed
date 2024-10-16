@@ -59,12 +59,18 @@
                                 <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
                                     value="{{ isset($quotation) ? $quotation->vat_percentage : 15 }}" step="0.01"
                                     required>
+                                @error('vat_percentage')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="discount">Discount Percentage</label>
                                 <input type="number" class="form-control" name="discount" id="discount"
                                     value="{{ isset($quotation) ? $quotation->discount : 0 }}" step="0.01">
+                                @error('discount')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
