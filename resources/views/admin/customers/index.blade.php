@@ -41,9 +41,9 @@
                                 @foreach ($customers as $customer)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $customer->name }}</td>
-                                        <td>{{ $customer->email }}</td>
-                                        <td>{{ $customer->address }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($customer->name, 20, '...') }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($customer->email, 20, '...') }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($customer->address, 20, '...') }}</td>
                                         <td>{{ $customer->pincode }}</td>
                                         <td>{{ $customer->tax_number }}</td>
                                         {{-- <td>{{ $customer->created_at }}</td> --}}

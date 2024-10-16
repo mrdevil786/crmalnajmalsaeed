@@ -40,8 +40,8 @@
                                 @foreach ($products as $product)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $product->name }}</td>
-                                        <td>{{ $product->description }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($product->name, 20, '...') }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($product->description, 20, '...') }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>{{ $product->unit }}</td>
                                         {{-- <td>{{ $product->created_at }}</td> --}}

@@ -13,11 +13,9 @@ class DashboardController extends Controller
         $totalProducts = Product::count();
         $totalCustomers = Customer::count();
 
-        // Get percentage changes
         $customerPercentageChange = $this->getCustomerPercentageChange();
         $productPercentageChange = $this->getProductPercentageChange();
 
-        // Pass all necessary variables to the view
         return view('admin.dashboard', compact('totalProducts', 'totalCustomers', 'productPercentageChange', 'customerPercentageChange'));
     }
 
