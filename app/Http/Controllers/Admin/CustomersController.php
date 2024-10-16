@@ -11,7 +11,7 @@ class CustomersController extends Controller
     // RETRIEVE ALL CUSTOMERS AND DISPLAY THEM IN A VIEW
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::latest()->get();
         return view('admin.customers.index', compact('customers'));
     }
 

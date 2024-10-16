@@ -29,8 +29,9 @@
                                     </div>
                                 </div>
                                 <span class="text-muted fs-12">
-                                    <span class="text-secondary">
-                                        <i class="fe fe-arrow-up-circle text-secondary"></i>
+                                    <span class="{{ $customerPercentageChange > 0 ? 'text-secondary' : 'text-danger' }}">
+                                        <i
+                                            class="{{ $customerPercentageChange > 0 ? 'fe fe-arrow-up-circle' : 'fe fe-arrow-down-circle' }}"></i>
                                         {{ $customerPercentageChange > 0 ? '+' : '' }}{{ round($customerPercentageChange, 2) }}%
                                     </span>
                                     Last week
@@ -55,8 +56,9 @@
                                     </div>
                                 </div>
                                 <span class="text-muted fs-12">
-                                    <span class="text-pink">
-                                        <i class="fe fe-arrow-down-circle text-pink"></i>
+                                    <span class="{{ $productPercentageChange > 0 ? 'text-pink' : 'text-danger' }}">
+                                        <i
+                                            class="{{ $productPercentageChange > 0 ? 'fe fe-arrow-up-circle' : 'fe fe-arrow-down-circle' }}"></i>
                                         {{ $productPercentageChange > 0 ? '+' : '' }}{{ round($productPercentageChange, 2) }}%
                                     </span>
                                     Last 6 days
