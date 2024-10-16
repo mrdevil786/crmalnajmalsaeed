@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('admin-page-title', isset($quotation) ? 'Edit Quotations' : 'Create Quotations')
+@section('admin-page-title', isset($quotation) ? 'Edit Quotation' : 'Create Quotation')
 
 @section('admin-main-section')
 
@@ -21,10 +21,12 @@
                         action="{{ isset($quotation) ? route('admin.quotations.update', $quotation->id) : route('admin.quotations.store') }}"
                         method="POST">
                         @csrf
-                        @if (isset($quotation))
+                        @isset($quotation)
                             @method('PUT')
-                        @endif
+                        @endisset
+
                         <div class="form-row">
+                            <!-- Customer Selection -->
                             <div class="col-lg-6 mb-3">
                                 <label class="form-label" for="customer_id">Customer</label>
                                 <select class="form-select form-control" name="customer_id" id="customer_id" required>
@@ -32,7 +34,8 @@
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}"
                                             {{ isset($quotation) && $quotation->customer_id == $customer->id ? 'selected' : '' }}>
-                                            {{ $customer->name }}</option>
+                                            {{ $customer->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 @error('customer_id')
@@ -40,6 +43,7 @@
                                 @enderror
                             </div>
 
+                            <!-- Due Date -->
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="due_date">Due Date</label>
                                 <input type="date" class="form-control" name="due_date" id="due_date"
@@ -49,6 +53,7 @@
                                 @enderror
                             </div>
 
+                            <!-- VAT and Discount -->
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="vat_percentage">VAT Percentage</label>
                                 <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
@@ -63,90 +68,37 @@
                             </div>
                         </div>
 
+                        <!-- Quotation Items Section -->
                         <div class="form-row mt-5">
                             <div class="col-lg-12 mb-3">
                                 <h4>Items</h4>
                                 <div id="items">
-                                    @if (isset($quotation))
+                                    @isset($quotation)
                                         @foreach ($quotation->items as $index => $item)
-                                            <div class="item mb-3">
-                                                <div class="row">
-                                                    <div class="col-md-4 mb-3">
-                                                        <label class="form-label" for="product_id">Product</label>
-                                                        <select class="form-select form-control"
-                                                            name="items[{{ $index }}][product_id]" required>
-                                                            <option value="">Select Product</option>
-                                                            @foreach ($products as $product)
-                                                                <option value="{{ $product->id }}"
-                                                                    data-price="{{ $product->price }}"
-                                                                    {{ $item->product_id == $product->id ? 'selected' : '' }}>
-                                                                    {{ $product->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-4 mb-3">
-                                                        <label class="form-label" for="quantity">Quantity</label>
-                                                        <input type="number" class="form-control"
-                                                            name="items[{{ $index }}][quantity]"
-                                                            value="{{ $item->quantity }}" required>
-                                                    </div>
-
-                                                    <input type="hidden" class="form-control"
-                                                        name="items[{{ $index }}][price]"
-                                                        value="{{ $item->price }}" required>
-                                                    <input type="hidden" name="items[{{ $index }}][id]"
-                                                        value="{{ $item->id }}">
-
-                                                    <div class="col-md-4 mb-3">
-                                                        <label class="form-label" for="total_price">Total Price</label>
-                                                        <input type="text" class="form-control total_price"
-                                                            value="{{ $item->quantity * $item->price }}" readonly>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="btn btn-danger remove-item"><i
-                                                        class="fe fe-trash"></i></button>
-                                            </div>
+                                            @include('admin.includes.partials.item', [
+                                                'index' => $index,
+                                                'item' => $item,
+                                                'products' => $products,
+                                            ])
                                         @endforeach
                                     @else
-                                        <div class="item mb-3">
-                                            <div class="row">
-                                                <div class="col-md-4 mb-3">
-                                                    <label class="form-label" for="product_id">Product</label>
-                                                    <select class="form-select form-control" name="items[0][product_id]"
-                                                        required>
-                                                        <option value="">Select Product</option>
-                                                        @foreach ($products as $product)
-                                                            <option value="{{ $product->id }}"
-                                                                data-price="{{ $product->price }}">{{ $product->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-4 mb-3">
-                                                    <label class="form-label" for="quantity">Quantity</label>
-                                                    <input type="number" class="form-control" name="items[0][quantity]"
-                                                        value="1" required>
-                                                </div>
-
-                                                <input type="hidden" class="form-control" name="items[0][price]"
-                                                    required>
-                                                <div class="col-md-4 mb-3">
-                                                    <label class="form-label" for="total_price">Total Price</label>
-                                                    <input type="text" class="form-control total_price" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
+                                        @include('admin.includes.partials.item', [
+                                            'index' => 0,
+                                            'item' => null,
+                                            'products' => $products,
+                                        ])
+                                    @endisset
                                 </div>
+
                                 <div class="text-end">
-                                    <button type="button" id="add-item" class="btn btn-primary"><i
-                                            class="fe fe-plus-square"></i> Add Item</button>
+                                    <button type="button" id="add-item" class="btn btn-primary">
+                                        <i class="fe fe-plus-square"></i> Add Item
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Notes Section -->
                         <div class="form-row">
                             <div class="col-lg-12 mb-3">
                                 <label class="form-label" for="notes">Notes</label>
@@ -154,9 +106,11 @@
                             </div>
                         </div>
 
+                        <!-- Submit Button -->
                         <center>
-                            <button type="submit"
-                                class="btn btn-success">{{ isset($quotation) ? 'Update Quotation' : 'Create Quotation' }}</button>
+                            <button type="submit" class="btn btn-success">
+                                {{ isset($quotation) ? 'Update Quotation' : 'Create Quotation' }}
+                            </button>
                         </center>
                     </form>
                 </div>
@@ -207,7 +161,7 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="quantity">Quantity</label>
-                                <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" required>
+                                <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" step="0.01" required>
                             </div>
                             <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
                             <div class="col-md-4 mb-3">
@@ -215,20 +169,19 @@
                                 <input type="text" class="form-control total_price" readonly>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-danger remove-item"><i class="fe fe-trash"></i></button>
+                        <button type="button" class="btn btn-danger remove-item">
+                            <i class="fe fe-trash"></i>
+                        </button>
                     </div>
                 `);
 
                 $('#items').append(itemDiv);
-
                 itemDiv.find('select[name^="items"][name$="[product_id]"]').change(function() {
                     updatePrice(itemDiv);
                 });
-
                 itemDiv.find('input[name$="[quantity]"]').on('input', function() {
                     updatePrice(itemDiv);
                 });
-
                 itemDiv.find('.remove-item').click(function() {
                     itemDiv.remove();
                 });
