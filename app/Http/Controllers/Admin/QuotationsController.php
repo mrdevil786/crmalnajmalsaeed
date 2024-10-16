@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\InvoiceHelper;
 use App\Helpers\PDFHelper;
+use App\Helpers\QRCodeHelper;
 use App\Models\Item;
 use App\Models\Product;
 use App\Models\Invoice;
@@ -192,7 +193,9 @@ class QuotationsController extends Controller
                 ]);
             }
 
-            PDFHelper::generateInvoicePdf($invoice->id);
+            $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
+
+            PDFHelper::generateInvoicePdf($invoice->id, $qrCodeData);
 
             DB::commit();
             return redirect()->route('admin.invoices.index')->with('success', 'Invoice created from quotation successfully');
