@@ -29,7 +29,7 @@
 
                         <div class="form-row">
                             <!-- Customer Selection -->
-                            <div class="col-lg-6 mb-3">
+                            <div class="col-lg-8 mb-3">
                                 <label class="form-label" for="customer_id">Customer</label>
                                 <select class="form-select form-control" name="customer_id" id="customer_id" required>
                                     <option value="">Select Customer</option>
@@ -46,8 +46,8 @@
                             </div>
 
                             <!-- VAT and Discount -->
-                            <div class="col-lg-3 mb-3">
-                                <label class="form-label" for="vat_percentage">VAT Percentage</label>
+                            <div class="col-lg-2 mb-3">
+                                <label class="form-label" for="vat_percentage">Tax (%)</label>
                                 <input type="number" class="form-control" name="vat_percentage" id="vat_percentage"
                                     value="{{ isset($invoice) ? $invoice->vat_percentage : 15 }}" step="0.01" required>
                                 @error('vat_percentage')
@@ -55,8 +55,8 @@
                                 @enderror
                             </div>
 
-                            <div class="col-lg-3 mb-3">
-                                <label class="form-label" for="discount">Discount Percentage</label>
+                            <div class="col-lg-2 mb-3">
+                                <label class="form-label" for="discount">Discount (%)</label>
                                 <input type="number" class="form-control" name="discount" id="discount"
                                     value="{{ isset($invoice) ? $invoice->discount : 0 }}" step="0.01">
                                 @error('discount')
