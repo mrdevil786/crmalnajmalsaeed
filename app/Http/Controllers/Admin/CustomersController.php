@@ -41,8 +41,17 @@ class CustomersController extends Controller
     // SHOW A FORM FOR EDITING THE SPECIFIED CUSTOMER
     public function edit($id)
     {
+        $isEdit = true;
         $customer = Customer::findOrFail($id);
-        return view('admin.customers.edit', compact('customer'));
+        return view('admin.customers.create-edit-view', compact('customer', 'isEdit'));
+    }
+
+    // VIEW A SPECIFIC CUSTOMER
+    public function view($id)
+    {
+        $isEdit = false;
+        $customer = Customer::findOrFail($id);
+        return view('admin.customers.create-edit-view', compact('customer', 'isEdit'));
     }
 
     // VALIDATE AND UPDATE THE SPECIFIED CUSTOMER

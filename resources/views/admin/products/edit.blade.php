@@ -8,7 +8,8 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">{{ $isEdit ? 'Edit Product' : 'View Product' }}</h1>
-            <a href="{{ route('admin.products.index') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Back</a>
+            <a href="{{ route('admin.products.index') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i>
+                Back</a>
         </div>
     </div>
     <!-- PAGE-HEADER END -->
@@ -98,7 +99,6 @@
 @endsection
 
 @section('custom-script')
-    <!-- DATA TABLE JS-->
     <!-- INPUT MASK JS-->
     <script src="{{ asset('assets/plugins/input-mask/jquery.mask.min.js') }}"></script>
 
