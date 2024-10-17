@@ -10,7 +10,8 @@
             <h1 class="page-title">Manage Quotations</h1>
             @if (Auth()->User()->user_role != 3)
                 <a href="{{ route('admin.quotations.create') }}">
-                    <button class="btn btn-primary off-canvas" type="button">Add Quotation</button>
+                    <button class="btn btn-primary off-canvas" type="button"><i class="fa fa-plus-circle"></i> Add
+                        Quotation</button>
                 </a>
             @endif
         </div>

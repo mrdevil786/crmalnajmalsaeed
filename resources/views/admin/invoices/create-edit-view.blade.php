@@ -7,6 +7,8 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">{{ isset($invoice) ? 'Edit Invoice' : 'Create Invoice' }}</h1>
+            <a href="{{ route('admin.invoices.index') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i>
+                Back</a>
         </div>
     </div>
 
@@ -142,7 +144,7 @@
 
             $('#add-item').click(function() {
                 const itemCount = $('.item').length;
-                const itemDiv = $(` 
+                const itemDiv = $(`
                     <div class="item mb-3">
                         <div class="row">
                             <div class="col-md-4 mb-3">

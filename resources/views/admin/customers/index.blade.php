@@ -9,7 +9,8 @@
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">Manage Customers</h1>
             <button class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Add Customer</button>
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fa fa-plus-circle"></i> Add
+                Customer</button>
         </div>
     </div>
     <!-- PAGE-HEADER END -->

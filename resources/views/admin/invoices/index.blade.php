@@ -10,7 +10,7 @@
             <h1 class="page-title">Manage Invoices</h1>
             @if (Auth()->User()->user_role != 3)
                 <a href="{{ route('admin.invoices.create') }}">
-                    <button class="btn btn-primary off-canvas" type="button">Add Invoice</button>
+                    <button class="btn btn-primary off-canvas" type="button"><i class="fa fa-plus-circle"></i> Add Invoice</button>
                 </a>
             @endif
         </div>

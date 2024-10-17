@@ -7,6 +7,7 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">{{ isset($quotation) ? 'Edit Quotation' : 'Create Quotation' }}</h1>
+            <a href="{{ route('admin.quotations.index') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Back</a>
         </div>
     </div>
 
