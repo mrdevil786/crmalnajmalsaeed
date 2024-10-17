@@ -91,6 +91,84 @@ class InvoicesController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $invoice = Invoice::with('items.product')->findOrFail($id);
+        $customers = Customer::all();
+        $products = Product::all();
+
+        return view('admin.invoices.create-edit-view', compact('invoice', 'customers', 'products'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'vat_percentage' => 'required|numeric|min:0',
+            'discount' => 'required|numeric|min:0',
+            'items' => 'required|array',
+            'items.*.id' => 'nullable|exists:items,id',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|numeric|min:1',
+            'items.*.price' => 'required|numeric|min:0',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $invoice = Invoice::findOrFail($id);
+
+            $subtotal = array_reduce($request->items, function ($carry, $item) {
+                return $carry + ($item['quantity'] * $item['price']);
+            }, 0);
+
+            $vat_amount = ($subtotal * $request->vat_percentage) / 100;
+            $total = $subtotal + $vat_amount - ($request->discount ?? 0);
+
+            $invoice->update([
+                'customer_id' => $request->customer_id,
+                'vat_percentage' => $request->vat_percentage,
+                'subtotal' => $subtotal,
+                'discount' => $request->discount,
+                'vat_amount' => $vat_amount,
+                'total' => $total,
+                'notes' => $request->notes,
+            ]);
+
+            $existingItemIds = array_column($request->items, 'id');
+            $invoice->items()->whereNotIn('id', $existingItemIds)->delete();
+
+            foreach ($request->items as $item) {
+                if (isset($item['id'])) {
+                    $existingItem = Item::find($item['id']);
+                    $existingItem->update([
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                        'total' => $item['quantity'] * $item['price'],
+                    ]);
+                } else {
+                    Item::create([
+                        'invoice_id' => $invoice->id,
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                        'total' => $item['quantity'] * $item['price'],
+                    ]);
+                }
+            }
+
+            $qrCodeData = QRCodeHelper::generateQRCodeDataUri($invoice);
+            PDFHelper::generateInvoicePdf($invoice->id, $qrCodeData);
+
+            DB::commit();
+            return redirect()->route('admin.invoices.index')->with('success', 'Invoice updated successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors(['error' => 'Invoice update failed: ' . $e->getMessage()]);
+        }
+    }
+
     public function destroy($id)
     {
         $invoice = Invoice::findOrFail($id);
