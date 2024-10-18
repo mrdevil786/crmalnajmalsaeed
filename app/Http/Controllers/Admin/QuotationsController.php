@@ -106,7 +106,6 @@ class QuotationsController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|numeric|min:1',
             'items.*.price' => 'required|numeric|min:0',
-            'discount' => 'nullable|numeric|min:0',
         ]);
 
         DB::beginTransaction();

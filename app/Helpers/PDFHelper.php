@@ -61,6 +61,10 @@ class PDFHelper
                 ->logo(public_path('assets/images/brand/logo-no-background.png'))
                 ->notes($invoice->notes ?? 'Thank you for your business!');
 
+            if ($invoice->discount > 0) {
+                $pdfInvoice->discountByPercent($invoice->discount);
+            }
+
             if ($qrCodeData) {
                 $pdfInvoice->setCustomData(['qrCodeData' => $qrCodeData]);
             }

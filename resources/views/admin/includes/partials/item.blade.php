@@ -1,4 +1,4 @@
-<div class="item mb-3" id="item">
+<div class="item mb-3">
     <div class="row align-items-end">
         <div class="col-xl-4 col-md-6 mb-3">
             <label class="form-label" for="product_id">Product</label>

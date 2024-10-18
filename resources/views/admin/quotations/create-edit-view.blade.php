@@ -7,7 +7,8 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">{{ isset($quotation) ? 'Edit Quotation' : 'Create Quotation' }}</h1>
-            <a href="{{ route('admin.quotations.index') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Back</a>
+            <a href="{{ route('admin.quotations.index') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i>
+                Back</a>
         </div>
     </div>
 
@@ -156,8 +157,8 @@
                 const itemCount = $('.item').length;
                 const itemDiv = $(`
                     <div class="item mb-3">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
+                        <div class="row align-items-end">
+                            <div class="col-xl-4 col-md-6 mb-3">
                                 <label class="form-label" for="product_id">Product</label>
                                 <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
                                     <option value="">Select Product</option>
@@ -166,19 +167,21 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-xl-4 col-md-6 mb-3">
                                 <label class="form-label" for="quantity">Quantity</label>
                                 <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" step="0.01" required>
                             </div>
                             <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-xl-3 col-md-6 mb-3">
                                 <label class="form-label" for="total_price">Total Price</label>
                                 <input type="text" class="form-control total_price" readonly>
                             </div>
-                        </div>
-                        <button type="button" class="btn btn-danger remove-item">
-                            <i class="fe fe-trash"></i>
-                        </button>
+                            <div class="col-xl-1 col-md-6 d-flex justify-content-center align-items-center mb-3">
+                                <button type="button" class="btn btn-danger remove-item">
+                                    <i class="fe fe-trash"></i>
+                                    </button>
+                                    </div>
+                                    </div>
                     </div>
                 `);
 
