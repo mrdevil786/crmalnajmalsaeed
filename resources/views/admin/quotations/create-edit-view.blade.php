@@ -32,7 +32,7 @@
                             <div class="col-lg-5 mb-3">
                                 <label class="form-label" for="customer_id">Customer</label>
                                 <select class="form-select form-control" name="customer_id" id="customer_id" required>
-                                    <option value="">Select Customer</option>
+                                    <option value="" selected disabled>Select Customer</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}"
                                             {{ isset($quotation) && $quotation->customer_id == $customer->id ? 'selected' : '' }}>
@@ -163,7 +163,7 @@
                             <div class="col-xl-4 col-md-6 mb-3">
                                 <label class="form-label" for="product_id">Product</label>
                                 <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
-                                    <option value="">Select Product</option>
+                                    <option value="" selected disabled>Select Product</option>
                                     @foreach ($products as $product)
                                         <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
                                     @endforeach

@@ -156,7 +156,7 @@
                             <div class="col-xl-4 col-md-6 mb-3">
                                 <label class="form-label" for="product_id">Product</label>
                                 <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
-                                    <option value="">Select Product</option>
+                                    <option value="" selected disabled>Select Product</option>
                                     @foreach ($products as $product)
                                         <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
                                     @endforeach
