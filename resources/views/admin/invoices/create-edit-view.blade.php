@@ -122,21 +122,11 @@
         $(document).ready(function() {
             $('#customer_id').select2();
 
-            $(document).on('change', 'select[name^="items"][name$="[product_id]"]', function() {
-                $(this).select2();
-            });
-
-            function updatePrice(itemDiv) {
-                const quantityInput = itemDiv.find('input[name$="[quantity]"]');
-                const priceInput = itemDiv.find('input[name$="[price]"]');
-                const totalPriceInput = itemDiv.find('.total_price');
-                const selectedProduct = itemDiv.find('select[name$="[product_id]"] option:selected');
-                const productPrice = parseFloat(selectedProduct.data('price')) || 0;
-                const quantity = parseFloat(quantityInput.val()) || 1;
-
-                priceInput.val(productPrice.toFixed(2));
-                totalPriceInput.val((productPrice * quantity).toFixed(2));
+            function initializeSelect2ForItems() {
+                $('select[name^="items"][name$="[product_id]"]').select2();
             }
+
+            initializeSelect2ForItems();
 
             $(document).on('change', 'select[name^="items"][name$="[product_id]"]', function() {
                 const itemDiv = $(this).closest('.item');
@@ -151,37 +141,37 @@
             $('#add-item').click(function() {
                 const itemCount = $('.item').length;
                 const itemDiv = $(`
-                    <div class="item mb-3">
-                        <div class="row align-items-end">
-                            <div class="col-xl-4 col-md-6 mb-3">
-                                <label class="form-label" for="product_id">Product</label>
-                                <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
-                                    <option value="" selected disabled>Select Product</option>
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-xl-4 col-md-6 mb-3">
-                                <label class="form-label" for="quantity">Quantity</label>
-                                <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" step="0.01" required>
-                            </div>
-                            <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
-                            <div class="col-xl-3 col-md-6 mb-3">
-                                <label class="form-label" for="total_price">Total Price</label>
-                                <input type="text" class="form-control total_price" readonly>
-                            </div>
-                            <div class="col-xl-1 col-md-6 d-flex justify-content-center align-items-center mb-3">
-                                <button type="button" class="btn btn-danger remove-item">
-                                    <i class="fe fe-trash"></i>
-                                </button>
-                            </div>
-                        </div>
+            <div class="item mb-3">
+                <div class="row align-items-end">
+                    <div class="col-xl-4 col-md-6 mb-3">
+                        <label class="form-label" for="product_id">Product</label>
+                        <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
+                            <option value="" selected disabled>Select Product</option>
+                            @foreach ($products as $product)
+                                <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                `);
+                    <div class="col-xl-4 col-md-6 mb-3">
+                        <label class="form-label" for="quantity">Quantity</label>
+                        <input type="number" class="form-control" name="items[${itemCount}][quantity]" value="1" step="0.01" required>
+                    </div>
+                    <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <label class="form-label" for="total_price">Total Price</label>
+                        <input type="text" class="form-control total_price" readonly>
+                    </div>
+                    <div class="col-xl-1 col-md-6 d-flex justify-content-center align-items-center mb-3">
+                        <button type="button" class="btn btn-danger remove-item">
+                            <i class="fe fe-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `);
 
                 $('#items').append(itemDiv);
-                itemDiv.find('select[name^="items"][name$="[product_id]"]').select2();
+                initializeSelect2ForItems();
                 itemDiv.find('select[name^="items"][name$="[product_id]"]').change(function() {
                     updatePrice(itemDiv);
                 });

@@ -1,8 +1,8 @@
 <div class="item mb-3">
     <div class="row align-items-end">
-        <div class="form-group col-xl-4 col-md-6 mb-3">
+        <div class="col-xl-4 col-md-6 mb-3">
             <label class="form-label" for="product_id">Product</label>
-            <select class="form-control form-select" name="items[{{ $index }}][product_id]" required>
+            <select class="form-select form-control" name="items[{{ $index }}][product_id]" required>
                 <option value="" selected disabled>Select Product</option>
                 @foreach ($products as $product)
                     <option value="{{ $product->id }}" data-price="{{ $product->price }}"
