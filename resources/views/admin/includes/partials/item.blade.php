@@ -1,9 +1,9 @@
 <div class="item mb-3">
     <div class="row align-items-end">
-        <div class="col-xl-4 col-md-6 mb-3">
+        <div class="form-group col-xl-4 col-md-6 mb-3">
             <label class="form-label" for="product_id">Product</label>
-            <select class="form-select" name="items[{{ $index }}][product_id]" required>
-                <option value="">Select Product</option>
+            <select class="form-control select2-show-search form-select" name="items[{{ $index }}][product_id]" required>
+                <option value="" selected disabled hidden>Select Product</option>
                 @foreach ($products as $product)
                     <option value="{{ $product->id }}" data-price="{{ $product->price }}"
                         {{ isset($item) && $item->product_id == $product->id ? 'selected' : '' }}>

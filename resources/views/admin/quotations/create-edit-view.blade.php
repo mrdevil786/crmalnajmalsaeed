@@ -131,6 +131,8 @@
 @section('custom-script')
     <script>
         $(document).ready(function() {
+            $('#customer_id, select[name^="items"][name$="[product_id]"]').select2();
+
             function updatePrice(itemDiv) {
                 const quantityInput = itemDiv.find('input[name$="[quantity]"]');
                 const priceInput = itemDiv.find('input[name$="[price]"]');
@@ -179,13 +181,15 @@
                             <div class="col-xl-1 col-md-6 d-flex justify-content-center align-items-center mb-3">
                                 <button type="button" class="btn btn-danger remove-item">
                                     <i class="fe fe-trash"></i>
-                                    </button>
-                                    </div>
-                                    </div>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 `);
 
                 $('#items').append(itemDiv);
+                itemDiv.find('select[name^="items"][name$="[product_id]"]')
+            .select2();
                 itemDiv.find('select[name^="items"][name$="[product_id]"]').change(function() {
                     updatePrice(itemDiv);
                 });
