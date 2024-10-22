@@ -176,7 +176,7 @@
                             <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
                             <div class="col-xl-3 col-md-6 mb-3">
                                 <label class="form-label" for="total_price">Total Price</label>
-                                <input type="text" class="form-control total_price" readonly>
+                                <input type="text" class="form-control total_price" value="0.00" readonly>
                             </div>
                             <div class="col-xl-1 col-md-6 d-flex justify-content-center align-items-center mb-3">
                                 <button type="button" class="btn btn-danger remove-item">

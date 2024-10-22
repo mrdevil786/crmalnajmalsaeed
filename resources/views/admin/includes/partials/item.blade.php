@@ -22,7 +22,7 @@
         <div class="col-xl-3 col-md-6 mb-3">
             <label class="form-label" for="total_price">Total Price</label>
             <input type="text" class="form-control total_price"
-                value="{{ isset($item) ? $item->quantity * $item->price : '' }}" readonly>
+                value="{{ isset($item) ? $item->quantity * $item->price : '0.00' }}" readonly>
         </div>
 
         <div class="col-xl-1 col-md-6 d-flex justify-content-center align-items-center mb-3">

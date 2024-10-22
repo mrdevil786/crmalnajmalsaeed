@@ -3,7 +3,6 @@
 @section('admin-page-title', isset($invoice) ? 'Edit Invoice' : 'Create Invoice')
 
 @section('admin-main-section')
-
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">{{ isset($invoice) ? 'Edit Invoice' : 'Create Invoice' }}</h1>
@@ -114,7 +113,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('custom-script')
@@ -128,6 +126,20 @@
 
             initializeSelect2ForItems();
 
+            // Price calculation for products
+            function updatePrice(itemDiv) {
+                const productSelect = itemDiv.find('select[name$="[product_id]"]');
+                const price = parseFloat(productSelect.find(':selected').data('price')) ||
+                0; // Parse price as float, fallback to 0
+                const quantity = parseFloat(itemDiv.find('input[name$="[quantity]"]').val()) ||
+                1; // Parse quantity, fallback to 1
+
+                const totalPrice = price * quantity;
+
+                itemDiv.find('input[name$="[price]"]').val(price);
+                itemDiv.find('.total_price').val(totalPrice.toFixed(2)); // Update total price with 2 decimal places
+            }
+
             $(document).on('change', 'select[name^="items"][name$="[product_id]"]', function() {
                 const itemDiv = $(this).closest('.item');
                 updatePrice(itemDiv);
@@ -140,7 +152,7 @@
 
             $('#add-item').click(function() {
                 const itemCount = $('.item').length;
-                const itemDiv = $(`
+                const newItem = `
             <div class="item mb-3">
                 <div class="row align-items-end">
                     <div class="col-xl-4 col-md-6 mb-3">
@@ -148,7 +160,9 @@
                         <select class="form-select form-control" name="items[${itemCount}][product_id]" required>
                             <option value="" selected disabled>Select Product</option>
                             @foreach ($products as $product)
-                                <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                                <option value="{{ $product->id }}" data-price="{{ $product->price }}">
+                                    {{ $product->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -159,7 +173,7 @@
                     <input type="hidden" class="form-control" name="items[${itemCount}][price]" required>
                     <div class="col-xl-3 col-md-6 mb-3">
                         <label class="form-label" for="total_price">Total Price</label>
-                        <input type="text" class="form-control total_price" readonly>
+                        <input type="text" class="form-control total_price" value="0.00" readonly>
                     </div>
                     <div class="col-xl-1 col-md-6 d-flex justify-content-center align-items-center mb-3">
                         <button type="button" class="btn btn-danger remove-item">
@@ -167,26 +181,16 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        `);
-
-                $('#items').append(itemDiv);
+            </div>`;
+                $('#items').append(newItem);
                 initializeSelect2ForItems();
-                itemDiv.find('select[name^="items"][name$="[product_id]"]').change(function() {
-                    updatePrice(itemDiv);
-                });
-                itemDiv.find('input[name$="[quantity]"]').on('input', function() {
-                    updatePrice(itemDiv);
-                });
-                itemDiv.find('.remove-item').click(function() {
-                    itemDiv.remove();
-                });
             });
 
             $(document).on('click', '.remove-item', function() {
                 $(this).closest('.item').remove();
             });
 
+            // Initialize prices for existing items on page load
             $('.item').each(function() {
                 updatePrice($(this));
             });
