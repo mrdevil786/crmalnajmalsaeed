@@ -14,7 +14,10 @@ class QRCodeHelper
         $tlvPayload = '';
         $tlvPayload .= self::createTLV(0x01, 'Al Najm Al Saeed Co. Ltd.');
         $tlvPayload .= self::createTLV(0x02, '312508185500003');
-        $tlvPayload .= self::createTLV(0x03, Carbon::parse($invoice->created_at)->format('d-m-Y H:i'));
+        $concatenatedDateTime = Carbon::parse($invoice->issue_date)->format('d-m-Y')
+            . ' ' . Carbon::parse($invoice->created_at)->format('H:i');
+
+        $tlvPayload .= self::createTLV(0x03, $concatenatedDateTime);
         $tlvPayload .= self::createTLV(0x04, number_format($invoice->total, 2, '.', ''));
         $tlvPayload .= self::createTLV(0x05, number_format($invoice->vat_amount, 2, '.', ''));
 
