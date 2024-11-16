@@ -34,7 +34,6 @@
                                     <th class="wd-20p border-bottom-0">Serial</th>
                                     <th class="wd-15p border-bottom-0">Customer</th>
                                     <th class="wd-15p border-bottom-0">Issue Date</th>
-                                    <th class="wd-15p border-bottom-0">Due Date</th>
                                     <th class="wd-15p border-bottom-0">Total</th>
                                     <th class="wd-25p border-bottom-0">Created At</th>
                                     @if (auth()->user()->user_role == 1)
@@ -51,7 +50,6 @@
                                         <td>{{ $quotation->invoice_number }}</td>
                                         <td>{{ \Illuminate\Support\Str::limit($quotation->customer->name, 20, '...') }}</td>
                                         <td>{{ $quotation->issue_date }}</td>
-                                        <td>{{ $quotation->due_date }}</td>
                                         <td>{{ $quotation->total }}</td>
                                         <td>{{ $quotation->created_at }}</td>
                                         @if (auth()->user()->user_role == 1)

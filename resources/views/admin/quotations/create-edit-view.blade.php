@@ -45,12 +45,12 @@
                                 @enderror
                             </div>
 
-                            <!-- Due Date -->
+                            <!-- Issue Date -->
                             <div class="col-lg-3 mb-3">
-                                <label class="form-label" for="due_date">Due Date</label>
-                                <input type="date" class="form-control" name="due_date" id="due_date"
-                                    value="{{ isset($quotation) ? $quotation->due_date : '' }}" required>
-                                @error('due_date')
+                                <label class="form-label" for="issue_date">Issue Date</label>
+                                <input type="date" class="form-control" name="issue_date" id="issue_date"
+                                    value="{{ isset($quotation) ? $quotation->issue_date : '' }}" required>
+                                @error('issue_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -189,7 +189,7 @@
 
                 $('#items').append(itemDiv);
                 itemDiv.find('select[name^="items"][name$="[product_id]"]')
-            .select2();
+                    .select2();
                 itemDiv.find('select[name^="items"][name$="[product_id]"]').change(function() {
                     updatePrice(itemDiv);
                 });

@@ -28,7 +28,7 @@
 
                         <div class="form-row">
                             <!-- Customer Selection -->
-                            <div class="col-lg-8 mb-3">
+                            <div class="col-lg-5 mb-3">
                                 <label class="form-label" for="customer_id">Customer</label>
                                 <select class="form-select form-control" name="customer_id" id="customer_id" required>
                                     <option value="">Select Customer</option>
@@ -40,6 +40,16 @@
                                     @endforeach
                                 </select>
                                 @error('customer_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Issue Date -->
+                            <div class="col-lg-3 mb-3">
+                                <label class="form-label" for="issue_date">Issue Date</label>
+                                <input type="date" class="form-control" name="issue_date" id="issue_date"
+                                    value="{{ isset($invoice) ? $invoice->issue_date : '' }}" required>
+                                @error('issue_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -130,9 +140,9 @@
             function updatePrice(itemDiv) {
                 const productSelect = itemDiv.find('select[name$="[product_id]"]');
                 const price = parseFloat(productSelect.find(':selected').data('price')) ||
-                0; // Parse price as float, fallback to 0
+                    0; // Parse price as float, fallback to 0
                 const quantity = parseFloat(itemDiv.find('input[name$="[quantity]"]').val()) ||
-                1; // Parse quantity, fallback to 1
+                    1; // Parse quantity, fallback to 1
 
                 const totalPrice = price * quantity;
 

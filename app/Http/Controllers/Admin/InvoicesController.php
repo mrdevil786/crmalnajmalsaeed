@@ -35,6 +35,7 @@ class InvoicesController extends Controller
             'customer_id' => 'required|exists:customers,id',
             'vat_percentage' => 'required|numeric|min:0',
             'discount' => 'required|numeric|min:0',
+            'issue_date' => 'required|date',
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|numeric|min:1',
@@ -57,7 +58,7 @@ class InvoicesController extends Controller
                 'customer_id' => $request->customer_id,
                 'invoice_number' => $nextInvoiceNumber,
                 'type' => 'invoice',
-                'issue_date' => now(),
+                'issue_date' => $request->issue_date,
                 'vat_percentage' => $request->vat_percentage,
                 'subtotal' => $subtotal,
                 'discount' => $request->discount,
@@ -106,6 +107,7 @@ class InvoicesController extends Controller
             'customer_id' => 'required|exists:customers,id',
             'vat_percentage' => 'required|numeric|min:0',
             'discount' => 'required|numeric|min:0',
+            'issue_date' => 'required|date',
             'items' => 'required|array',
             'items.*.id' => 'nullable|exists:items,id',
             'items.*.product_id' => 'required|exists:products,id',
@@ -127,6 +129,7 @@ class InvoicesController extends Controller
 
             $invoice->update([
                 'customer_id' => $request->customer_id,
+                'issue_date' => $request->issue_date,
                 'vat_percentage' => $request->vat_percentage,
                 'subtotal' => $subtotal,
                 'discount' => $request->discount,
