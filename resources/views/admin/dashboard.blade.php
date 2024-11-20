@@ -34,7 +34,7 @@
                                             class="{{ $customerPercentageChange > 0 ? 'fe fe-arrow-up-circle' : 'fe fe-arrow-down-circle' }}"></i>
                                         {{ $customerPercentageChange > 0 ? '+' : '' }}{{ round($customerPercentageChange, 2) }}%
                                     </span>
-                                    Last week
+                                    From {{ $currentQuarterStartMonth }}
                                 </span>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                                             class="{{ $productPercentageChange > 0 ? 'fe fe-arrow-up-circle' : 'fe fe-arrow-down-circle' }}"></i>
                                         {{ $productPercentageChange > 0 ? '+' : '' }}{{ round($productPercentageChange, 2) }}%
                                     </span>
-                                    Last 6 days
+                                    From {{ $currentQuarterStartMonth }}
                                 </span>
                             </div>
                         </div>
@@ -72,8 +72,8 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="mt-2">
-                                    <h6 class="">Total Expenses</h6>
-                                    <h2 class="mb-0 number-font">$76,965</h2>
+                                    <h6 class="">Total VAT</h6>
+                                    <h2 class="mb-0 number-font">{{ number_format($totalVatAmount, 2) }}</h2>
                                 </div>
                                 <div class="ms-auto">
                                     <div class="chart-wrapper mt-1">
@@ -82,8 +82,12 @@
                                 </div>
                             </div>
                             <span class="text-muted fs-12">
-                                <span class="text-green"><i class="fe fe-arrow-up-circle text-green"></i> 0.9%</span> Last 9
-                                days
+                                <span class="{{ $vatPercentageChange > 0 ? 'text-green' : 'text-danger' }}">
+                                    <i
+                                        class="{{ $vatPercentageChange > 0 ? 'fe fe-arrow-up-circle' : 'fe fe-arrow-down-circle' }}"></i>
+                                    {{ $vatPercentageChange > 0 ? '+' : '' }}{{ round($vatPercentageChange, 2) }}%
+                                </span>
+                                From {{ $currentQuarterStartMonth }}
                             </span>
                         </div>
                     </div>
@@ -93,8 +97,8 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="mt-2">
-                                    <h6 class="">Total Cost</h6>
-                                    <h2 class="mb-0 number-font">$59,765</h2>
+                                    <h6 class="">Total Income</h6>
+                                    <h2 class="mb-0 number-font">{{ number_format($totalIncome, 2) }}</h2>
                                 </div>
                                 <div class="ms-auto">
                                     <div class="chart-wrapper mt-1">
@@ -103,8 +107,12 @@
                                 </div>
                             </div>
                             <span class="text-muted fs-12">
-                                <span class="text-warning"><i class="fe fe-arrow-up-circle text-warning"></i> 0.6%</span>
-                                Last year
+                                <span class="{{ $incomePercentageChange > 0 ? 'text-warning' : 'text-danger' }}">
+                                    <i
+                                        class="{{ $incomePercentageChange > 0 ? 'fe fe-arrow-up-circle' : 'fe fe-arrow-down-circle' }}"></i>
+                                    {{ $incomePercentageChange > 0 ? '+' : '' }}{{ round($incomePercentageChange, 2) }}%
+                                </span>
+                                From {{ $currentQuarterStartMonth }}
                             </span>
                         </div>
                     </div>
