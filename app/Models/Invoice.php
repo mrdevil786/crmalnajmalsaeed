@@ -21,7 +21,8 @@ class Invoice extends Model
         'vat_amount',
         'total',
         'notes',
-        'pdf_path'
+        'pdf_path',
+        'created_at',
     ];
 
     // An invoice belongs to a customer

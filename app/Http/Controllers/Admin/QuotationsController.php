@@ -180,6 +180,7 @@ class QuotationsController extends Controller
                 'vat_amount' => $quotation->vat_amount,
                 'total' => $quotation->total,
                 'notes' => $quotation->notes,
+                'created_at' => $quotation->created_at,
             ]);
 
             foreach ($quotation->items as $item) {
