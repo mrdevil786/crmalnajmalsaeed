@@ -5,6 +5,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExpendituresController;
 use App\Http\Controllers\Admin\InvoicesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
@@ -121,6 +122,29 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
         Route::middleware('member')->group(function () {
             Route::get('/', 'index')->name('index'); // LIST CUSTOMERS
             Route::get('view/{id}', 'view')->name('view'); // VIEW CUSTOMER DETAILS
+        });
+    });
+
+    // EXPENDITURE MANAGEMENT ROUTES
+    Route::prefix('expenditures')->name('expenditures.')->controller(ExpendituresController::class)->group(function () {
+
+        // ROUTES FOR ADMINS
+        Route::middleware('admin')->group(function () {
+            Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE EXPENDITURE
+        });
+
+        // ROUTES FOR MANAGERS
+        Route::middleware('manager')->group(function () {
+            Route::get('create', 'create')->name('create'); // CREATE EXPENDITURE VIEW
+            Route::post('store', 'store')->name('store'); // STORE EXPENDITURE
+            Route::get('edit/{id}', 'edit')->name('edit'); // EDIT EXPENDITURE VIEW
+            Route::put('update/{id}', 'update')->name('update'); // UPDATE EXPENDITURE
+        });
+
+        // ROUTES FOR MEMBERS
+        Route::middleware('member')->group(function () {
+            Route::get('/', 'index')->name('index'); // LIST EXPENDITURES (SHOW USER'S EXPENDITURES)
+            Route::get('view/{id}', 'view')->name('view'); // VIEW EXPENDITURE DETAILS
         });
     });
 

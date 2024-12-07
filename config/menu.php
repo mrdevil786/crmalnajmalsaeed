@@ -21,6 +21,26 @@ return [
             ],
         ],
     ],
+    'expenditure' => [
+        'items' => [
+            [
+                'label' => 'Expenditures',
+                'icon' => 'fe fe-dollar-sign',
+                'route' => 'admin.expenditures.index',
+                'active' => 'admin/expenditures*',
+            ],
+        ],
+    ],
+    'invoice' => [
+        'items' => [
+            [
+                'label' => 'Invoices',
+                'icon' => 'fe fe-file-text',
+                'route' => 'admin.invoices.index',
+                'active' => 'admin/invoices*',
+            ],
+        ],
+    ],
     'product' => [
         'items' => [
             [
@@ -41,23 +61,12 @@ return [
             ],
         ],
     ],
-    'invoice' => [
-        'items' => [
-            [
-                'label' => 'Invoices',
-                'icon' => 'fe fe-file-text',
-                'route' => 'admin.invoices.index',
-                'active' => 'admin/invoices*',
-            ],
-        ],
-    ],
     'tools' => [
         'title' => 'Tools & Management',
         'items' => [
             [
                 'label' => 'Users',
                 'icon' => 'fe fe-user',
-                // 'route' => 'javascript:void(0)',
                 'active' => 'admin/users*',
                 'sub_items' => [
                     [
