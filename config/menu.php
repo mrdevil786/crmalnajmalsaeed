@@ -11,16 +11,6 @@ return [
             ],
         ],
     ],
-    'customer' => [
-        'items' => [
-            [
-                'label' => 'Customers',
-                'icon' => 'fe fe-users',
-                'route' => 'admin.customers.index',
-                'active' => 'admin/customers*',
-            ],
-        ],
-    ],
     'expenditure' => [
         'items' => [
             [
@@ -31,13 +21,13 @@ return [
             ],
         ],
     ],
-    'invoice' => [
+    'customer' => [
         'items' => [
             [
-                'label' => 'Invoices',
-                'icon' => 'fe fe-file-text',
-                'route' => 'admin.invoices.index',
-                'active' => 'admin/invoices*',
+                'label' => 'Customers',
+                'icon' => 'fe fe-users',
+                'route' => 'admin.customers.index',
+                'active' => 'admin/customers*',
             ],
         ],
     ],
@@ -58,6 +48,16 @@ return [
                 'icon' => 'fe fe-message-circle',
                 'route' => 'admin.quotations.index',
                 'active' => 'admin/quotations*',
+            ],
+        ],
+    ],
+    'invoice' => [
+        'items' => [
+            [
+                'label' => 'Invoices',
+                'icon' => 'fe fe-file-text',
+                'route' => 'admin.invoices.index',
+                'active' => 'admin/invoices*',
             ],
         ],
     ],
