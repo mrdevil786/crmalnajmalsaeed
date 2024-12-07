@@ -175,7 +175,7 @@
                         <strong>{{ $invoice->name }}</strong>
                     </h4>
                 </td>
-                <td class="border-0 pl-0">
+                <td class="border-0 pl-0" width="30%">
                     @if ($invoice->status)
                         <h4 class="text-uppercase cool-gray">
                             <strong>{{ $invoice->status }}</strong>
@@ -390,6 +390,10 @@
             </tr>
         </tbody>
     </table>
+
+    @if (isset($customData['stampBase64']) && $customData['stampBase64'])
+        <img src="{{ $customData['stampBase64'] }}" alt="Stamp" style="width: 100px; height: 100px;" />
+    @endif
 
     @if ($invoice->notes)
         <p>
