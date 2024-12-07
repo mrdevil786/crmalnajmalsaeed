@@ -26,169 +26,145 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
     // QUOTATIONS MANAGEMENT ROUTES
     Route::prefix('quotations')->name('quotations.')->controller(QuotationsController::class)->group(function () {
 
-        // ROUTES FOR ADMINS
         Route::middleware('admin')->group(function () {
-            Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE INVOICE
-            Route::put('status', 'status')->name('status'); // UPDATE INVOICE STATUS
-            Route::post('convert/{id}', 'convertToInvoice')->name('convert'); // CONVERT QUOTATION
+            Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::put('status', 'status')->name('status');
+            Route::post('convert/{id}', 'convertToInvoice')->name('convert');
         });
 
-        // ROUTES FOR MANAGERS
         Route::middleware('manager')->group(function () {
-            Route::get('create', 'create')->name('create'); // CREATE INVOICE VIEW
-            Route::post('store', 'store')->name('store'); // STORE INVOICE
-            Route::get('edit/{id}', 'edit')->name('edit'); // EDIT INVOICE VIEW
-            Route::put('update/{id}', 'update')->name('update'); // UPDATE INVOICE
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
         });
 
-        // ROUTES FOR MEMBERS
         Route::middleware('member')->group(function () {
-            Route::get('/', 'index')->name('index'); // LIST INVOICES
-            Route::get('view/{id}', 'view')->name('view'); // VIEW INVOICE DETAILS
-            Route::get('download/{id}', 'download')->name('download'); // DOWNLOAD INVOICE PDF
-            Route::get('stream/{id}', 'stream')->name('stream'); // DOWNLOAD INVOICE PDF
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
+            Route::get('download/{id}', 'download')->name('download');
+            Route::get('stream/{id}', 'stream')->name('stream');
         });
     });
 
     // INVOICES MANAGEMENT ROUTES
     Route::prefix('invoices')->name('invoices.')->controller(InvoicesController::class)->group(function () {
 
-        // ROUTES FOR ADMINS
         Route::middleware('admin')->group(function () {
-            Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE INVOICE
-            Route::put('status', 'status')->name('status'); // UPDATE INVOICE STATUS
-            Route::get('generatePdf/{invoiceId}', 'generatePdf')->name('generatePdf'); // UPDATE INVOICE STATUS
+            Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::put('status', 'status')->name('status');
+            Route::get('generatePdf/{invoiceId}', 'generatePdf')->name('generatePdf');
         });
 
-        // ROUTES FOR MANAGERS
         Route::middleware('manager')->group(function () {
-            Route::get('create', 'create')->name('create'); // CREATE INVOICE VIEW
-            Route::post('store', 'store')->name('store'); // STORE INVOICE
-            Route::get('edit/{id}', 'edit')->name('edit'); // EDIT INVOICE VIEW
-            Route::put('update/{id}', 'update')->name('update'); // UPDATE INVOICE
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
         });
 
-        // ROUTES FOR MEMBERS
         Route::middleware('member')->group(function () {
-            Route::get('/', 'index')->name('index'); // LIST INVOICES
-            Route::get('view/{id}', 'view')->name('view'); // VIEW INVOICE DETAILS
-            Route::get('download/{id}', 'download')->name('download'); // DOWNLOAD INVOICE PDF
-            Route::get('stream/{id}', 'stream')->name('stream'); // DOWNLOAD INVOICE PDF
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
+            Route::get('download/{id}', 'download')->name('download');
+            Route::get('stream/{id}', 'stream')->name('stream');
         });
     });
 
     // PRODUCTS MANAGEMENT ROUTES
     Route::prefix('products')->name('products.')->controller(ProductsController::class)->group(function () {
 
-        // ROUTES FOR ADMINS
         Route::middleware('admin')->group(function () {
-            Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE PRODUCT
-            Route::put('status', 'status')->name('status'); // UPDATE PRODUCT STATUS
+            Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::put('status', 'status')->name('status');
         });
 
-        // ROUTES FOR MANAGERS
         Route::middleware('manager')->group(function () {
-            Route::get('create', 'create')->name('create'); // CREATE PRODUCT VIEW
-            Route::post('store', 'store')->name('store'); // STORE PRODUCT
-            Route::get('edit/{id}', 'edit')->name('edit'); // EDIT PRODUCT VIEW
-            Route::put('update/{id}', 'update')->name('update'); // UPDATE PRODUCT
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
         });
 
-        // ROUTES FOR MEMBERS
         Route::middleware('member')->group(function () {
-            Route::get('/', 'index')->name('index'); // LIST PRODUCTS
-            Route::get('view/{id}', 'view')->name('view'); // VIEW PRODUCT DETAILS
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
         });
     });
 
     // CUSTOMER MANAGEMENT ROUTES
     Route::prefix('customers')->name('customers.')->controller(CustomersController::class)->group(function () {
 
-        // ROUTES FOR ADMINS
         Route::middleware('admin')->group(function () {
-            Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE CUSTOMER
-            Route::put('status', 'status')->name('status'); // UPDATE CUSTOMER STATUS
+            Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::put('status', 'status')->name('status');
         });
 
-        // ROUTES FOR MANAGERS
         Route::middleware('manager')->group(function () {
-            Route::get('create', 'create')->name('create'); // CREATE CUSTOMER VIEW
-            Route::post('store', 'store')->name('store'); // STORE CUSTOMER
-            Route::get('edit/{id}', 'edit')->name('edit'); // EDIT CUSTOMER VIEW
-            Route::put('update/{id}', 'update')->name('update'); // UPDATE CUSTOMER
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
         });
 
-        // ROUTES FOR MEMBERS
         Route::middleware('member')->group(function () {
-            Route::get('/', 'index')->name('index'); // LIST CUSTOMERS
-            Route::get('view/{id}', 'view')->name('view'); // VIEW CUSTOMER DETAILS
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
         });
     });
 
     // EXPENDITURE MANAGEMENT ROUTES
     Route::prefix('expenditures')->name('expenditures.')->controller(ExpendituresController::class)->group(function () {
 
-        // ROUTES FOR ADMINS
         Route::middleware('admin')->group(function () {
-            Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE EXPENDITURE
+            Route::delete('/{id}', 'destroy')->name('destroy');
         });
 
-        // ROUTES FOR MANAGERS
         Route::middleware('manager')->group(function () {
-            Route::get('create', 'create')->name('create'); // CREATE EXPENDITURE VIEW
-            Route::post('store', 'store')->name('store'); // STORE EXPENDITURE
-            Route::get('edit/{id}', 'edit')->name('edit'); // EDIT EXPENDITURE VIEW
-            Route::put('update/{id}', 'update')->name('update'); // UPDATE EXPENDITURE
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
         });
 
-        // ROUTES FOR MEMBERS
         Route::middleware('member')->group(function () {
-            Route::get('/', 'index')->name('index'); // LIST EXPENDITURES (SHOW USER'S EXPENDITURES)
-            Route::get('view/{id}', 'view')->name('view'); // VIEW EXPENDITURE DETAILS
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
         });
     });
 
     // USER MANAGEMENT ROUTES
     Route::prefix('users')->name('users.')->controller(UsersController::class)->group(function () {
 
-        // ROUTES FOR ADMINS
         Route::middleware('admin')->group(function () {
-            Route::delete('/{id}', 'destroy')->name('destroy'); // DELETE USER
-            Route::put('status', 'status')->name('status'); // UPDATE USER STATUS
+            Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::put('status', 'status')->name('status');
         });
 
-        // ROUTES FOR MANAGERS
         Route::middleware('manager')->group(function () {
-            Route::get('create', 'create')->name('create'); // CREATE USER VIEW
-            Route::post('store', 'store')->name('store'); // STORE USER
-            Route::get('edit/{id}', 'edit')->name('edit'); // EDIT USER VIEW
-            Route::put('update/{id}', 'update')->name('update'); // UPDATE USER
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
         });
 
-        // ROUTES FOR MEMBERS
         Route::middleware('member')->group(function () {
-            Route::get('/', 'index')->name('index'); // LIST USERS
-            Route::get('view/{id}', 'view')->name('view'); // VIEW USER DETAILS
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
         });
     });
 
     // PROFILE ROUTES
     Route::prefix('profile')->name('profile.')->controller(ProfilesController::class)->group(function () {
 
-        // ROUTES FOR MEMBERS
         Route::middleware('member')->group(function () {
-            Route::get('/', 'index')->name('index'); // VIEW PROFILE
-            Route::get('view/{id}', 'view')->name('view'); // VIEW PROFILE DETAILS
-            Route::post('update', 'updateProfile')->name('update'); // UPDATE PROFILE
-            Route::post('update-password', 'updatePassword')->name('update.password'); // UPDATE PASSWORD
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
+            Route::post('update', 'updateProfile')->name('update');
+            Route::post('update-password', 'updatePassword')->name('update.password');
         });
     });
 });
-
-
-
-
-
 
 
 // Route::name('users.')

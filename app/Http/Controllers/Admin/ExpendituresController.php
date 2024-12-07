@@ -20,6 +20,11 @@ class ExpendituresController extends Controller
         return view('admin.expenditures.index', compact('expenditures'));
     }
 
+    public function create()
+    {
+        return view('admin.expenditures.create-edit-view');
+    }
+
     // VALIDATE AND STORE A NEW EXPENDITURE
     public function store(Request $request)
     {

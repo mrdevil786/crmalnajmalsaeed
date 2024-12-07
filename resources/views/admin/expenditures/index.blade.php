@@ -8,9 +8,12 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">Manage Expenditures</h1>
-            <button class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fa fa-plus-circle"></i> Add
-                Expenditure</button>
+            @if (Auth()->User()->user_role != 3)
+                <a href="{{ route('admin.expenditures.create') }}">
+                    <button class="btn btn-primary off-canvas" type="button"><i class="fa fa-plus-circle"></i> Add
+                        Expenditure</button>
+                </a>
+            @endif
         </div>
     </div>
     <!-- PAGE-HEADER END -->
@@ -81,33 +84,6 @@
         </div>
     </div>
     <!-- End Row -->
-
-    <!--Add Modal - Right Offcanvas-->
-    <x-Modal.Right-Offcanvas title="Add New Expenditure" action="{{ route('admin.expenditures.store') }}" method="POST">
-
-        <x-fields.input-field label="Description" name="description" />
-        <x-fields.input-field label="Amount" name="amount" />
-
-        <x-fields.dropdown-field label="Category" name="category" :options="[
-            'Rent' => 'Rent',
-            'Salaries' => 'Salaries',
-            'Utilities' => 'Utilities',
-            'Office Supplies' => 'Office Supplies',
-        ]" :selected="old('category')" id="category" />
-
-        <x-fields.dropdown-field label="Payment Method" name="payment_method" :options="[
-            'Cash' => 'Cash',
-            'Bank Transfer' => 'Bank Transfer',
-            'Cheque' => 'Cheque',
-            'Credit Card' => 'Credit Card',
-        ]" :selected="old('payment_method')"
-            id="payment_method" />
-
-        <x-fields.input-field label="Invoice Number" name="invoice_number" />
-        <x-fields.input-field label="Date" name="date" type="datetime-local" />
-
-    </x-Modal.Right-Offcanvas>
-    <!--/Right Offcanvas-->
 
 @endsection
 
