@@ -12,6 +12,8 @@ return [
     'date'                   => 'Date de facturation',
     'seller'                 => 'Vendeur',
     'buyer'                  => 'Acheteur',
+    'provider'               => 'Fournisseur',
+    'client'                 => 'Client',
     'address'                => 'Adresse',
     'code'                   => 'Code',
     'vat'                    => 'Code TVA',

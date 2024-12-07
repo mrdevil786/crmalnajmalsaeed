@@ -12,6 +12,8 @@ return [
     'date'                   => 'Fecha de la factura',
     'seller'                 => 'Vendedor',
     'buyer'                  => 'Comprador',
+    'provider'               => 'Proveedor',
+    'client'                 => 'Cliente',
     'address'                => 'Dirección',
     'code'                   => 'Código',
     'vat'                    => 'Código VAT',

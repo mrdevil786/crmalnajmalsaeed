@@ -12,6 +12,8 @@ return [
     'date'                   => 'Datum',
     'seller'                 => 'Prodejce',
     'buyer'                  => 'Nakupující',
+    'provider'               => 'Poskytovatel',
+    'client'                 => 'Klient',
     'address'                => 'Adresa',
     'code'                   => 'Zákaznické číslo.',
     'vat'                    => 'DPH',

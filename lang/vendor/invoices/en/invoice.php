@@ -12,6 +12,8 @@ return [
     'date'                   => 'Invoice date',
     'seller'                 => 'Seller',
     'buyer'                  => 'Buyer',
+    'provider'               => 'Provider',
+    'client'                 => 'Client',
     'address'                => 'Address',
     'code'                   => 'Code',
     'vat'                    => 'VAT code',

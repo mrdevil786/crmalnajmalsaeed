@@ -12,6 +12,8 @@ return [
     'date'                   => 'Data facturii',
     'seller'                 => 'Vânzator',
     'buyer'                  => 'Cumpărător',
+    'provider'               => 'Furnizor',
+    'client'                 => 'Client',
     'address'                => 'Adresa',
     'code'                   => 'Nr. client',
     'vat'                    => 'Nr. impozabil',

@@ -193,11 +193,11 @@
         <thead>
             <tr>
                 <th class="border-1 pl-0 party-header" width="48.5%">
-                    {{ __('invoices::invoice.seller') }}
+                    {{ __('invoices::invoice.provider') }}
                 </th>
                 <th class="border-0" width="3%"></th>
                 <th class="border-1 pl-0 party-header">
-                    {{ __('invoices::invoice.buyer') }}
+                    {{ __('invoices::invoice.client') }}
                 </th>
             </tr>
         </thead>

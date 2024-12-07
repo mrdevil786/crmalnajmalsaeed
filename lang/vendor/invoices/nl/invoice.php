@@ -13,6 +13,8 @@ return [
     'date'                   => 'Factuurdatum',
     'seller'                 => 'Leverancier',
     'buyer'                  => 'Afnemer',
+    'provider'               => 'Dienstverlener',
+    'client'                 => 'Opdrachtgever',
     'address'                => 'Adres',
     'code'                   => 'Code',
     'vat'                    => 'Btw-identificatienummer',

@@ -13,6 +13,8 @@ class PDFHelper
 {
     public static function generateInvoicePdf($invoiceId, $qrCodeData = null)
     {
+        // app()->setLocale('ar');
+
         $invoice = Invoice::with(['customer', 'items.product'])->findOrFail($invoiceId);
 
         $seller = new Party([

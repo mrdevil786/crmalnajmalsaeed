@@ -12,6 +12,8 @@ return [
     'date'                   => 'Rechnungsdatum',
     'seller'                 => 'Verkäufer',
     'buyer'                  => 'Käufer',
+    'provider'               => 'Anbieter',
+    'client'                 => 'Kunde',
     'address'                => 'Adresse',
     'code'                   => 'Kundennr.',
     'vat'                    => 'Steuer-Nr.',
