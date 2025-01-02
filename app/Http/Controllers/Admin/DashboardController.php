@@ -14,8 +14,10 @@ class DashboardController extends Controller
     {
         $totalProducts = Product::count();
         $totalCustomers = Customer::count();
-        $totalVatAmount = $this->getTotalVatAmount();
-        $totalIncome = $this->getTotalIncome();
+        
+        // Keep the same variable name but now fetch VAT for the last 3 months
+        $totalVatAmount = $this->getTotalVatAmount();  // For the last 3 months
+        $totalIncome = $this->getTotalIncome();  // For the current quarter
 
         $productPercentageChange = $this->getQuarterlyPercentageChange(Product::class);
         $customerPercentageChange = $this->getQuarterlyPercentageChange(Customer::class);
@@ -37,6 +39,18 @@ class DashboardController extends Controller
             'currentQuarterStartMonth',
             'previousQuarterStartMonth'
         ));
+    }
+
+    // Modify the method to calculate VAT for the last 3 months
+    private function getTotalVatAmount()
+    {
+        // Get the date range for the last 3 months
+        $startDate = Carbon::now()->subMonths(3)->startOfMonth();
+        $endDate = Carbon::now()->subMonth()->endOfMonth();  // End of the previous month
+
+        return Invoice::where('type', 'invoice')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->sum('vat_amount');
     }
 
     private function getQuarterStartMonth($quarter = 'current')
@@ -135,11 +149,6 @@ class DashboardController extends Controller
                 ];
             }
         }
-    }
-
-    private function getTotalVatAmount()
-    {
-        return $this->getTotalAmount('vat_amount');
     }
 
     private function getTotalIncome()
