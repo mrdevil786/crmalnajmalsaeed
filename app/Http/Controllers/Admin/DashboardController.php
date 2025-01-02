@@ -114,6 +114,6 @@ class DashboardController extends Controller
         $startMonth = Carbon::now()->subMonths(3)->format('M');
         $endMonth = Carbon::now()->subMonth()->format('M');
 
-        return "From $startMonth - $endMonth";
+        return "$startMonth - $endMonth";
     }
 }
