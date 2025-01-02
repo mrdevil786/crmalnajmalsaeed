@@ -19,7 +19,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="mt-2">
-                                        <h6 class="">Total Customers</h6>
+                                        <h6 class="">Total Clients</h6>
                                         <h2 class="mb-0 number-font">{{ $totalCustomers }}</h2>
                                     </div>
                                     <div class="ms-auto">
