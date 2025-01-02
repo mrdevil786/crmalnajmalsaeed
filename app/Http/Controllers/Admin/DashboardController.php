@@ -41,29 +41,16 @@ class DashboardController extends Controller
 
     private function getQuarterStartMonth($quarter = 'current')
     {
-        $currentMonth = now()->month;
+        $quarterStartMonths = [
+            1 => 'January', 2 => 'April', 3 => 'July', 4 => 'October'
+        ];
+        $quarterNumber = Carbon::now()->quarter;
 
-        if ($quarter === 'current') {
-            if ($currentMonth >= 1 && $currentMonth <= 3) {
-                return 'January';
-            } elseif ($currentMonth >= 4 && $currentMonth <= 6) {
-                return 'April';
-            } elseif ($currentMonth >= 7 && $currentMonth <= 9) {
-                return 'July';
-            } else {
-                return 'October';
-            }
-        } else {
-            if ($currentMonth >= 1 && $currentMonth <= 3) {
-                return 'October';
-            } elseif ($currentMonth >= 4 && $currentMonth <= 6) {
-                return 'January';
-            } elseif ($currentMonth >= 7 && $currentMonth <= 9) {
-                return 'April';
-            } else {
-                return 'July';
-            }
+        if ($quarter === 'previous') {
+            $quarterNumber = $quarterNumber === 1 ? 4 : $quarterNumber - 1;
         }
+
+        return $quarterStartMonths[$quarterNumber];
     }
 
     private function getQuarterlyPercentageChange($model)
@@ -107,7 +94,7 @@ class DashboardController extends Controller
             if ($currentMonth >= 1 && $currentMonth <= 3) {
                 return [
                     'start' => now()->startOfYear(),
-                    'end' => now()->endOfMarch(),
+                    'end' => Carbon::create(now()->year, 3, 31),
                 ];
             } elseif ($currentMonth >= 4 && $currentMonth <= 6) {
                 return [
@@ -129,7 +116,7 @@ class DashboardController extends Controller
             if ($currentMonth >= 1 && $currentMonth <= 3) {
                 return [
                     'start' => now()->subQuarter()->startOfQuarter(),
-                    'end' => now()->subQuarter()->endOfQuarter(),
+                    'end' => Carbon::create(now()->year - 1, 12, 31),
                 ];
             } elseif ($currentMonth >= 4 && $currentMonth <= 6) {
                 return [
