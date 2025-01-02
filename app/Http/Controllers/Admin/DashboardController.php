@@ -111,9 +111,9 @@ class DashboardController extends Controller
 
     private function getPreviousThreeMonthDateRange()
     {
-        $startMonth = Carbon::now()->subMonths(3)->format('F');
-        $endMonth = Carbon::now()->subMonth()->format('F');
+        $startMonth = Carbon::now()->subMonths(3)->format('M');
+        $endMonth = Carbon::now()->subMonth()->format('M');
 
-        return "$startMonth - $endMonth";
+        return "From $startMonth - $endMonth";
     }
 }
