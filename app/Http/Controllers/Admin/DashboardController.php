@@ -14,18 +14,17 @@ class DashboardController extends Controller
     {
         $totalProducts = Product::count();
         $totalCustomers = Customer::count();
-        
-        // Keep the same variable name but now fetch VAT for the last 3 months
-        $totalVatAmount = $this->getTotalVatAmount();  // For the last 3 months
-        $totalIncome = $this->getTotalIncome();  // For the current quarter
+
+        $totalVatAmount = $this->getTotalVatAmount();
+        $totalIncome = $this->getTotalIncome();
 
         $productPercentageChange = $this->getQuarterlyPercentageChange(Product::class);
         $customerPercentageChange = $this->getQuarterlyPercentageChange(Customer::class);
         $vatPercentageChange = $this->getQuarterlyAmountPercentageChange('vat_amount');
         $incomePercentageChange = $this->getQuarterlyAmountPercentageChange('subtotal');
 
-        $currentQuarterStartMonth = $this->getQuarterStartMonth('current');
-        $previousQuarterStartMonth = $this->getQuarterStartMonth('previous');
+        $currentQuarterStartMonth = $this->getPreviousThreeMonthStartMonth();
+        $previousQuarterStartMonth = $this->getPreviousThreeMonthStartMonth('previous');
 
         return view('admin.dashboard', compact(
             'totalProducts',
@@ -41,30 +40,22 @@ class DashboardController extends Controller
         ));
     }
 
-    // Modify the method to calculate VAT for the last 3 months
     private function getTotalVatAmount()
     {
-        // Get the date range for the last 3 months
         $startDate = Carbon::now()->subMonths(3)->startOfMonth();
-        $endDate = Carbon::now()->subMonth()->endOfMonth();  // End of the previous month
+        $endDate = Carbon::now()->subMonth()->endOfMonth();
 
         return Invoice::where('type', 'invoice')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->sum('vat_amount');
     }
 
-    private function getQuarterStartMonth($quarter = 'current')
+    private function getPreviousThreeMonthStartMonth($quarter = 'current')
     {
-        $quarterStartMonths = [
-            1 => 'January', 2 => 'April', 3 => 'July', 4 => 'October'
-        ];
-        $quarterNumber = Carbon::now()->quarter;
+        $currentMonth = Carbon::now()->month;
+        $previousMonth = Carbon::now()->subMonths(3);
 
-        if ($quarter === 'previous') {
-            $quarterNumber = $quarterNumber === 1 ? 4 : $quarterNumber - 1;
-        }
-
-        return $quarterStartMonths[$quarterNumber];
+        return $previousMonth->format('F');
     }
 
     private function getQuarterlyPercentageChange($model)
