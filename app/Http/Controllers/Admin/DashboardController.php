@@ -18,13 +18,12 @@ class DashboardController extends Controller
         $totalVatAmount = $this->getTotalVatAmount();
         $totalIncome = $this->getTotalIncome();
 
-        $productPercentageChange = $this->getQuarterlyPercentageChange(Product::class);
-        $customerPercentageChange = $this->getQuarterlyPercentageChange(Customer::class);
-        $vatPercentageChange = $this->getQuarterlyAmountPercentageChange('vat_amount');
-        $incomePercentageChange = $this->getQuarterlyAmountPercentageChange('subtotal');
+        $productPercentageChange = $this->getPercentageChange(Product::class);
+        $customerPercentageChange = $this->getPercentageChange(Customer::class);
+        $vatPercentageChange = $this->getAmountPercentageChange('vat_amount');
+        $incomePercentageChange = $this->getAmountPercentageChange('subtotal');
 
-        $currentQuarterStartMonth = $this->getPreviousThreeMonthStartMonth();
-        $previousQuarterStartMonth = $this->getPreviousThreeMonthStartMonth('previous');
+        $previousThreeMonthDateRange = $this->getPreviousThreeMonthDateRange();
 
         return view('admin.dashboard', compact(
             'totalProducts',
@@ -35,8 +34,7 @@ class DashboardController extends Controller
             'totalIncome',
             'vatPercentageChange',
             'incomePercentageChange',
-            'currentQuarterStartMonth',
-            'previousQuarterStartMonth'
+            'previousThreeMonthDateRange'
         ));
     }
 
@@ -60,95 +58,62 @@ class DashboardController extends Controller
             ->sum('subtotal');
     }
 
-    private function getPreviousThreeMonthStartMonth($quarter = 'current')
+    private function getPercentageChange($model)
     {
-        $currentMonth = Carbon::now()->month;
-        $previousMonth = Carbon::now()->subMonths(3);
+        $currentMonthCount = $model::whereBetween('created_at', $this->getLastThreeMonthsDateRange('current'))->count();
+        $previousMonthCount = $model::whereBetween('created_at', $this->getLastThreeMonthsDateRange('previous'))->count();
 
-        return $previousMonth->format('F');
-    }
-
-    private function getQuarterlyPercentageChange($model)
-    {
-        $currentQuarterCount = $model::whereBetween('created_at', $this->getQuarterDateRange('current'))->count();
-        $previousQuarterCount = $model::whereBetween('created_at', $this->getQuarterDateRange('previous'))->count();
-
-        if ($previousQuarterCount > 0) {
-            return (($currentQuarterCount - $previousQuarterCount) / $previousQuarterCount) * 100;
+        if ($previousMonthCount > 0) {
+            return (($currentMonthCount - $previousMonthCount) / $previousMonthCount) * 100;
         }
 
         return 0;
     }
 
-    private function getQuarterlyAmountPercentageChange($column)
+    private function getAmountPercentageChange($column)
     {
-        $currentQuarterAmount = $this->getTotalAmount($column, 'current');
-        $previousQuarterAmount = $this->getTotalAmount($column, 'previous');
+        $currentMonthAmount = $this->getTotalAmount($column, 'current');
+        $previousMonthAmount = $this->getTotalAmount($column, 'previous');
 
-        if ($previousQuarterAmount > 0) {
-            return (($currentQuarterAmount - $previousQuarterAmount) / $previousQuarterAmount) * 100;
+        if ($previousMonthAmount > 0) {
+            return (($currentMonthAmount - $previousMonthAmount) / $previousMonthAmount) * 100;
         }
 
         return 0;
     }
 
-    private function getTotalAmount($column, $quarter = 'current')
+    private function getTotalAmount($column, $period = 'current')
     {
-        $dateRange = $this->getQuarterDateRange($quarter);
+        $dateRange = $this->getLastThreeMonthsDateRange($period);
 
         return Invoice::where('type', 'invoice')
             ->whereBetween('created_at', [$dateRange['start'], $dateRange['end']])
             ->sum($column);
     }
 
-    private function getQuarterDateRange($quarter = 'current')
+    private function getLastThreeMonthsDateRange($period = 'current')
     {
-        $currentMonth = now()->month;
+        $currentMonth = Carbon::now();
 
-        if ($quarter === 'current') {
-            if ($currentMonth >= 1 && $currentMonth <= 3) {
-                return [
-                    'start' => now()->startOfYear(),
-                    'end' => Carbon::create(now()->year, 3, 31),
-                ];
-            } elseif ($currentMonth >= 4 && $currentMonth <= 6) {
-                return [
-                    'start' => now()->startOfQuarter(2),
-                    'end' => now()->endOfQuarter(2),
-                ];
-            } elseif ($currentMonth >= 7 && $currentMonth <= 9) {
-                return [
-                    'start' => now()->startOfQuarter(3),
-                    'end' => now()->endOfQuarter(3),
-                ];
-            } else {
-                return [
-                    'start' => now()->startOfQuarter(4),
-                    'end' => now()->endOfQuarter(4),
-                ];
-            }
+        if ($period === 'current') {
+            $startDate = $currentMonth->subMonths(3)->startOfMonth();
+            $endDate = $currentMonth->subMonth()->endOfMonth();
         } else {
-            if ($currentMonth >= 1 && $currentMonth <= 3) {
-                return [
-                    'start' => now()->subQuarter()->startOfQuarter(),
-                    'end' => Carbon::create(now()->year - 1, 12, 31),
-                ];
-            } elseif ($currentMonth >= 4 && $currentMonth <= 6) {
-                return [
-                    'start' => now()->subQuarter()->startOfQuarter(),
-                    'end' => now()->subQuarter()->endOfQuarter(),
-                ];
-            } elseif ($currentMonth >= 7 && $currentMonth <= 9) {
-                return [
-                    'start' => now()->subQuarter()->startOfQuarter(),
-                    'end' => now()->subQuarter()->endOfQuarter(),
-                ];
-            } else {
-                return [
-                    'start' => now()->subQuarter()->startOfQuarter(),
-                    'end' => now()->subQuarter()->endOfQuarter(),
-                ];
-            }
+            $startDate = $currentMonth->subMonths(6)->startOfMonth();
+            $endDate = $currentMonth->subMonths(4)->endOfMonth();
         }
+
+        return [
+            'start' => $startDate,
+            'end' => $endDate,
+        ];
+    }
+
+    private function getPreviousThreeMonthDateRange()
+    {
+        $startMonth = Carbon::now()->subMonths(3)->format('F');
+        $endMonth = Carbon::now()->subMonth()->format('F');
+
+        return "$startMonth - $endMonth";
     }
 }
