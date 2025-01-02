@@ -50,6 +50,16 @@ class DashboardController extends Controller
             ->sum('vat_amount');
     }
 
+    private function getTotalIncome()
+    {
+        $startDate = Carbon::now()->subMonths(3)->startOfMonth();
+        $endDate = Carbon::now()->subMonth()->endOfMonth();
+
+        return Invoice::where('type', 'invoice')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->sum('subtotal');
+    }
+
     private function getPreviousThreeMonthStartMonth($quarter = 'current')
     {
         $currentMonth = Carbon::now()->month;
@@ -140,10 +150,5 @@ class DashboardController extends Controller
                 ];
             }
         }
-    }
-
-    private function getTotalIncome()
-    {
-        return $this->getTotalAmount('subtotal');
     }
 }
