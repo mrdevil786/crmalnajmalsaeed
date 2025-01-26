@@ -67,9 +67,11 @@ class PDFHelper
                 $pdfInvoice->discountByPercent($invoice->discount);
             }
 
+            $customData = ['iban' => 'SA1105000068205836972000'];
             if ($qrCodeData) {
-                $pdfInvoice->setCustomData(['qrCodeData' => $qrCodeData]);
+                $customData['qrCodeData'] = $qrCodeData;
             }
+            $pdfInvoice->setCustomData($customData);
 
             $pdfInvoice->save('invoices');
         } catch (\Exception $e) {

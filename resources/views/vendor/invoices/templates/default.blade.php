@@ -405,6 +405,12 @@
         {{ __('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}
     </p>
 
+    @if(isset($invoice->getCustomData()['iban']))
+        <p>
+            IBAN: {{ $invoice->getCustomData()['iban'] }}
+        </p>
+    @endif
+
     {{-- <p>
         {{ __('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
     </p> --}}
