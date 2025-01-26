@@ -116,8 +116,8 @@
                                                     <span class="item-total">{{ number_format($item->total, 2) }}</span>
                                                 </td>
                                                 @if ($isEdit)
-                                                    <td class="col-1">
-                                                        <button type="button" class="btn btn-danger btn-sm delete-row">
+                                                    <td class="col-1 text-center">
+                                                        <button type="button" class="btn btn-outline-danger btn-pill btn-sm delete-row">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </td>
@@ -224,8 +224,8 @@
                         <td class="col-2">
                             <span class="item-total">0.00</span>
                         </td>
-                        <td class="col-1">
-                            <button type="button" class="btn btn-danger btn-sm delete-row">
+                        <td class="col-1 text-center">
+                            <button type="button" class="btn btn-outline-danger btn-pill btn-sm delete-row">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
