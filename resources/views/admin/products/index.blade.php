@@ -92,9 +92,9 @@
         <div class="col-xl-12 mb-3">
             <label class="form-label mt-0" for="price">Price</label>
             <input type="number" class="form-control" id="price" name="price"
-                value="{{ old('price', $product->price) }}" step="0.01">
+                value="{{ old('price') }}" step="0.01" placeholder="Enter Price">
         </div>
-        
+
         <x-fields.input-field label="Unit" name="unit" />
 
     </x-Modal.Right-Offcanvas>
