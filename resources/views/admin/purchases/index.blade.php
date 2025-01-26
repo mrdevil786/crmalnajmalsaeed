@@ -69,7 +69,7 @@
                                                         class="btn btn-outline-{{ $purchase->status === 'pending' ? 'success' : 'warning' }} btn-pill btn-sm"
                                                         onclick="updateStatus('{{ $purchase->id }}', '{{ $purchase->status === 'pending' ? 'completed' : 'pending' }}')"
                                                         {{ $purchase->status === 'cancelled' ? 'disabled' : '' }}>
-                                                    <i class="fa fa-{{ $purchase->status === 'pending' ? 'check' : 'clock' }}"></i>
+                                                    <i class="fa fa-{{ $purchase->status === 'pending' ? 'check' : 'clock-o' }}"></i>
                                                 </button>
                                             @endif
 

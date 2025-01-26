@@ -51,7 +51,7 @@ class PurchasesController extends Controller
 
             // Generate unique purchase number (you might want to create a helper for this)
             $lastPurchase = Purchase::latest()->first();
-            $purchaseNumber = $lastPurchase 
+            $purchaseNumber = $lastPurchase
                 ? 'PUR' . str_pad((intval(substr($lastPurchase->purchase_number, 3)) + 1), 6, '0', STR_PAD_LEFT)
                 : 'PUR000001';
 
@@ -87,12 +87,26 @@ class PurchasesController extends Controller
         }
     }
 
+    public function view($id)
+    {
+        $purchase = Purchase::with(['supplier', 'items.product'])->findOrFail($id);
+        return view('admin.purchases.create-edit-view', [
+            'purchase' => $purchase,
+            'suppliers' => Supplier::all(),
+            'products' => Product::all(),
+            'isEdit' => false
+        ]);
+    }
+
     public function edit($id)
     {
         $purchase = Purchase::with('items.product')->findOrFail($id);
-        $suppliers = Supplier::all();
-        $products = Product::all();
-        return view('admin.purchases.create-edit-view', compact('purchase', 'suppliers', 'products'));
+        return view('admin.purchases.create-edit-view', [
+            'purchase' => $purchase,
+            'suppliers' => Supplier::all(),
+            'products' => Product::all(),
+            'isEdit' => true
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -192,7 +206,7 @@ class PurchasesController extends Controller
         try {
             $purchase = Purchase::findOrFail($request->id);
             $purchase->update(['status' => $request->status]);
-            
+
             return response()->json(['message' => 'Purchase status updated successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Status update failed: ' . $e->getMessage()], 500);
