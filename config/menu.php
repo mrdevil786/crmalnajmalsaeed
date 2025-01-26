@@ -61,6 +61,22 @@ return [
             ],
         ],
     ],
+    'purchase' => [
+        'items' => [
+            [
+                'label' => 'Purchases',
+                'icon' => 'fe fe-shopping-cart',
+                'route' => 'admin.purchases.index',
+                'active' => 'admin/purchases*',
+            ],
+            [
+                'label' => 'Suppliers',
+                'icon' => 'fe fe-truck',
+                'route' => 'admin.suppliers.index',
+                'active' => 'admin/suppliers*',
+            ],
+        ],
+    ],
     'tools' => [
         'title' => 'Tools & Management',
         'items' => [
