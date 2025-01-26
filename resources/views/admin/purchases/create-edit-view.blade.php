@@ -74,12 +74,12 @@
                             <table class="table table-bordered" id="items-table">
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
+                                        <th class="col-5">Product</th>
+                                        <th class="col-2">Quantity</th>
+                                        <th class="col-2">Price</th>
+                                        <th class="col-2">Total</th>
                                         @if (!isset($purchase) || $isEdit)
-                                            <th>Action</th>
+                                            <th class="col-1">Action</th>
                                         @endif
                                     </tr>
                                 </thead>
@@ -87,7 +87,7 @@
                                     @if (isset($purchase))
                                         @foreach ($purchase->items as $item)
                                             <tr>
-                                                <td>
+                                                <td class="col-5">
                                                     <select name="items[{{ $loop->index }}][product_id]"
                                                         class="form-control product-select"
                                                         {{ !$isEdit ? 'disabled' : 'required' }}>
@@ -100,23 +100,23 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td>
+                                                <td class="col-2">
                                                     <input type="number" name="items[{{ $loop->index }}][quantity]"
                                                         class="form-control quantity" value="{{ $item->quantity }}"
                                                         min="1" step="0.01"
                                                         {{ !$isEdit ? 'disabled' : 'required' }}>
                                                 </td>
-                                                <td>
+                                                <td class="col-2">
                                                     <input type="number" name="items[{{ $loop->index }}][price]"
                                                         class="form-control price" value="{{ $item->price }}"
                                                         min="0" step="0.01"
                                                         {{ !$isEdit ? 'disabled' : 'required' }}>
                                                 </td>
-                                                <td>
+                                                <td class="col-2">
                                                     <span class="item-total">{{ number_format($item->total, 2) }}</span>
                                                 </td>
                                                 @if ($isEdit)
-                                                    <td>
+                                                    <td class="col-1">
                                                         <button type="button" class="btn btn-danger btn-sm delete-row">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
@@ -203,7 +203,7 @@
                 const rowCount = $('#items-table tbody tr').length;
                 const newRow = `
                     <tr>
-                        <td>
+                        <td class="col-5">
                             <select name="items[${rowCount}][product_id]" class="form-control product-select" required>
                                 <option value="">Select Product</option>
                                 @foreach ($products as $product)
@@ -213,18 +213,18 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td>
+                        <td class="col-2">
                             <input type="number" name="items[${rowCount}][quantity]" class="form-control quantity" 
                                 min="1" step="0.01" required>
                         </td>
-                        <td>
+                        <td class="col-2">
                             <input type="number" name="items[${rowCount}][price]" class="form-control price" 
                                 min="0" step="0.01" required>
                         </td>
-                        <td>
+                        <td class="col-2">
                             <span class="item-total">0.00</span>
                         </td>
-                        <td>
+                        <td class="col-1">
                             <button type="button" class="btn btn-danger btn-sm delete-row">
                                 <i class="fa fa-trash"></i>
                             </button>
