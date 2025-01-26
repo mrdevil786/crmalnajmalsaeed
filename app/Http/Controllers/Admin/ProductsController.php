@@ -20,6 +20,7 @@ class ProductsController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|in:goods,services',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'unit' => 'required|string|max:50',
@@ -27,6 +28,7 @@ class ProductsController extends Controller
 
         $product = new Product();
         $product->name = $request->name;
+        $product->type = $request->type;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->unit = $request->unit;
@@ -57,6 +59,7 @@ class ProductsController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|in:goods,services',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'unit' => 'required|string|max:50',
@@ -64,6 +67,7 @@ class ProductsController extends Controller
 
         $product = Product::findOrFail($id);
         $product->name = $request->name;
+        $product->type = $request->type;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->unit = $request->unit;

@@ -29,6 +29,7 @@
                                 <tr>
                                     <th class="wd-15p border-bottom-0">#</th>
                                     <th class="wd-20p border-bottom-0">Name</th>
+                                    <th class="wd-15p border-bottom-0">Type</th>
                                     <th class="wd-15p border-bottom-0">Description</th>
                                     <th class="wd-15p border-bottom-0">Price</th>
                                     <th class="wd-15p border-bottom-0">Unit</th>
@@ -42,6 +43,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ \Illuminate\Support\Str::limit($product->name, 20, '...') }}</td>
+                                        <td>{{ ucfirst($product->type) }}</td>
                                         <td>{{ \Illuminate\Support\Str::limit($product->description, 20, '...') }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>{{ $product->unit }}</td>
@@ -84,8 +86,15 @@
     <x-Modal.Right-Offcanvas title="Add New Product" action="{{ route('admin.products.store') }}" method="POST">
 
         <x-fields.input-field label="Product Name" name="name" />
+        <x-fields.dropdown-field label="Product Type" name="type" :options="['goods' => 'Goods', 'services' => 'Services']" />
         <x-fields.input-field label="Description" name="description" />
-        <x-fields.input-field label="Price" name="price" type="number" step="0.01" />
+
+        <div class="col-xl-12 mb-3">
+            <label class="form-label mt-0" for="price">Price</label>
+            <input type="number" class="form-control" id="price" name="price"
+                value="{{ old('price', $product->price) }}" step="0.01">
+        </div>
+        
         <x-fields.input-field label="Unit" name="unit" />
 
     </x-Modal.Right-Offcanvas>

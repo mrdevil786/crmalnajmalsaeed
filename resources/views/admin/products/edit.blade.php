@@ -44,6 +44,21 @@
                         </div>
 
                         <div class="col-xl-4 mb-3">
+                            <label class="form-label mt-0" for="type">Product Type</label>
+                            @if ($isEdit)
+                                <select class="form-control" id="type" name="type">
+                                    <option value="goods" {{ old('type', $product->type) === 'goods' ? 'selected' : '' }}>Goods</option>
+                                    <option value="services" {{ old('type', $product->type) === 'services' ? 'selected' : '' }}>Services</option>
+                                </select>
+                            @else
+                                <p class="form-control">{{ ucfirst($product->type) }}</p>
+                            @endif
+                            @error('type')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-xl-4 mb-3">
                             <label class="form-label mt-0" for="price">Price</label>
                             @if ($isEdit)
                                 <input type="number" class="form-control" id="price" name="price"
