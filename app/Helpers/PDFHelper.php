@@ -19,8 +19,8 @@ class PDFHelper
 
         $seller = new Party([
             'name' => 'Al Najm Al Saeed Co. Ltd.',
-            'address' => 'Prince Abdulaziz bin Musaed bin Julawi 12628, Riyadh',
-            'code' => '12623',
+            'address' => 'Prince Abdulaziz bin Musaed bin Julawi, Riyadh',
+            'code' => '12628',
             'vat' => '312508185500003',
             'custom_fields' => [
                 'email' => 'info@alsaeedstar.com',
