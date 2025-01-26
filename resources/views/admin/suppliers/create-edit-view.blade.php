@@ -1,16 +1,22 @@
-@extends('admin.layouts.app')
+@extends('admin.layout.main')
 
-@section('title', isset($supplier) ? ($isEdit ?? false ? 'Edit Supplier' : 'View Supplier') : 'Create Supplier')
+@section('admin-page-title', isset($supplier) ? 'Edit Supplier' : 'Create Supplier')
 
-@section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
+@section('admin-main-section')
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="page-title">{{ isset($supplier) ? 'Edit Supplier' : 'Create Supplier' }}</h1>
+            <a href="{{ route('admin.suppliers.index') }}" class="btn btn-danger">
+                <i class="fa fa-arrow-circle-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">
-                        {{ isset($supplier) ? ($isEdit ?? false ? 'Edit Supplier' : 'View Supplier') : 'Create Supplier' }}
-                    </h3>
+                    <h3 class="card-title">Supplier Details</h3>
                 </div>
                 <div class="card-body">
                     @if(isset($supplier) && !($isEdit ?? false))
@@ -47,6 +53,43 @@
                                 </div>
                             </div>
                         </div>
+
+                        @if($supplier->purchases->count() > 0)
+                            <div class="table-responsive mt-4">
+                                <h4>Purchase History</h4>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Purchase Number</th>
+                                            <th>Date</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($supplier->purchases as $purchase)
+                                            <tr>
+                                                <td>{{ $purchase->purchase_number }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($purchase->purchase_date)->format('Y-m-d') }}</td>
+                                                <td>{{ number_format($purchase->total, 2) }}</td>
+                                                <td>
+                                                    <span class="badge bg-{{ $purchase->status === 'completed' ? 'success' : ($purchase->status === 'pending' ? 'warning' : 'danger') }}">
+                                                        {{ ucfirst($purchase->status) }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('admin.purchases.view', $purchase->id) }}" 
+                                                       class="btn btn-info btn-sm">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
                     @else
                         {{-- Create/Edit Mode --}}
                         <form method="POST" 
@@ -56,133 +99,61 @@
                                 @method('PUT')
                             @endif
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="name">Name <span class="text-danger">*</span></label>
-                                        <input type="text" 
-                                               class="form-control @error('name') is-invalid @enderror" 
-                                               id="name" 
-                                               name="name" 
-                                               value="{{ old('name', $supplier->name ?? '') }}" 
-                                               required>
-                                        @error('name')
-                                            <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                            <div class="form-row">
+                                <div class="col-lg-6 mb-3">
+                                    <label class="form-label" for="name">Name</label>
+                                    <input type="text" class="form-control" name="name" id="name"
+                                        value="{{ old('name', $supplier->name ?? '') }}" required>
+                                    @error('name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
-                                        <input type="email" 
-                                               class="form-control @error('email') is-invalid @enderror" 
-                                               id="email" 
-                                               name="email" 
-                                               value="{{ old('email', $supplier->email ?? '') }}" 
-                                               required>
-                                        @error('email')
-                                            <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label class="form-label" for="email">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        value="{{ old('email', $supplier->email ?? '') }}" required>
+                                    @error('email')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="phone">Phone</label>
-                                        <input type="text" 
-                                               class="form-control @error('phone') is-invalid @enderror" 
-                                               id="phone" 
-                                               name="phone" 
-                                               value="{{ old('phone', $supplier->phone ?? '') }}">
-                                        @error('phone')
-                                            <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label class="form-label" for="phone">Phone</label>
+                                    <input type="text" class="form-control" name="phone" id="phone"
+                                        value="{{ old('phone', $supplier->phone ?? '') }}">
+                                    @error('phone')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="tax_number">Tax Number</label>
-                                        <input type="text" 
-                                               class="form-control @error('tax_number') is-invalid @enderror" 
-                                               id="tax_number" 
-                                               name="tax_number" 
-                                               value="{{ old('tax_number', $supplier->tax_number ?? '') }}">
-                                        @error('tax_number')
-                                            <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label class="form-label" for="tax_number">Tax Number</label>
+                                    <input type="text" class="form-control" name="tax_number" id="tax_number"
+                                        value="{{ old('tax_number', $supplier->tax_number ?? '') }}">
+                                    @error('tax_number')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="address">Address</label>
-                                        <textarea class="form-control @error('address') is-invalid @enderror" 
-                                                  id="address" 
-                                                  name="address" 
-                                                  rows="3">{{ old('address', $supplier->address ?? '') }}</textarea>
-                                        @error('address')
-                                            <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label" for="address">Address</label>
+                                    <textarea class="form-control" name="address" id="address" rows="3">{{ old('address', $supplier->address ?? '') }}</textarea>
+                                    @error('address')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
-                            <div class="form-footer mt-2">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ isset($supplier) ? 'Update' : 'Create' }} Supplier
+                            <center>
+                                <button type="submit" class="btn btn-success">
+                                    {{ isset($supplier) ? 'Update Supplier' : 'Create Supplier' }}
                                 </button>
-                                <a href="{{ route('admin.suppliers.index') }}" class="btn btn-light">Cancel</a>
-                            </div>
+                            </center>
                         </form>
                     @endif
                 </div>
             </div>
-
-            @if(isset($supplier) && !($isEdit ?? false) && $supplier->purchases->count() > 0)
-                <div class="card mt-4">
-                    <div class="card-header">
-                        <h3 class="card-title">Purchase History</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Purchase Number</th>
-                                        <th>Date</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($supplier->purchases as $purchase)
-                                        <tr>
-                                            <td>{{ $purchase->purchase_number }}</td>
-                                            <td>{{ $purchase->purchase_date }}</td>
-                                            <td>{{ $purchase->total }}</td>
-                                            <td>
-                                                <span class="badge bg-{{ $purchase->status === 'completed' ? 'success' : ($purchase->status === 'pending' ? 'warning' : 'danger') }}">
-                                                    {{ ucfirst($purchase->status) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('admin.purchases.view', $purchase->id) }}" 
-                                                   class="btn btn-info btn-sm">
-                                                    <i class="fe fe-eye"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            @endif
         </div>
     </div>
-</div>
 @endsection 
