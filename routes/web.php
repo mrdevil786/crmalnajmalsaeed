@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\InvoicesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProfilesController;
 use App\Http\Controllers\Admin\QuotationsController;
+use App\Http\Controllers\Admin\PurchasesController;
+use App\Http\Controllers\Admin\SuppliersController;
 
 // GUEST ROUTES
 Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
@@ -162,6 +164,45 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
             Route::get('view/{id}', 'view')->name('view');
             Route::post('update', 'updateProfile')->name('update');
             Route::post('update-password', 'updatePassword')->name('update.password');
+        });
+    });
+
+    // PURCHASE MANAGEMENT ROUTES
+    Route::prefix('purchases')->name('purchases.')->controller(PurchasesController::class)->group(function () {
+        Route::middleware('admin')->group(function () {
+            Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::put('status', 'status')->name('status');
+        });
+
+        Route::middleware('manager')->group(function () {
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
+        });
+
+        Route::middleware('member')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
+        });
+    });
+
+    // SUPPLIER MANAGEMENT ROUTES
+    Route::prefix('suppliers')->name('suppliers.')->controller(SuppliersController::class)->group(function () {
+        Route::middleware('admin')->group(function () {
+            Route::delete('/{id}', 'destroy')->name('destroy');
+        });
+
+        Route::middleware('manager')->group(function () {
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
+        });
+
+        Route::middleware('member')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('view/{id}', 'view')->name('view');
         });
     });
 });

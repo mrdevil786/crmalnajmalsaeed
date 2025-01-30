@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <form id="expenditure-form"
                         action="{{ isset($expenditure) ? route('admin.expenditures.update', $expenditure->id) : route('admin.expenditures.store') }}"
-                        method="POST">
+                        method="POST" enctype="multipart/form-data">
                         @csrf
                         @isset($expenditure)
                             @method('PUT')
@@ -50,7 +50,18 @@
                                 @enderror
                             </div>
 
-                            <!-- Category (Dropdown) -->
+                            <!-- Reference Number -->
+                            <div class="col-lg-3 mb-3">
+                                <label class="form-label" for="reference_number">Reference Number</label>
+                                <input type="text" class="form-control" name="reference_number" id="reference_number"
+                                    value="{{ isset($expenditure) ? $expenditure->reference_number : '' }}"
+                                    {{ isset($expenditure) && !$isEdit ? 'disabled' : '' }}>
+                                @error('reference_number')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Category -->
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="category">Category</label>
                                 <select class="form-select form-control" name="category" id="category"
@@ -68,15 +79,25 @@
                                     <option value="Office Supplies"
                                         {{ isset($expenditure) && $expenditure->category == 'Office Supplies' ? 'selected' : '' }}>
                                         Office Supplies</option>
+                                    <option value="Marketing"
+                                        {{ isset($expenditure) && $expenditure->category == 'Marketing' ? 'selected' : '' }}>
+                                        Marketing</option>
+                                    <option value="Travel"
+                                        {{ isset($expenditure) && $expenditure->category == 'Travel' ? 'selected' : '' }}>
+                                        Travel</option>
+                                    <option value="Maintenance"
+                                        {{ isset($expenditure) && $expenditure->category == 'Maintenance' ? 'selected' : '' }}>
+                                        Maintenance</option>
+                                    <option value="Others"
+                                        {{ isset($expenditure) && $expenditure->category == 'Others' ? 'selected' : '' }}>
+                                        Others</option>
                                 </select>
                                 @error('category')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-row">
-                            <!-- Payment Method (Dropdown) -->
+                            <!-- Payment Method -->
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="payment_method">Payment Method</label>
                                 <select class="form-select form-control" name="payment_method" id="payment_method"
@@ -94,6 +115,9 @@
                                     <option value="Credit Card"
                                         {{ isset($expenditure) && $expenditure->payment_method == 'Credit Card' ? 'selected' : '' }}>
                                         Credit Card</option>
+                                    <option value="Digital Wallet"
+                                        {{ isset($expenditure) && $expenditure->payment_method == 'Digital Wallet' ? 'selected' : '' }}>
+                                        Digital Wallet</option>
                                 </select>
                                 @error('payment_method')
                                     <div class="text-danger">{{ $message }}</div>
@@ -116,11 +140,81 @@
                                 <label class="form-label" for="invoice_number">Invoice Number</label>
                                 <input type="text" class="form-control" name="invoice_number" id="invoice_number"
                                     value="{{ isset($expenditure) ? $expenditure->invoice_number : '' }}"
-                                    {{ isset($expenditure) && !$isEdit ? 'disabled' : 'required' }}>
+                                    {{ isset($expenditure) && !$isEdit ? 'disabled' : '' }}>
                                 @error('invoice_number')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <!-- Vendor Name -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label" for="vendor_name">Vendor Name</label>
+                                <input type="text" class="form-control" name="vendor_name" id="vendor_name"
+                                    value="{{ isset($expenditure) ? $expenditure->vendor_name : '' }}"
+                                    {{ isset($expenditure) && !$isEdit ? 'disabled' : '' }}>
+                                @error('vendor_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Vendor Contact -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label" for="vendor_contact">Vendor Contact</label>
+                                <input type="text" class="form-control" name="vendor_contact" id="vendor_contact"
+                                    value="{{ isset($expenditure) ? $expenditure->vendor_contact : '' }}"
+                                    {{ isset($expenditure) && !$isEdit ? 'disabled' : '' }}>
+                                @error('vendor_contact')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="col-12 mb-3">
+                                <label class="form-label" for="notes">Notes</label>
+                                <textarea class="form-control" name="notes" id="notes" rows="3"
+                                    {{ isset($expenditure) && !$isEdit ? 'disabled' : '' }}>{{ isset($expenditure) ? $expenditure->notes : '' }}</textarea>
+                                @error('notes')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Receipt Image -->
+                            <div class="col-12 mb-3">
+                                <label class="form-label" for="receipt_image">Receipt Image</label>
+                                <input type="file" class="form-control" name="receipt_image" id="receipt_image"
+                                    {{ isset($expenditure) && !$isEdit ? 'disabled' : '' }}
+                                    accept="image/*">
+                                @if(isset($expenditure) && $expenditure->receipt_image)
+                                    <div class="mt-2">
+                                        <a href="{{ asset($expenditure->receipt_image) }}" 
+                                           target="_blank" 
+                                           class="btn btn-sm btn-info">
+                                            <i class="fa fa-eye"></i> View Receipt
+                                        </a>
+                                    </div>
+                                @endif
+                                @error('receipt_image')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            @if(isset($expenditure) && auth()->user()->user_role == 1)
+                                <!-- Status -->
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label" for="status">Status</label>
+                                    <select class="form-select form-control" name="status" id="status">
+                                        <option value="pending" {{ $expenditure->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="approved" {{ $expenditure->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                                        <option value="rejected" {{ $expenditure->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                    </select>
+                                </div>
+
+                                <!-- Rejection Reason -->
+                                <div class="col-lg-8 mb-3" id="rejection-reason-container" style="{{ $expenditure->status != 'rejected' ? 'display: none;' : '' }}">
+                                    <label class="form-label" for="rejection_reason">Rejection Reason</label>
+                                    <textarea class="form-control" name="rejection_reason" id="rejection_reason" rows="2">{{ $expenditure->rejection_reason }}</textarea>
+                                </div>
+                            @endif
 
                             <!-- User ID (Hidden) -->
                             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -140,4 +234,18 @@
         </div>
     </div>
 
+@endsection
+
+@section('custom-script')
+<script>
+    $(document).ready(function() {
+        $('#status').change(function() {
+            if ($(this).val() === 'rejected') {
+                $('#rejection-reason-container').show();
+            } else {
+                $('#rejection-reason-container').hide();
+            }
+        });
+    });
+</script>
 @endsection
