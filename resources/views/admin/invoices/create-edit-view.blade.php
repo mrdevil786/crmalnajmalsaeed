@@ -64,8 +64,8 @@
                         </div>
 
                         <div class="table-responsive mt-4">
-                            <table class="table table-bordered" id="items-table">
-                                <thead>
+                            <table class="table border text-nowrap text-md-nowrap table-bordered">
+                                <thead class="table-primary">
                                     <tr>
                                         <th class="col-5">Product</th>
                                         <th class="col-2">Quantity</th>

@@ -64,8 +64,8 @@
                         </div>
 
                         <div class="table-responsive mt-4">
-                            <table class="table table-bordered" id="items-table">
-                                <thead>
+                            <table class="table border text-nowrap text-md-nowrap table-bordered">
+                                <thead class="table-primary">
                                     <tr>
                                         <th class="col-5">Product</th>
                                         <th class="col-2">Quantity</th>
@@ -104,7 +104,8 @@
                                                     <span class="item-total">{{ number_format($item->total, 2) }}</span>
                                                 </td>
                                                 <td class="col-1 text-center">
-                                                    <button type="button" class="btn btn-outline-danger btn-pill btn-sm delete-row">
+                                                    <button type="button"
+                                                        class="btn btn-outline-danger btn-pill btn-sm delete-row">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </td>
@@ -118,7 +119,8 @@
                                             <strong>Subtotal:</strong>
                                         </td>
                                         <td colspan="2">
-                                            <span id="subtotal">{{ isset($quotation) ? number_format($quotation->subtotal, 2) : '0.00' }}</span>
+                                            <span
+                                                id="subtotal">{{ isset($quotation) ? number_format($quotation->subtotal, 2) : '0.00' }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -127,11 +129,12 @@
                                         </td>
                                         <td>
                                             <input type="number" name="discount" id="discount" class="form-control"
-                                                value="{{ isset($quotation) ? $quotation->discount : '0' }}"
-                                                min="0" step="0.01" required>
+                                                value="{{ isset($quotation) ? $quotation->discount : '0' }}" min="0"
+                                                step="0.01" required>
                                         </td>
                                         <td colspan="2">
-                                            <span id="discounted-amount">{{ isset($quotation) ? number_format($quotation->discount, 2) : '0.00' }}</span>
+                                            <span
+                                                id="discounted-amount">{{ isset($quotation) ? number_format($quotation->discount, 2) : '0.00' }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -145,7 +148,8 @@
                                                 min="0" step="0.01" required>
                                         </td>
                                         <td colspan="2">
-                                            <span id="tax-amount">{{ isset($quotation) ? number_format($quotation->vat_amount, 2) : '0.00' }}</span>
+                                            <span
+                                                id="tax-amount">{{ isset($quotation) ? number_format($quotation->vat_amount, 2) : '0.00' }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -153,7 +157,8 @@
                                             <strong>Total:</strong>
                                         </td>
                                         <td colspan="2">
-                                            <span id="total">{{ isset($quotation) ? number_format($quotation->total, 2) : '0.00' }}</span>
+                                            <span
+                                                id="total">{{ isset($quotation) ? number_format($quotation->total, 2) : '0.00' }}</span>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -253,11 +258,11 @@
 
                 const taxPercentage = parseFloat($('#tax_percentage').val()) || 0;
                 const discount = parseFloat($('#discount').val()) || 0;
-                
+
                 const discountedSubtotal = subtotal - discount;
-                
+
                 const taxAmount = (discountedSubtotal * taxPercentage) / 100;
-                
+
                 const total = discountedSubtotal + taxAmount;
 
                 $('#subtotal').text(subtotal.toFixed(2));
