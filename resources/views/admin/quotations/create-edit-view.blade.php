@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="table-responsive mt-4">
-                            <table class="table border text-nowrap text-md-nowrap table-bordered">
+                            <table class="table border text-nowrap text-md-nowrap table-bordered" id="items-table">
                                 <thead class="table-primary">
                                     <tr>
                                         <th class="col-5">Product</th>
