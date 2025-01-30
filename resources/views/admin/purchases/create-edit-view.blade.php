@@ -71,8 +71,8 @@
 
                         <!-- Purchase Items Table -->
                         <div class="table-responsive mt-4">
-                            <table class="table table-bordered" id="items-table">
-                                <thead>
+                            <table class="table border text-nowrap text-md-nowrap table-bordered" id="items-table">
+                                <thead class="table-primary">
                                     <tr>
                                         <th class="col-5">Product</th>
                                         <th class="col-2">Quantity</th>
@@ -117,7 +117,8 @@
                                                 </td>
                                                 @if ($isEdit)
                                                     <td class="col-1 text-center">
-                                                        <button type="button" class="btn btn-outline-danger btn-pill btn-sm delete-row">
+                                                        <button type="button"
+                                                            class="btn btn-outline-danger btn-pill btn-sm delete-row">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </td>
