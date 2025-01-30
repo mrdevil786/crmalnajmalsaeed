@@ -51,8 +51,9 @@ class InvoicesController extends Controller
                 return $carry + ($item['quantity'] * $item['price']);
             }, 0);
 
-            $vat_amount = ($subtotal * $request->vat_percentage) / 100;
-            $total = $subtotal + $vat_amount - ($request->discount ?? 0);
+            $discounted_subtotal = $subtotal - ($request->discount ?? 0);
+            $vat_amount = ($discounted_subtotal * $request->vat_percentage) / 100;
+            $total = $discounted_subtotal + $vat_amount;
 
             $invoice = Invoice::create([
                 'customer_id' => $request->customer_id,
@@ -124,8 +125,9 @@ class InvoicesController extends Controller
                 return $carry + ($item['quantity'] * $item['price']);
             }, 0);
 
-            $vat_amount = ($subtotal * $request->vat_percentage) / 100;
-            $total = $subtotal + $vat_amount - ($request->discount ?? 0);
+            $discounted_subtotal = $subtotal - ($request->discount ?? 0);
+            $vat_amount = ($discounted_subtotal * $request->vat_percentage) / 100;
+            $total = $discounted_subtotal + $vat_amount;
 
             $invoice->update([
                 'customer_id' => $request->customer_id,
