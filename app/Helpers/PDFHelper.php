@@ -64,7 +64,7 @@ class PDFHelper
                 ->notes($invoice->notes ?? 'Thank you for your business!');
 
             if ($invoice->discount > 0) {
-                $pdfInvoice->discountByPercent($invoice->discount);
+                $pdfInvoice->totalDiscount($invoice->discount);
             }
 
             $customData = ['iban' => 'SA1105000068205836972000'];
