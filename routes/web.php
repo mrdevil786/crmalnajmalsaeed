@@ -210,7 +210,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
     // VAT RETURNS MANAGEMENT ROUTES
     Route::prefix('vat-returns')->name('vat-returns.')->group(function () {
         Route::get('/', [VatReturnsController::class, 'index'])->name('index');
-        Route::get('/create', [VatReturnsController::class, 'create'])->name('create');
         Route::post('/calculate', [VatReturnsController::class, 'calculate'])->name('calculate');
         Route::post('/', [VatReturnsController::class, 'store'])->name('store');
         Route::get('/{vatReturn}', [VatReturnsController::class, 'show'])->name('show');

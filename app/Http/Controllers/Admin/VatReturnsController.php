@@ -17,12 +17,6 @@ class VatReturnsController extends Controller
         return view('admin.vat-returns.index', compact('vatReturns'));
     }
 
-    public function create()
-    {
-        // Redirect to index since we're using modal now
-        return redirect()->route('admin.vat-returns.index');
-    }
-
     public function calculate(Request $request)
     {
         $request->validate([
