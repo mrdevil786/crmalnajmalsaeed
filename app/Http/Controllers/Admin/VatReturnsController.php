@@ -33,25 +33,30 @@ class VatReturnsController extends Controller
         $periodFrom = Carbon::parse($request->period_from);
         $periodTo = Carbon::parse($request->period_to);
 
-        // Calculate total sales and output VAT
-        $salesData = Invoice::whereBetween('issue_date', [$periodFrom, $periodTo])
-            ->selectRaw('SUM(total) as total_sales, SUM(vat_amount) as output_vat')
-            ->first();
+        // Calculate total sales and output VAT using Eloquent
+        $invoices = Invoice::whereBetween('issue_date', [$periodFrom, $periodTo])
+            ->where('type', 'invoice')
+            ->get();
 
-        // Calculate total purchases and input VAT (only completed purchases)
-        $purchasesData = Purchase::whereBetween('purchase_date', [$periodFrom, $periodTo])
+        $totalSales = $invoices->sum('total');
+        $outputVat = $invoices->sum('vat_amount');
+
+        // Calculate total purchases and input VAT using Eloquent (only completed purchases)
+        $purchases = Purchase::whereBetween('purchase_date', [$periodFrom, $periodTo])
             ->where('status', 'completed')
-            ->selectRaw('SUM(total) as total_purchases, SUM(tax_amount) as input_vat')
-            ->first();
+            ->get();
+
+        $totalPurchases = $purchases->sum('total');
+        $inputVat = $purchases->sum('tax_amount');
 
         $data = [
             'period_from' => $periodFrom,
             'period_to' => $periodTo,
-            'total_sales' => $salesData->total_sales ?? 0,
-            'total_purchases' => $purchasesData->total_purchases ?? 0,
-            'output_vat' => $salesData->output_vat ?? 0,
-            'input_vat' => $purchasesData->input_vat ?? 0,
-            'net_vat_payable' => ($salesData->output_vat ?? 0) - ($purchasesData->input_vat ?? 0)
+            'total_sales' => $totalSales,
+            'total_purchases' => $totalPurchases,
+            'output_vat' => $outputVat,
+            'input_vat' => $inputVat,
+            'net_vat_payable' => $outputVat - $inputVat
         ];
 
         return view('admin.vat-returns.preview', compact('data'));
@@ -93,5 +98,16 @@ class VatReturnsController extends Controller
         ]);
 
         return back()->with('success', 'VAT return has been submitted successfully.');
+    }
+
+    public function destroy(VatReturn $vatReturn)
+    {
+        if ($vatReturn->status === 'submitted') {
+            return back()->with('error', 'Submitted VAT returns cannot be deleted.');
+        }
+
+        $vatReturn->delete();
+
+        return back()->with('success', 'VAT return has been deleted successfully.');
     }
 }

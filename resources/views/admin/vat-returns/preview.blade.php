@@ -3,89 +3,148 @@
 @section('admin-page-title', 'VAT Return Preview')
 
 @section('admin-main-section')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
+    <!-- PAGE-HEADER -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="page-title">VAT Return Preview</h1>
+            <a href="{{ route('admin.vat-returns.create') }}" class="btn btn-danger">
+                <i class="fa fa-arrow-circle-left"></i> Back
+            </a>
+        </div>
+    </div>
+    <!-- PAGE-HEADER END -->
+
+    <!-- Row -->
+    <div class="row row-sm">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">VAT Return Preview</h3>
+                    <h3 class="card-title">VAT Return Details</h3>
                 </div>
                 <form action="{{ route('admin.vat-returns.store') }}" method="POST">
                     @csrf
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-info"><i class="fas fa-calendar"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">VAT Period</span>
-                                        <span class="info-box-number">
-                                            {{ $data['period_from']->format('d/m/Y') }} - {{ $data['period_to']->format('d/m/Y') }}
-                                        </span>
+                        <!-- VAT Period Card -->
+                        <div class="col-md-6 mx-auto">
+                            <div class="card custom-card bg-dark-transparent">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <span class="avatar avatar-lg bg-dark-transparent rounded-3">
+                                                <i class="fa fa-calendar text-dark"></i>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">VAT Period</h6>
+                                            <div class="fs-4 fw-semibold">
+                                                {{ $data['period_from']->format('d/m/Y') }} - {{ $data['period_to']->format('d/m/Y') }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row mt-4">
+                            <!-- Sales Card -->
                             <div class="col-md-6">
-                                <h5>Sales</h5>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>Total Sales</th>
-                                        <td>{{ number_format($data['total_sales'], 2) }} SAR</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Output VAT (15%)</th>
-                                        <td>{{ number_format($data['output_vat'], 2) }} SAR</td>
-                                    </tr>
-                                </table>
+                                <div class="card custom-card">
+                                    <div class="card-header bg-info-transparent">
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2">
+                                                <i class="fa fa-shopping-cart text-info"></i>
+                                            </span>
+                                            <h6 class="card-title mb-0">Sales</h6>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table border text-nowrap text-md-nowrap table-bordered mb-0">
+                                                <tr>
+                                                    <th class="bg-light">Total Sales</th>
+                                                    <td class="fw-bold">{{ number_format($data['total_sales'], 2) }} SAR</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="bg-light">Output VAT (15%)</th>
+                                                    <td class="fw-bold text-info">{{ number_format($data['output_vat'], 2) }} SAR</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <h5>Purchases</h5>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>Total Purchases</th>
-                                        <td>{{ number_format($data['total_purchases'], 2) }} SAR</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Input VAT (15%)</th>
-                                        <td>{{ number_format($data['input_vat'], 2) }} SAR</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
 
-                        <div class="row mt-4">
-                            <div class="col-md-12">
-                                <div class="alert alert-info">
-                                    <h5><i class="fas fa-info"></i> Net VAT Payable</h5>
-                                    <h3>{{ number_format($data['net_vat_payable'], 2) }} SAR</h3>
+                            <!-- Purchases Card -->
+                            <div class="col-md-6">
+                                <div class="card custom-card">
+                                    <div class="card-header bg-info-transparent">
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2">
+                                                <i class="fa fa-shopping-bag text-info"></i>
+                                            </span>
+                                            <h6 class="card-title mb-0">Purchases</h6>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table border text-nowrap text-md-nowrap table-bordered mb-0">
+                                                <tr>
+                                                    <th class="bg-light">Total Purchases</th>
+                                                    <td class="fw-bold">{{ number_format($data['total_purchases'], 2) }} SAR</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="bg-light">Input VAT (15%)</th>
+                                                    <td class="fw-bold text-info">{{ number_format($data['input_vat'], 2) }} SAR</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Net VAT Payable Card -->
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <div class="card custom-card bg-{{ $data['net_vat_payable'] < 0 ? 'danger' : 'success' }}-transparent">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="me-3">
+                                                <span class="avatar avatar-lg bg-{{ $data['net_vat_payable'] < 0 ? 'danger' : 'success' }}-transparent rounded-3">
+                                                    <i class="fa fa-money text-{{ $data['net_vat_payable'] < 0 ? 'danger' : 'success' }}"></i>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-1">Net VAT Payable</h6>
+                                                <div class="fs-3 fw-bold text-{{ $data['net_vat_payable'] < 0 ? 'danger' : 'success' }}">
+                                                    {{ number_format($data['net_vat_payable'], 2) }} SAR
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
                         <div class="form-group mt-4">
-                            <label for="notes">Notes</label>
-                            <textarea class="form-control" id="notes" name="notes" rows="3">{{ old('notes') }}</textarea>
+                            <label class="form-label" for="notes">Notes</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Enter any additional notes here...">{{ old('notes') }}</textarea>
                         </div>
 
                         <!-- Hidden fields -->
-                        @foreach($data as $key => $value)
+                        @foreach ($data as $key => $value)
                             <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                         @endforeach
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer text-end">
                         <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save"></i> Submit VAT Return
+                            <i class="fa fa-save"></i> Submit VAT Return
                         </button>
-                        <a href="{{ route('admin.vat-returns.create') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Back
-                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+    <!-- End Row -->
 @endsection

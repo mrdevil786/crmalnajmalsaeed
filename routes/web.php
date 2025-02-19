@@ -215,5 +215,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
         Route::post('/', [VatReturnsController::class, 'store'])->name('store');
         Route::get('/{vatReturn}', [VatReturnsController::class, 'show'])->name('show');
         Route::put('/{vatReturn}/status', [VatReturnsController::class, 'updateStatus'])->name('update-status');
+        Route::delete('/{vatReturn}', [VatReturnsController::class, 'destroy'])->name('destroy');
     });
 });

@@ -56,13 +56,24 @@
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                             @if($vatReturn->status === 'draft')
-                                                <form action="{{ route('admin.vat-returns.update-status', $vatReturn->id) }}" 
+                                                <form action="{{ route('admin.vat-returns.update-status', $vatReturn->id) }}"
                                                       method="POST" class="d-inline">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn btn-sm btn-outline-success btn-pill" 
+                                                    <button type="submit" class="btn btn-sm btn-outline-success btn-pill"
                                                             onclick="return confirm('Are you sure you want to submit this VAT return? This action cannot be undone.')">
                                                         <i class="fa fa-check"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                            @if($vatReturn->status === 'draft')
+                                                <form action="{{ route('admin.vat-returns.destroy', $vatReturn->id) }}"
+                                                      method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger btn-pill"
+                                                            onclick="return confirm('Are you sure you want to delete this VAT return? This action cannot be undone.')">
+                                                        <i class="fa fa-trash"></i>
                                                     </button>
                                                 </form>
                                             @endif
