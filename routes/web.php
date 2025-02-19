@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProfilesController;
 use App\Http\Controllers\Admin\QuotationsController;
 use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SuppliersController;
+use App\Http\Controllers\Admin\VatReturnsController;
 
 // GUEST ROUTES
 Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
@@ -205,19 +206,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'web', 'chec
             Route::get('view/{id}', 'view')->name('view');
         });
     });
+
+    // VAT RETURNS MANAGEMENT ROUTES
+    Route::prefix('vat-returns')->name('vat-returns.')->group(function () {
+        Route::get('/', [VatReturnsController::class, 'index'])->name('index');
+        Route::get('/create', [VatReturnsController::class, 'create'])->name('create');
+        Route::post('/calculate', [VatReturnsController::class, 'calculate'])->name('calculate');
+        Route::post('/', [VatReturnsController::class, 'store'])->name('store');
+        Route::get('/{vatReturn}', [VatReturnsController::class, 'show'])->name('show');
+        Route::put('/{vatReturn}/status', [VatReturnsController::class, 'updateStatus'])->name('update-status');
+    });
 });
-
-
-// Route::name('users.')
-//     ->prefix('users')
-//     ->controller(UsersController::class)->group(function () {
-//         Route::get('/', 'index')->name('index');
-//         Route::get('blocked', 'index')->name('blocked');
-//         Route::get('deleted', 'index')->name('deleted');
-//         Route::post('store', 'store')->name('store');
-//         Route::get('edit/{id}', "edit")->name('edit');
-//         Route::delete('/{id}', 'destroy')->name('destroy');
-//         Route::post('update', 'update')->name('update');
-//         Route::put('status', 'status')->name('status');
-//         Route::get('view/{id}', 'showUser')->name('show');
-//     });

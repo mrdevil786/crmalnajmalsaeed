@@ -1,7 +1,7 @@
 <?php
 return [
     'main' => [
-        'title' => 'Main',
+        'title' => 'Main Navigation',
         'items' => [
             [
                 'label' => 'Dashboard',
@@ -11,27 +11,35 @@ return [
             ],
         ],
     ],
-    'expenditure' => [
+    'sales' => [
+        'title' => 'Sales Management',
         'items' => [
             [
-                'label' => 'Expenditures',
-                'icon' => 'fe fe-dollar-sign',
-                'route' => 'admin.expenditures.index',
-                'active' => 'admin/expenditures*',
+                'label' => 'Sales',
+                'icon' => 'fe fe-shopping-bag',
+                'active' => 'admin/sales*',
+                'sub_items' => [
+                    [
+                        'label' => 'Customers',
+                        'route' => 'admin.customers.index',
+                        'active' => 'admin/customers*',
+                    ],
+                    [
+                        'label' => 'Quotations',
+                        'route' => 'admin.quotations.index',
+                        'active' => 'admin/quotations*',
+                    ],
+                    [
+                        'label' => 'Invoices',
+                        'route' => 'admin.invoices.index',
+                        'active' => 'admin/invoices*',
+                    ],
+                ],
             ],
         ],
     ],
-    'customer' => [
-        'items' => [
-            [
-                'label' => 'Customers',
-                'icon' => 'fe fe-users',
-                'route' => 'admin.customers.index',
-                'active' => 'admin/customers*',
-            ],
-        ],
-    ],
-    'product' => [
+    'inventory' => [
+        'title' => 'Inventory Management',
         'items' => [
             [
                 'label' => 'Products',
@@ -41,39 +49,47 @@ return [
             ],
         ],
     ],
-    'quotation' => [
-        'items' => [
-            [
-                'label' => 'Quotations',
-                'icon' => 'fe fe-message-circle',
-                'route' => 'admin.quotations.index',
-                'active' => 'admin/quotations*',
-            ],
-        ],
-    ],
-    'invoice' => [
-        'items' => [
-            [
-                'label' => 'Invoices',
-                'icon' => 'fe fe-file-text',
-                'route' => 'admin.invoices.index',
-                'active' => 'admin/invoices*',
-            ],
-        ],
-    ],
     'purchase' => [
+        'title' => 'Purchase Management',
         'items' => [
             [
-                'label' => 'Purchases',
+                'label' => 'Purchase',
                 'icon' => 'fe fe-shopping-cart',
-                'route' => 'admin.purchases.index',
                 'active' => 'admin/purchases*',
+                'sub_items' => [
+                    [
+                        'label' => 'All Purchases',
+                        'route' => 'admin.purchases.index',
+                        'active' => 'admin/purchases*',
+                    ],
+                    [
+                        'label' => 'Suppliers',
+                        'route' => 'admin.suppliers.index',
+                        'active' => 'admin/suppliers*',
+                    ],
+                ],
             ],
+        ],
+    ],
+    'finance' => [
+        'title' => 'Financial Management',
+        'items' => [
             [
-                'label' => 'Suppliers',
-                'icon' => 'fe fe-truck',
-                'route' => 'admin.suppliers.index',
-                'active' => 'admin/suppliers*',
+                'label' => 'Finance',
+                'icon' => 'fe fe-dollar-sign',
+                'active' => 'admin/finance*',
+                'sub_items' => [
+                    [
+                        'label' => 'Expenditures',
+                        'route' => 'admin.expenditures.index',
+                        'active' => 'admin/expenditures*',
+                    ],
+                    [
+                        'label' => 'VAT Returns',
+                        'route' => 'admin.vat-returns.index',
+                        'active' => 'admin/vat-returns*',
+                    ],
+                ],
             ],
         ],
     ],
