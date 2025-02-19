@@ -153,7 +153,7 @@
                         @endif
                     </div>
                     @if(!isset($data['status']))
-                        <div class="card-footer text-end">
+                        <div class="card-footer text-center">
                             <button type="submit" class="btn btn-success">
                                 <i class="fa fa-save"></i> Submit VAT Return
                             </button>
