@@ -215,11 +215,11 @@
                             </select>
                         </td>
                         <td class="col-2">
-                            <input type="number" name="items[${rowCount}][quantity]" class="form-control quantity" 
-                                min="1" step="0.01" required>
+                            <input type="number" name="items[${rowCount}][quantity]" class="form-control quantity"
+                                value="1" min="1" step="0.01" required>
                         </td>
                         <td class="col-2">
-                            <input type="number" name="items[${rowCount}][price]" class="form-control price" 
+                            <input type="number" name="items[${rowCount}][price]" class="form-control price"
                                 min="0" step="0.01" required>
                         </td>
                         <td class="col-2">
