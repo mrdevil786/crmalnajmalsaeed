@@ -1,13 +1,13 @@
 @extends('admin.layout.main')
 
-@section('admin-page-title', 'VAT Return Preview')
+@section('admin-page-title', isset($data['status']) ? 'VAT Return Details' : 'VAT Return Preview')
 
 @section('admin-main-section')
     <!-- PAGE-HEADER -->
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
-            <h1 class="page-title">VAT Return Preview</h1>
-            <a href="{{ route('admin.vat-returns.create') }}" class="btn btn-danger">
+            <h1 class="page-title">{{ isset($data['status']) ? 'VAT Return Details' : 'VAT Return Preview' }}</h1>
+            <a href="{{ route('admin.vat-returns.index') }}" class="btn btn-danger">
                 <i class="fa fa-arrow-circle-left"></i> Back
             </a>
         </div>
@@ -20,9 +20,16 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">VAT Return Details</h3>
+                    @if(isset($data['status']))
+                        <span class="badge bg-{{ $data['status'] === 'submitted' ? 'success' : 'warning' }} ms-2">
+                            {{ ucfirst($data['status']) }}
+                        </span>
+                    @endif
                 </div>
+                @if(!isset($data['status']))
                 <form action="{{ route('admin.vat-returns.store') }}" method="POST">
                     @csrf
+                @endif
                     <div class="card-body">
                         <!-- VAT Period Card -->
                         <div class="col-md-6 mx-auto">
@@ -129,20 +136,32 @@
                         <!-- Notes -->
                         <div class="form-group mt-4">
                             <label class="form-label" for="notes">Notes</label>
-                            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Enter any additional notes here...">{{ old('notes') }}</textarea>
+                            @if(isset($data['status']))
+                                <div class="form-control bg-light">{{ $data['notes'] ?? 'No notes available' }}</div>
+                            @else
+                                <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Enter any additional notes here...">{{ old('notes') }}</textarea>
+                            @endif
                         </div>
 
-                        <!-- Hidden fields -->
-                        @foreach ($data as $key => $value)
-                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                        @endforeach
+                        @if(!isset($data['status']))
+                            <!-- Hidden fields -->
+                            @foreach ($data as $key => $value)
+                                @if($key !== 'notes')
+                                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
-                    <div class="card-footer text-end">
-                        <button type="submit" class="btn btn-success">
-                            <i class="fa fa-save"></i> Submit VAT Return
-                        </button>
-                    </div>
+                    @if(!isset($data['status']))
+                        <div class="card-footer text-end">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-save"></i> Submit VAT Return
+                            </button>
+                        </div>
+                    @endif
+                @if(!isset($data['status']))
                 </form>
+                @endif
             </div>
         </div>
     </div>

@@ -83,7 +83,19 @@ class VatReturnsController extends Controller
 
     public function show(VatReturn $vatReturn)
     {
-        return view('admin.vat-returns.show', compact('vatReturn'));
+        $data = [
+            'period_from' => $vatReturn->period_from,
+            'period_to' => $vatReturn->period_to,
+            'total_sales' => $vatReturn->total_sales,
+            'total_purchases' => $vatReturn->total_purchases,
+            'output_vat' => $vatReturn->output_vat,
+            'input_vat' => $vatReturn->input_vat,
+            'net_vat_payable' => $vatReturn->net_vat_payable,
+            'notes' => $vatReturn->notes,
+            'status' => $vatReturn->status
+        ];
+
+        return view('admin.vat-returns.preview', compact('data'));
     }
 
     public function updateStatus(VatReturn $vatReturn)
