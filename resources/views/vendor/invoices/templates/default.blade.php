@@ -407,7 +407,7 @@
 
     @if (isset($invoice->getCustomData()['iban']))
         <p>
-            IBAN: {{ $invoice->getCustomData()['iban'] }}
+            {{ $invoice->getCustomData()['iban'] }}
         </p>
     @endif
 
