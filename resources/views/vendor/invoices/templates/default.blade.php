@@ -335,7 +335,12 @@
                     </td>
                 </tr>
             @endforeach
+
             {{-- Summary --}}
+            @if (isset($invoice->getCustomData()['stampBase64']) && $invoice->getCustomData()['stampBase64'])
+                <img src="{{ $invoice->getCustomData()['stampBase64'] }}" alt="Stamp" class="stamp-image"
+                    height="125" style="position: absolute;" />
+            @endif
             @if ($invoice->hasItemOrInvoiceDiscount())
                 <tr>
                     <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
@@ -390,10 +395,6 @@
             </tr>
         </tbody>
     </table>
-
-    @if (isset($customData['stampBase64']) && $customData['stampBase64'])
-        <img src="{{ $customData['stampBase64'] }}" alt="Stamp" style="width: 100px; height: 100px;" />
-    @endif
 
     @if ($invoice->notes)
         <p>

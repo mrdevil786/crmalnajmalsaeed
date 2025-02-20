@@ -67,10 +67,17 @@ class PDFHelper
                 $pdfInvoice->totalDiscount($invoice->discount);
             }
 
-            $customData = ['iban' => 'BANK: Alinma Bank, IBAN: SA1105000068205836972000'];
+            $customData = [
+                'iban' => 'BANK: Alinma Bank, IBAN: SA1105000068205836972000',
+                'stampBase64' => 'data:image/png;base64,' . base64_encode(file_get_contents(
+                    public_path('assets/images/brand/signature_stamp.png')
+                ))
+            ];
+            
             if ($qrCodeData) {
                 $customData['qrCodeData'] = $qrCodeData;
             }
+            
             $pdfInvoice->setCustomData($customData);
 
             $pdfInvoice->save('invoices');
