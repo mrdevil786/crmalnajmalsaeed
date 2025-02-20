@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\DB;
 
 class PurchasesController extends Controller
 {
+    // DISPLAY ALL PURCHASES
     public function index()
     {
         $purchases = Purchase::with(['supplier', 'items'])->latest()->get();
         return view('admin.purchases.index', compact('purchases'));
     }
 
+    // SHOW THE FORM FOR CREATING A NEW PURCHASE
     public function create()
     {
         $suppliers = Supplier::all();
@@ -25,6 +27,7 @@ class PurchasesController extends Controller
         return view('admin.purchases.create-edit-view', compact('suppliers', 'products'));
     }
 
+    // STORE A NEWLY CREATED PURCHASE IN STORAGE
     public function store(Request $request)
     {
         $request->validate([
@@ -49,7 +52,6 @@ class PurchasesController extends Controller
             $tax_amount = ($subtotal * $request->tax_percentage) / 100;
             $total = $subtotal + $tax_amount - ($request->discount ?? 0);
 
-            // Generate unique purchase number (you might want to create a helper for this)
             $lastPurchase = Purchase::latest()->first();
             $purchaseNumber = $lastPurchase
                 ? 'PUR' . str_pad((intval(substr($lastPurchase->purchase_number, 3)) + 1), 6, '0', STR_PAD_LEFT)
@@ -87,6 +89,7 @@ class PurchasesController extends Controller
         }
     }
 
+    // DISPLAY THE SPECIFIED PURCHASE
     public function view($id)
     {
         $purchase = Purchase::with(['supplier', 'items.product'])->findOrFail($id);
@@ -98,6 +101,7 @@ class PurchasesController extends Controller
         ]);
     }
 
+    // SHOW THE FORM FOR EDITING THE SPECIFIED PURCHASE
     public function edit($id)
     {
         $purchase = Purchase::with('items.product')->findOrFail($id);
@@ -109,6 +113,7 @@ class PurchasesController extends Controller
         ]);
     }
 
+    // UPDATE THE SPECIFIED PURCHASE IN STORAGE
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -147,7 +152,6 @@ class PurchasesController extends Controller
                 'notes' => $request->notes,
             ]);
 
-            // Delete existing items not in the request
             $existingItemIds = array_column($request->items, 'id');
             $purchase->items()->whereNotIn('id', array_filter($existingItemIds))->delete();
 
@@ -179,6 +183,7 @@ class PurchasesController extends Controller
         }
     }
 
+    // REMOVE THE SPECIFIED PURCHASE FROM STORAGE
     public function destroy($id)
     {
         DB::beginTransaction();
@@ -196,6 +201,7 @@ class PurchasesController extends Controller
         }
     }
 
+    // UPDATE THE STATUS OF THE SPECIFIED PURCHASE
     public function status(Request $request)
     {
         $request->validate([
