@@ -67,7 +67,7 @@ class PDFHelper
                 $pdfInvoice->totalDiscount($invoice->discount);
             }
 
-            $customData = ['iban' => 'SA1105000068205836972000'];
+            $customData = ['iban' => 'BANK: Alinma Bank, IBAN: SA1105000068205836972000'];
             if ($qrCodeData) {
                 $customData['qrCodeData'] = $qrCodeData;
             }
