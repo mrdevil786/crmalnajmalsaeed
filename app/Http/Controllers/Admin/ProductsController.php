@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Item;
+use App\Models\PurchaseItem;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductsController extends Controller
 {
@@ -80,9 +83,32 @@ class ProductsController extends Controller
     // DELETE THE SPECIFIED PRODUCT
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
+        try {
+            $product = Product::findOrFail($id);
+            
+            $hasReferences = Item::where('product_id', $id)->exists() || 
+                           PurchaseItem::where('product_id', $id)->exists();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully!');
+            if ($hasReferences) {
+                return redirect()
+                    ->route('admin.products.index')
+                    ->with('error', 'Cannot delete product. It has existing references.');
+            }
+
+            $product->delete();
+
+            return redirect()
+                ->route('admin.products.index')
+                ->with('success', 'Product deleted successfully!');
+
+        } catch (ModelNotFoundException $e) {
+            return redirect()
+                ->route('admin.products.index')
+                ->with('error', 'Product not found.');
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('admin.products.index')
+                ->with('error', 'An error occurred while deleting the product.');
+        }
     }
 }
