@@ -46,7 +46,6 @@
                                         <td>{{ \Illuminate\Support\Str::limit($product->description, 20, '...') }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>{{ $product->unit }}</td>
-                                        {{-- <td>{{ $product->created_at }}</td> --}}
                                         <td>{{ $product->updated_at }}</td>
                                         <td class="text-center">
                                             <x-buttons.action-pill-button iconClass="fa fa-eye" iconColor="secondary"
@@ -59,15 +58,9 @@
                                                     modalTarget="editProductModal" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
-                                                <form action="{{ route('admin.products.destroy', $product->id) }}"
-                                                    method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger btn-pill btn-sm"
-                                                        onclick="return confirm('Are you sure you want to delete this product?');">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
+                                                <x-buttons.delete-button
+                                                    :route="route('admin.products.destroy', $product->id)"
+                                                    confirm-message="Are you sure you want to delete this product?" />
                                             @endif
                                         </td>
                                     </tr>
