@@ -59,12 +59,8 @@
                                         <td>{{ $user->updated_at }}</td>
                                         @if (auth()->user()->user_role == 1)
                                             <td class="text-center">
-                                                <label class="custom-switch form-switch mb-0">
-                                                    <input type="checkbox" name="custom-switch-radio"
-                                                        class="custom-switch-input" data-user-id="{{ $user->id }}"
-                                                        {{ $user->status == 'active' ? 'checked' : '' }}>
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
+                                                <x-buttons.status-switch :user-id="$user->id" :status="$user->status"
+                                                    :update-url="route('admin.users.status')" :csrf-token="csrf_token()" />
                                             </td>
                                         @endif
                                         <td class="text-center">
@@ -78,8 +74,7 @@
                                                     modalTarget="editUserModal" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
-                                                <x-buttons.delete-button
-                                                    :route="route('admin.users.destroy', $user->id)"
+                                                <x-buttons.delete-button :route="route('admin.users.destroy', $user->id)"
                                                     confirm-message="Are you sure you want to delete this user?" />
                                             @endif
                                         </td>
@@ -124,42 +119,5 @@
     <script src="{{ asset('../assets/plugins/datatable/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('../assets/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('../assets/js/table-data.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('input[name="custom-switch-radio"]').change(function() {
-                var userId = $(this).data('user-id');
-                var status = $(this).prop('checked') ? 'active' : 'blocked';
-
-                $.ajax({
-                    url: "{{ route('admin.users.status') }}",
-                    method: "PUT",
-                    data: {
-                        id: userId,
-                        status: status,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        if (response.warning) {
-                            $.growl.warning1({
-                                title: 'Warning',
-                                message: response.warning
-                            });
-                        } else {
-                            $.growl.notice1({
-                                title: 'Success',
-                                message: response.message
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        $.growl.error1({
-                            title: 'Error',
-                            message: 'An error occurred while updating user status.'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
+    @stack('scripts')
 @endsection
