@@ -33,7 +33,6 @@
                                     <th class="wd-15p border-bottom-0">Address</th>
                                     <th class="wd-15p border-bottom-0">Pincode</th>
                                     <th class="wd-15p border-bottom-0">Tax Number</th>
-                                    {{-- <th class="wd-25p border-bottom-0">Created At</th> --}}
                                     <th class="wd-25p border-bottom-0">Updated At</th>
                                     <th class="wd-25p border-bottom-0">Action</th>
                                 </tr>

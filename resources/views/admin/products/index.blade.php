@@ -33,7 +33,6 @@
                                     <th class="wd-15p border-bottom-0">Description</th>
                                     <th class="wd-15p border-bottom-0">Price</th>
                                     <th class="wd-15p border-bottom-0">Unit</th>
-                                    {{-- <th class="wd-25p border-bottom-0">Created At</th> --}}
                                     <th class="wd-25p border-bottom-0">Updated At</th>
                                     <th class="wd-25p border-bottom-0">Action</th>
                                 </tr>
@@ -84,19 +83,11 @@
 
     <!--Add Modal - Right Offcanvas-->
     <x-Modal.Right-Offcanvas title="Add New Product" action="{{ route('admin.products.store') }}" method="POST">
-
         <x-fields.input-field label="Product Name" name="name" />
         <x-fields.dropdown-field label="Product Type" name="type" :options="['goods' => 'Goods', 'services' => 'Services']" />
         <x-fields.input-field label="Description" name="description" />
-
-        <div class="col-xl-12 mb-3">
-            <label class="form-label mt-0" for="price">Price</label>
-            <input type="number" class="form-control" id="price" name="price"
-                value="{{ old('price') }}" step="0.01" placeholder="Enter Price">
-        </div>
-
+        <x-fields.input-field label="Price" name="price" type="number" step="0.01" />
         <x-fields.input-field label="Unit" name="unit" />
-
     </x-Modal.Right-Offcanvas>
     <!--/Right Offcanvas-->
 
