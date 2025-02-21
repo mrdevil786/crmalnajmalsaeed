@@ -41,15 +41,38 @@
                             <tbody>
                                 @foreach ($customers as $customer)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ \Illuminate\Support\Str::limit($customer->name, 20, '...') }}</td>
-                                        <td>{{ \Illuminate\Support\Str::limit($customer->email, 20, '...') }}</td>
-                                        <td>{{ \Illuminate\Support\Str::limit($customer->address, 20, '...') }}</td>
-                                        <td>{{ $customer->pincode }}</td>
-                                        <td>{{ $customer->tax_number }}</td>
-                                        {{-- <td>{{ $customer->created_at }}</td> --}}
-                                        <td>{{ $customer->updated_at }}</td>
-                                        <td class="text-center">
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">{{ \Illuminate\Support\Str::limit($customer->name, 20, '...') }}</td>
+                                        <td class="align-middle">{{ \Illuminate\Support\Str::limit($customer->email, 20, '...') }}</td>
+                                        <td class="align-middle">
+                                            @if(empty($customer->address))
+                                                <div class="text-center">
+                                                    <x-extras.small-pill pill-color="dark" pill-text="Empty"/>
+                                                </div>
+                                            @else
+                                                {{ \Illuminate\Support\Str::limit($customer->address, 20, '...') }}
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            @if(empty($customer->pincode))
+                                                <div class="text-center">
+                                                    <x-extras.small-pill pill-color="dark" pill-text="Empty"/>
+                                                </div>
+                                            @else
+                                                {{ $customer->pincode }}
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            @if(empty($customer->tax_number))
+                                                <div class="text-center">
+                                                    <x-extras.small-pill pill-color="dark" pill-text="Empty"/>
+                                                </div>
+                                            @else
+                                                {{ $customer->tax_number }}
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">{{ $customer->updated_at }}</td>
+                                        <td class="align-middle text-center">
                                             <x-buttons.action-pill-button iconClass="fa fa-eye" iconColor="secondary"
                                                 href="{{ route('admin.customers.view', $customer->id) }}" />
 
@@ -60,15 +83,9 @@
                                                     modalTarget="editUserModal" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
-                                                <form action="{{ route('admin.customers.destroy', $customer->id) }}"
-                                                    method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger btn-pill btn-sm"
-                                                        onclick="return confirm('Are you sure you want to delete this customer?');">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
+                                                <x-buttons.delete-button
+                                                    :route="route('admin.customers.destroy', $customer->id)"
+                                                    confirm-message="Are you sure you want to delete this customer?" />
                                             @endif
                                         </td>
                                     </tr>
