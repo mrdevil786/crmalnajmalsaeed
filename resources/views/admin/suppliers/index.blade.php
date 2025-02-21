@@ -57,15 +57,9 @@
                                             @endif
 
                                             @if (auth()->user()->user_role == 1)
-                                                <form action="{{ route('admin.suppliers.destroy', $supplier->id) }}"
-                                                    method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger btn-pill btn-sm"
-                                                        onclick="return confirm('Are you sure you want to delete this supplier?');">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
+                                                <x-buttons.delete-button
+                                                    :route="route('admin.suppliers.destroy', $supplier->id)"
+                                                    confirm-message="Are you sure you want to delete this supplier?" />
                                             @endif
                                         </td>
                                     </tr>
@@ -95,4 +89,4 @@
     <script src="{{ asset('../assets/plugins/datatable/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('../assets/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('../assets/js/table-data.js') }}"></script>
-@endsection 
+@endsection
