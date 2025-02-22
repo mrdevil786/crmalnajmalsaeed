@@ -38,4 +38,6 @@ return [
     'paid'                   => 'Payé',
     'due'                    => 'Dû',
     'page'                   => 'Page',
+    'bill_from'              => 'Facture de',
+    'bill_to'                => 'Facture à',
 ];

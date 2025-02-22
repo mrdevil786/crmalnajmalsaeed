@@ -38,4 +38,6 @@ return [
     'paid'                   => 'Plătit',
     'due'                    => 'Data scadentă',
     'page'                   => 'Pagină',
+    'bill_from'              => 'Factură de la',
+    'bill_to'                => 'Factură către',
 ];

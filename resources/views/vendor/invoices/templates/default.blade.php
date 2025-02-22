@@ -193,11 +193,11 @@
         <thead>
             <tr>
                 <th class="border-1 pl-0 party-header" width="48.5%">
-                    {{ __('invoices::invoice.provider') }}
+                    {{ __('invoices::invoice.bill_from') }}
                 </th>
                 <th class="border-0" width="3%"></th>
                 <th class="border-1 pl-0 party-header">
-                    {{ __('invoices::invoice.client') }}
+                    {{ __('invoices::invoice.bill_to') }}
                 </th>
             </tr>
         </thead>
@@ -389,7 +389,7 @@
             <tr>
                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                 <td class="text-right pl-0">{{ __('invoices::invoice.total_amount') }}</td>
-                <td class="text-right pr-0 total-amount">
+                <td class="text-right pr-0 total-amount" style="color: #3d9970;">
                     {{ $invoice->formatCurrency($invoice->total_amount) }}
                 </td>
             </tr>

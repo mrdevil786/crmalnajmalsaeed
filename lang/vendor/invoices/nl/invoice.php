@@ -39,4 +39,6 @@ return [
     'paid'                   => 'Betaald',
     'due'                    => 'Openstaand',
     'page'                   => 'Side',
+    'bill_from'              => 'Factuur van',
+    'bill_to'                => 'Factuur aan',
 ];
