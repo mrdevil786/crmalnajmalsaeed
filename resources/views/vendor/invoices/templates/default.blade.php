@@ -337,10 +337,6 @@
             @endforeach
 
             {{-- Summary --}}
-            @if (isset($invoice->getCustomData()['stampBase64']) && $invoice->getCustomData()['stampBase64'])
-                <img src="{{ $invoice->getCustomData()['stampBase64'] }}" alt="Stamp" class="stamp-image"
-                    height="125" style="position: absolute;" />
-            @endif
             @if ($invoice->hasItemOrInvoiceDiscount())
                 <tr>
                     <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
@@ -415,6 +411,11 @@
     {{-- <p>
         {{ __('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
     </p> --}}
+
+    @if (isset($invoice->getCustomData()['stampBase64']) && $invoice->getCustomData()['stampBase64'])
+        <img src="{{ $invoice->getCustomData()['stampBase64'] }}" alt="Stamp" class="stamp-image" height="125"
+            style="position: fixed; bottom: 10px; right: 10px; z-index: 10;" />
+    @endif
 
     <script type="text/php">
         if (isset($pdf) && $PAGE_COUNT > 1) {
