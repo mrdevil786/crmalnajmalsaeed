@@ -31,7 +31,7 @@
         }
 
         p {
-            margin: 0 0 1rem;
+            margin: 0 0 .5rem;
         }
 
         strong {
@@ -51,7 +51,7 @@
         }
 
         th, td {
-            padding: 0.75rem;
+            padding: 0.5rem;
             vertical-align: top;
         }
 
@@ -107,6 +107,12 @@
             background-color: #3d9970;
             color: white;
             text-align: center;
+        }
+
+        .summary-title {
+            font-weight: bold;
+            font-size: larger;
+            text-transform: capitalize;
         }
     </style>
 </head>
@@ -249,43 +255,43 @@
 
                 @if ($invoice->hasItemOrInvoiceDiscount())
                     <tr class="summary-row discount-row">
-                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                        <td class="text-right border-1">{{ __('invoices::invoice.total_discount') }}</td>
+                        <td colspan="{{ $invoice->table_columns - 3 }}" class="border-0"></td>
+                        <td class="summary-title text-right border-1">{{ __('invoices::invoice.total_discount') }}</td>
                         <td class="text-right border-1">{{ $invoice->formatCurrency($invoice->total_discount) }}</td>
                     </tr>
                 @endif
                 @if ($invoice->taxable_amount)
                     <tr class="summary-row taxable-row">
-                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                        <td class="text-right border-1">{{ __('invoices::invoice.taxable_amount') }}</td>
-                        <td class="text-right border-1">{{ $invoice->formatCurrency($invoice->taxable_amount) }}</td>
+                        <td colspan="{{ $invoice->table_columns - 3 }}" class="border-0"></td>
+                        <td class="summary-title text-right border-1">{{ __('invoices::invoice.taxable_amount') }}</td>
+                        <td class="text-right border-1" colspan="2">{{ $invoice->formatCurrency($invoice->taxable_amount) }}</td>
                     </tr>
                 @endif
                 @if ($invoice->tax_rate)
                     <tr class="summary-row tax-rate-row">
-                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                        <td class="text-right border-1">{{ __('invoices::invoice.tax_rate') }}</td>
-                        <td class="text-right border-1">{{ $invoice->tax_rate }}%</td>
+                        <td colspan="{{ $invoice->table_columns - 3 }}" class="border-0"></td>
+                        <td class="summary-title text-right border-1">{{ __('invoices::invoice.tax_rate') }}</td>
+                        <td class="text-right border-1" colspan="2">{{ $invoice->tax_rate }}%</td>
                     </tr>
                 @endif
                 @if ($invoice->hasItemOrInvoiceTax())
                     <tr class="summary-row total-taxes-row">
-                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                        <td class="text-right border-1">{{ __('invoices::invoice.total_taxes') }}</td>
-                        <td class="text-right border-1">{{ $invoice->formatCurrency($invoice->total_taxes) }}</td>
+                        <td colspan="{{ $invoice->table_columns - 3 }}" class="border-0"></td>
+                        <td class="summary-title text-right border-1">{{ __('invoices::invoice.total_taxes') }}</td>
+                        <td class="text-right border-1" colspan="2">{{ $invoice->formatCurrency($invoice->total_taxes) }}</td>
                     </tr>
                 @endif
                 @if ($invoice->shipping_amount)
                     <tr class="summary-row shipping-row">
-                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                        <td class="text-right border-1">{{ __('invoices::invoice.shipping') }}</td>
-                        <td class="text-right border-1">{{ $invoice->formatCurrency($invoice->shipping_amount) }}</td>
+                        <td colspan="{{ $invoice->table_columns - 3 }}" class="border-0"></td>
+                        <td class="summary-title text-right border-1">{{ __('invoices::invoice.shipping') }}</td>
+                        <td class="text-right border-1" colspan="2">{{ $invoice->formatCurrency($invoice->shipping_amount) }}</td>
                     </tr>
                 @endif
                     <tr class="summary-row total-amount-row">
-                        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                        <td class="text-right border-1">{{ __('invoices::invoice.total_amount') }}</td>
-                        <td class="text-right border-1 total-amount">{{ $invoice->formatCurrency($invoice->total_amount) }}</td>
+                        <td colspan="{{ $invoice->table_columns - 3 }}" class="border-0"></td>
+                        <td class="summary-title text-right border-1">{{ __('invoices::invoice.total_amount') }}</td>
+                        <td class="text-right border-1 total-amount" colspan="2">{{ $invoice->formatCurrency($invoice->total_amount) }}</td>
                 </tr>
             </tbody>
         </table>
