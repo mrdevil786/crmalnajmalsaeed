@@ -38,4 +38,6 @@ return [
     'paid'                   => 'Zaplaceno',
     'due'                    => 'Splatnost',
     'page'                   => 'Strana',
+    'bill_from'              => 'Faktura od',
+    'bill_to'                => 'Faktura pro',
 ];

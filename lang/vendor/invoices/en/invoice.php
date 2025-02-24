@@ -38,4 +38,6 @@ return [
     'paid'                   => 'Paid',
     'due'                    => 'Due',
     'page'                   => 'Page',
+    'bill_from'              => 'Bill From',
+    'bill_to'                => 'Bill To',
 ];
