@@ -53,6 +53,10 @@
             color: #212529;
         }
 
+        tr {
+            text-transform: capitalize;
+        }
+
         th,
         td {
             padding: 0.5rem;
@@ -253,7 +257,8 @@
             <tbody>
                 @foreach ($invoice->items as $item)
                     <tr class="item-row">
-                        <td class="border-1">{{ $item->title }} @if ($item->description)
+                        <td class="border-1">{{ $item->title }}
+                            @if ($item->description)
                                 <p class="cool-gray">{{ $item->description }}</p>
                             @endif
                         </td>
@@ -261,14 +266,18 @@
                             <td class="border-1 text-center">{{ $item->units }}</td>
                         @endif
                         <td class="border-1 text-center">{{ $item->quantity }}</td>
-                        <td class="border-1 text-right">{{ $invoice->formatCurrency($item->price_per_unit) }}</td>
+                        <td class="border-1 text-right" style="white-space: nowrap;">
+                            {{ $invoice->formatCurrency($item->price_per_unit) }}</td>
                         @if ($invoice->hasItemDiscount)
-                            <td class="border-1 text-right">{{ $invoice->formatCurrency($item->discount) }}</td>
+                            <td class="border-1 text-right" style="white-space: nowrap;">
+                                {{ $invoice->formatCurrency($item->discount) }}</td>
                         @endif
                         @if ($invoice->hasItemTax)
-                            <td class="border-1 text-right">{{ $invoice->formatCurrency($item->tax) }}</td>
+                            <td class="border-1 text-right" style="white-space: nowrap;">
+                                {{ $invoice->formatCurrency($item->tax) }}</td>
                         @endif
-                        <td class="border-1 text-right">{{ $invoice->formatCurrency($item->sub_total_price) }}</td>
+                        <td class="border-1 text-right" style="white-space: nowrap;">
+                            {{ $invoice->formatCurrency($item->sub_total_price) }}</td>
                     </tr>
                 @endforeach
 
