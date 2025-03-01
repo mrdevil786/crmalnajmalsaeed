@@ -120,8 +120,9 @@
 
         .summary-title {
             font-weight: bold;
-            font-size: larger;
+            font-size: 10px;
             text-transform: capitalize;
+            white-space: nowrap;
         }
     </style>
 </head>
