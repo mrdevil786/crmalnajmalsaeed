@@ -30,7 +30,7 @@
                         <div class="form-row">
                             <div class="col-lg-6 mb-3">
                                 <label class="form-label" for="customer_id">Customer</label>
-                                <select class="form-select form-control" name="customer_id" id="customer_id" required>
+                                <select class="form-control select2-show-search form-select" name="customer_id" id="customer_id" required>
                                     <option value="" selected disabled>Select Customer</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}"
@@ -191,7 +191,7 @@
 @endsection
 
 @section('custom-script')
-    <script src="{{ asset('../assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/select2/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.product-select').select2();

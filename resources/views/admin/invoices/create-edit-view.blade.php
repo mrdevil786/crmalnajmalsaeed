@@ -30,7 +30,8 @@
                         <div class="form-row">
                             <div class="col-lg-6 mb-3">
                                 <label class="form-label" for="customer_id">Customer</label>
-                                <select class="form-select form-control" name="customer_id" id="customer_id" required>
+                                <select class="form-control select2-show-search form-select" name="customer_id"
+                                    id="customer_id" required>
                                     <option value="" selected disabled>Select Customer</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}"
@@ -104,7 +105,8 @@
                                                     <span class="item-total">{{ number_format($item->total, 2) }}</span>
                                                 </td>
                                                 <td class="col-1 text-center">
-                                                    <button type="button" class="btn btn-outline-danger btn-pill btn-sm delete-row">
+                                                    <button type="button"
+                                                        class="btn btn-outline-danger btn-pill btn-sm delete-row">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </td>
@@ -118,7 +120,8 @@
                                             <strong>Subtotal:</strong>
                                         </td>
                                         <td colspan="2">
-                                            <span id="subtotal">{{ isset($invoice) ? number_format($invoice->subtotal, 2) : '0.00' }}</span>
+                                            <span
+                                                id="subtotal">{{ isset($invoice) ? number_format($invoice->subtotal, 2) : '0.00' }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -127,11 +130,12 @@
                                         </td>
                                         <td>
                                             <input type="number" name="discount" id="discount" class="form-control"
-                                                value="{{ isset($invoice) ? $invoice->discount : '0' }}"
-                                                min="0" step="0.01" required>
+                                                value="{{ isset($invoice) ? $invoice->discount : '0' }}" min="0"
+                                                step="0.01" required>
                                         </td>
                                         <td colspan="2">
-                                            <span id="discounted-amount">{{ isset($invoice) ? number_format($invoice->discount, 2) : '0.00' }}</span>
+                                            <span
+                                                id="discounted-amount">{{ isset($invoice) ? number_format($invoice->discount, 2) : '0.00' }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -145,7 +149,8 @@
                                                 min="0" step="0.01" required>
                                         </td>
                                         <td colspan="2">
-                                            <span id="tax-amount">{{ isset($invoice) ? number_format($invoice->vat_amount, 2) : '0.00' }}</span>
+                                            <span
+                                                id="tax-amount">{{ isset($invoice) ? number_format($invoice->vat_amount, 2) : '0.00' }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -153,7 +158,8 @@
                                             <strong>Total:</strong>
                                         </td>
                                         <td colspan="2">
-                                            <span id="total">{{ isset($invoice) ? number_format($invoice->total, 2) : '0.00' }}</span>
+                                            <span
+                                                id="total">{{ isset($invoice) ? number_format($invoice->total, 2) : '0.00' }}</span>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -186,7 +192,7 @@
 @endsection
 
 @section('custom-script')
-    <script src="{{ asset('../assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/select2/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.product-select').select2();
@@ -253,11 +259,11 @@
 
                 const taxPercentage = parseFloat($('#tax_percentage').val()) || 0;
                 const discount = parseFloat($('#discount').val()) || 0;
-                
+
                 const discountedSubtotal = subtotal - discount;
-                
+
                 const taxAmount = (discountedSubtotal * taxPercentage) / 100;
-                
+
                 const total = discountedSubtotal + taxAmount;
 
                 $('#subtotal').text(subtotal.toFixed(2));
