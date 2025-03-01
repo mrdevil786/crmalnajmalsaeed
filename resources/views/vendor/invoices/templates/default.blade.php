@@ -128,6 +128,27 @@
             text-transform: capitalize;
             white-space: nowrap;
         }
+
+        .logo-img {
+            height: 100px;
+        }
+
+        .qr-code {
+            width: 100px;
+            height: 100px;
+        }
+
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        .stamp-image {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 10;
+            height: 125px;
+        }
     </style>
 </head>
 
@@ -138,13 +159,12 @@
             <tr>
                 <td width="70%">
                     @if ($invoice->logo)
-                        <img src="{{ $invoice->getLogo() }}" alt="logo" height="100">
+                        <img src="{{ $invoice->getLogo() }}" alt="logo" class="logo-img">
                     @endif
                 </td>
                 <td width="30%" class="text-right">
                     @if ($invoice->getCustomData()['qrCodeData'] ?? false)
-                        <img src="{{ $invoice->getCustomData()['qrCodeData'] }}" alt="QR Code"
-                            style="width: 100px; height: 100px;" />
+                        <img src="{{ $invoice->getCustomData()['qrCodeData'] }}" alt="QR Code" class="qr-code" />
                     @endif
                 </td>
             </tr>
@@ -238,7 +258,7 @@
     <div class="items-section">
         <table class="table table-items">
             <thead>
-                <tr class="items-header">
+                <tr class="items-header nowrap">
                     <th scope="col" class="text-center border-0">{{ __('invoices::invoice.description') }}</th>
                     @if ($invoice->hasItemUnits)
                         <th scope="col" class="text-center border-0">{{ __('invoices::invoice.units') }}</th>
@@ -266,17 +286,17 @@
                             <td class="border-1 text-center">{{ $item->units }}</td>
                         @endif
                         <td class="border-1 text-center">{{ $item->quantity }}</td>
-                        <td class="border-1 text-right" style="white-space: nowrap;">
+                        <td class="border-1 text-right nowrap">
                             {{ $invoice->formatCurrency($item->price_per_unit) }}</td>
                         @if ($invoice->hasItemDiscount)
-                            <td class="border-1 text-right" style="white-space: nowrap;">
+                            <td class="border-1 text-right nowrap">
                                 {{ $invoice->formatCurrency($item->discount) }}</td>
                         @endif
                         @if ($invoice->hasItemTax)
-                            <td class="border-1 text-right" style="white-space: nowrap;">
+                            <td class="border-1 text-right nowrap">
                                 {{ $invoice->formatCurrency($item->tax) }}</td>
                         @endif
-                        <td class="border-1 text-right" style="white-space: nowrap;">
+                        <td class="border-1 text-right nowrap">
                             {{ $invoice->formatCurrency($item->sub_total_price) }}</td>
                     </tr>
                 @endforeach
@@ -344,8 +364,7 @@
     <!-- Stamp Section -->
     <div class="stamp-section">
         @if (isset($invoice->getCustomData()['stampBase64']) && $invoice->getCustomData()['stampBase64'])
-            <img src="{{ $invoice->getCustomData()['stampBase64'] }}" alt="Stamp" class="stamp-image"
-                height="125" style="position: fixed; bottom: 10px; right: 10px; z-index: 10;" />
+            <img src="{{ $invoice->getCustomData()['stampBase64'] }}" alt="Stamp" class="stamp-image" />
         @endif
     </div>
 
