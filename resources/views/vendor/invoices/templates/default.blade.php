@@ -6,8 +6,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <style type="text/css" media="screen">
+        * {
+            font-family: DejaVu Sans, sans-serif;
+        }
+
         html {
-            font-family: sans-serif;
             line-height: 1.15;
             margin: 0;
         }
