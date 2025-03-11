@@ -40,4 +40,5 @@ return [
     'page'                   => 'Strana',
     'bill_from'              => 'Faktura od',
     'bill_to'                => 'Faktura pro',
+    'valid_until'            => 'Platnost',
 ];

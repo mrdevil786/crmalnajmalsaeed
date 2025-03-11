@@ -40,4 +40,5 @@ return [
     'page'                   => 'Seite',
     'bill_from'              => 'Rechnung von',
     'bill_to'                => 'Rechnung an',
+    'valid_until'            => 'Gültig bis',
 ];

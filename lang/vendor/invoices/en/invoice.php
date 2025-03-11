@@ -40,4 +40,5 @@ return [
     'page'                   => 'Page',
     'bill_from'              => 'Bill From',
     'bill_to'                => 'Bill To',
+    'valid_until'            => 'Valid until',
 ];

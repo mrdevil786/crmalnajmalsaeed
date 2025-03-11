@@ -41,4 +41,5 @@ return [
     'page'                   => 'Side',
     'bill_from'              => 'Factuur van',
     'bill_to'                => 'Factuur aan',
+    'valid_until'            => 'Geldig tot',
 ];

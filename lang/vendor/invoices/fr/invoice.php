@@ -40,4 +40,5 @@ return [
     'page'                   => 'Page',
     'bill_from'              => 'Facture de',
     'bill_to'                => 'Facture à',
+    'valid_until'            => 'Valide jusqu\'au',
 ];

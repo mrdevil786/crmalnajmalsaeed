@@ -73,6 +73,10 @@ class PDFHelper
                     public_path('assets/images/brand/signature_stamp.png')
                 ))
             ];
+
+            if ($invoice->due_date) {
+                $customData['due_date'] = Carbon::parse($invoice->due_date)->format('d/m/Y');
+            }
             
             if ($qrCodeData) {
                 $customData['qrCodeData'] = $qrCodeData;

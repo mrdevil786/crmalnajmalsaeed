@@ -355,7 +355,13 @@
             <p class="invoice-notes">{{ __('invoices::invoice.notes') }}: {!! $invoice->notes !!}</p>
         @endif
         <p class="amount-in-words">{{ __('invoices::invoice.amount_in_words') }}:
-            {{ $invoice->getTotalAmountInWords() }}</p>
+            {{ $invoice->getTotalAmountInWords() }}
+        </p>
+        @if ($invoice->name === 'quotation' && isset($invoice->getCustomData()['due_date']))
+            <p>
+                {{ __('invoices::invoice.valid_until') }}: {{ $invoice->getCustomData()['due_date'] }}
+            </p>
+        @endif
         @if (isset($invoice->getCustomData()['iban']))
             <p class="iban-info">{{ $invoice->getCustomData()['iban'] }}</p>
         @endif
