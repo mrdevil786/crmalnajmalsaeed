@@ -15,6 +15,14 @@ class CustomersController extends Controller
         return view('admin.customers.index', compact('customers'));
     }
 
+    // SHOW A FORM FOR CREATING A NEW CUSTOMER
+    public function create()
+    {
+        $isEdit = false;
+        $isCreate = true;
+        return view('admin.customers.create-edit-view', compact('isEdit', 'isCreate'));
+    }
+
     // VALIDATE AND STORE A NEW CUSTOMER
     public function store(Request $request)
     {
@@ -42,16 +50,18 @@ class CustomersController extends Controller
     public function edit($id)
     {
         $isEdit = true;
+        $isCreate = false;
         $customer = Customer::findOrFail($id);
-        return view('admin.customers.create-edit-view', compact('customer', 'isEdit'));
+        return view('admin.customers.create-edit-view', compact('customer', 'isEdit', 'isCreate'));
     }
 
     // VIEW A SPECIFIC CUSTOMER
     public function view($id)
     {
         $isEdit = false;
+        $isCreate = false;
         $customer = Customer::findOrFail($id);
-        return view('admin.customers.create-edit-view', compact('customer', 'isEdit'));
+        return view('admin.customers.create-edit-view', compact('customer', 'isEdit', 'isCreate'));
     }
 
     // VALIDATE AND UPDATE THE SPECIFIED CUSTOMER

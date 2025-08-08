@@ -8,9 +8,8 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">Manage Customers</h1>
-            <button class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fa fa-plus-circle"></i> Add
-                Customer</button>
+            <a href="{{ route('admin.customers.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add
+                Customer</a>
         </div>
     </div>
     <!-- PAGE-HEADER END -->
@@ -97,18 +96,6 @@
         </div>
     </div>
     <!-- End Row -->
-
-    <!--Add Modal - Right Offcanvas-->
-    <x-Modal.Right-Offcanvas title="Add New Customer" action="{{ route('admin.customers.store') }}" method="POST">
-
-        <x-fields.input-field label="Full Name" name="name" />
-        <x-fields.input-field label="Email" name="email" />
-        <x-fields.input-field label="Address" name="address" />
-        <x-fields.input-field label="Pincode" name="pincode" />
-        <x-fields.input-field label="Tax Number" name="tax_number" />
-
-    </x-Modal.Right-Offcanvas>
-    <!--/Right Offcanvas-->
 
 @endsection
 
