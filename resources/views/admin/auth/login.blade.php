@@ -54,7 +54,7 @@
                 <!-- CONTAINER OPEN -->
                 <div class="col col-login mx-auto mt-7">
                     <div class="text-center">
-                        <a href="{{ url('/') }}"><img src="{{ asset('assets/images/brand/logo-white.png') }}"
+                        <a href="{{ url('/') }}"><img src="{{ asset('assets/images/brand/logo-white.svg') }}"
                                 class="header-brand-img" alt=""></a>
                     </div>
                 </div>

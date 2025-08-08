@@ -56,9 +56,9 @@
                             href="javascript:void(0)"></a>
                         <!-- sidebar-toggle-->
                         <a class="logo-horizontal " href="/">
-                            <img src="{{ asset('assets/images/brand/logo.png') }}"
+                            <img src="{{ asset('assets/images/brand/logo-white.svg') }}"
                                 class="header-brand-img desktop-logo" alt="logo">
-                            <img src="{{ asset('assets/images/brand/logo-3.png') }}"
+                            <img src="{{ asset('assets/images/brand/logo-black.svg') }}"
                                 class="header-brand-img light-logo1" alt="logo">
                         </a>
                         <!-- LOGO -->
@@ -154,13 +154,13 @@
                 <div class="app-sidebar">
                     <div class="side-header">
                         <a class="header-brand1" href="/">
-                            <img src="{{ asset('assets/images/brand/logo.png') }}"
+                            <img src="{{ asset('assets/images/brand/logo-white.svg') }}"
                                 class="header-brand-img desktop-logo" alt="logo">
-                            <img src="{{ asset('assets/images/brand/logo-1.png') }}"
+                            <img src="{{ asset('assets/images/brand/logo-1.svg') }}"
                                 class="header-brand-img toggle-logo" alt="logo">
-                            <img src="{{ asset('assets/images/brand/logo-2.png') }}"
+                            <img src="{{ asset('assets/images/brand/logo-2.svg') }}"
                                 class="header-brand-img light-logo" alt="logo">
-                            <img src="{{ asset('assets/images/brand/logo-3.png') }}"
+                            <img src="{{ asset('assets/images/brand/logo-black.svg') }}"
                                 class="header-brand-img light-logo1" alt="logo">
                         </a>
                         <!-- LOGO -->
