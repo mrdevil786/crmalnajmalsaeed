@@ -10,7 +10,8 @@
             <h1 class="page-title">Manage Invoices</h1>
             @if (Auth()->User()->user_role != 3)
                 <a href="{{ route('admin.invoices.create') }}">
-                    <button class="btn btn-primary off-canvas" type="button"><i class="fa fa-plus-circle"></i> Add Invoice</button>
+                    <button class="btn btn-primary off-canvas" type="button"><i class="fa fa-plus-circle"></i> Add
+                        Invoice</button>
                 </a>
             @endif
         </div>
@@ -57,8 +58,7 @@
                                             @if (auth()->user()->user_role != 3)
                                                 <x-buttons.action-pill-button
                                                     href="{{ route('admin.invoices.edit', $invoice->id) }}"
-                                                    iconClass="fa fa-pencil" iconColor="warning"
-                                                    modalTarget="editInvoiceModal" />
+                                                    iconClass="fa fa-pencil" iconColor="warning" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
                                                 <form action="{{ route('admin.invoices.destroy', $invoice->id) }}"

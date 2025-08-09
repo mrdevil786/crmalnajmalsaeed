@@ -30,11 +30,12 @@
                         <div class="form-row">
                             <div class="col-lg-6 mb-3">
                                 <label class="form-label" for="customer_id">Customer</label>
-                                <select class="form-control select2-show-search form-select" name="customer_id" id="customer_id" required>
+                                <select class="form-control select2-show-search form-select" name="customer_id"
+                                    id="customer_id" required>
                                     <option value="" selected disabled>Select Customer</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}"
-                                            {{ isset($quotation) && $quotation->customer_id == $customer->id ? 'selected' : '' }}>
+                                            {{ old('customer_id', isset($quotation) ? $quotation->customer_id : null) == $customer->id ? 'selected' : '' }}>
                                             {{ $customer->name }}
                                         </option>
                                     @endforeach
@@ -47,7 +48,8 @@
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="issue_date">Issue Date</label>
                                 <input type="date" class="form-control" name="issue_date" id="issue_date"
-                                    value="{{ isset($quotation) ? $quotation->issue_date : '' }}" required>
+                                    value="{{ old('issue_date', isset($quotation) && $quotation->issue_date ? \Carbon\Carbon::parse($quotation->issue_date)->format('Y-m-d') : now()->format('Y-m-d')) }}"
+                                    required>
                                 @error('issue_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -56,7 +58,7 @@
                             <div class="col-lg-3 mb-3">
                                 <label class="form-label" for="due_date">Due Date</label>
                                 <input type="date" class="form-control" name="due_date" id="due_date"
-                                    value="{{ isset($quotation) && $quotation->due_date ? \Carbon\Carbon::parse($quotation->due_date)->format('Y-m-d') : '' }}">
+                                    value="{{ old('due_date', isset($quotation) && $quotation->due_date ? \Carbon\Carbon::parse($quotation->due_date)->format('Y-m-d') : '') }}">
                                 @error('due_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -75,7 +77,50 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (isset($quotation))
+                                    @if (old('items'))
+                                        @foreach (old('items') as $index => $oldItem)
+                                            <tr>
+                                                <td class="col-5">
+                                                    <select name="items[{{ $index }}][product_id]"
+                                                        class="form-control product-select" required>
+                                                        <option value="">Select Product</option>
+                                                        @foreach ($products as $product)
+                                                            <option value="{{ $product->id }}"
+                                                                data-price="{{ $product->price }}"
+                                                                {{ isset($oldItem['product_id']) && (int) $oldItem['product_id'] === $product->id ? 'selected' : '' }}>
+                                                                {{ $product->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if (isset($oldItem['id']))
+                                                        <input type="hidden" name="items[{{ $index }}][id]"
+                                                            value="{{ $oldItem['id'] }}">
+                                                    @endif
+                                                </td>
+                                                <td class="col-2">
+                                                    <input type="number" name="items[{{ $index }}][quantity]"
+                                                        class="form-control quantity"
+                                                        value="{{ $oldItem['quantity'] ?? 1 }}" min="1"
+                                                        step="0.01" required>
+                                                </td>
+                                                <td class="col-2">
+                                                    <input type="number" name="items[{{ $index }}][price]"
+                                                        class="form-control price" value="{{ $oldItem['price'] ?? 0 }}"
+                                                        min="0" step="0.01" required>
+                                                </td>
+                                                <td class="col-2">
+                                                    <span
+                                                        class="item-total">{{ number_format(((float) ($oldItem['quantity'] ?? 0)) * ((float) ($oldItem['price'] ?? 0)), 2) }}</span>
+                                                </td>
+                                                <td class="col-1 text-center">
+                                                    <button type="button"
+                                                        class="btn btn-outline-danger btn-pill btn-sm delete-row">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @elseif (isset($quotation))
                                         @foreach ($quotation->items as $index => $item)
                                             <tr>
                                                 <td class="col-5">
@@ -89,6 +134,8 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <input type="hidden" name="items[{{ $index }}][id]"
+                                                        value="{{ $item->id }}">
                                                 </td>
                                                 <td class="col-2">
                                                     <input type="number" name="items[{{ $index }}][quantity]"
@@ -125,12 +172,12 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="text-right">
-                                            <strong>Discount:</strong>
+                                            <strong>Discount (amount):</strong>
                                         </td>
                                         <td>
                                             <input type="number" name="discount" id="discount" class="form-control"
-                                                value="{{ isset($quotation) ? $quotation->discount : '0' }}" min="0"
-                                                step="0.01" required>
+                                                value="{{ old('discount', isset($quotation) ? $quotation->discount : '0') }}"
+                                                min="0" step="0.01" required>
                                         </td>
                                         <td colspan="2">
                                             <span
@@ -144,7 +191,7 @@
                                         <td>
                                             <input type="number" name="vat_percentage" id="tax_percentage"
                                                 class="form-control"
-                                                value="{{ isset($quotation) ? $quotation->vat_percentage : '15' }}"
+                                                value="{{ old('vat_percentage', isset($quotation) ? $quotation->vat_percentage : '15') }}"
                                                 min="0" step="0.01" required>
                                         </td>
                                         <td colspan="2">
@@ -165,10 +212,15 @@
                             </table>
                         </div>
 
-                        <div class="mb-3">
-                            <button type="button" class="btn btn-info" id="add-item">
-                                <i class="fa fa-plus"></i> Add Item
-                            </button>
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+                            <div>
+                                <button type="button" class="btn btn-info" id="add-item">
+                                    <i class="fa fa-plus"></i> Add Item
+                                </button>
+                            </div>
+                            <div class="text-muted mt-2 mt-md-0 text-md-end">
+                                <small>Totals update automatically as you edit quantities and prices.</small>
+                            </div>
                         </div>
 
                         <div class="form-row">
@@ -178,11 +230,12 @@
                             </div>
                         </div>
 
-                        <center>
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{{ route('admin.quotations.index') }}" class="btn btn-outline-secondary">Cancel</a>
                             <button type="submit" class="btn btn-success">
                                 {{ isset($quotation) ? 'Update Quotation' : 'Create Quotation' }}
                             </button>
-                        </center>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -230,11 +283,17 @@
                 `;
                 $('#items-table tbody').append(newRow);
                 $('#items-table tbody tr:last .product-select').select2();
+                toggleDeleteButtons();
             });
 
             $(document).on('click', '.delete-row', function() {
+                const $rows = $('#items-table tbody tr');
+                if ($rows.length <= 1) {
+                    return; // Prevent removing the last remaining row
+                }
                 $(this).closest('tr').remove();
                 calculateTotals();
+                toggleDeleteButtons();
             });
 
             $(document).on('change', '.product-select', function() {
@@ -276,6 +335,19 @@
             }
 
             calculateTotals();
+
+            function toggleDeleteButtons() {
+                const $rows = $('#items-table tbody tr');
+                if ($rows.length <= 1) {
+                    // Only one row: hide its delete button
+                    $rows.find('.delete-row').addClass('d-none');
+                } else {
+                    // Two or more rows: show and enable all delete buttons
+                    $rows.find('.delete-row').removeClass('d-none').prop('disabled', false).removeAttr('title');
+                }
+            }
+
+            toggleDeleteButtons();
         });
     </script>
 @endsection

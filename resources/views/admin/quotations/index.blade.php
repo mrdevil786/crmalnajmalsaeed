@@ -74,8 +74,7 @@
                                             @if (auth()->user()->user_role != 3)
                                                 <x-buttons.action-pill-button
                                                     href="{{ route('admin.quotations.edit', $quotation->id) }}"
-                                                    iconClass="fa fa-pencil" iconColor="warning"
-                                                    modalTarget="editQuotationModal" />
+                                                    iconClass="fa fa-pencil" iconColor="warning" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
                                                 <form action="{{ route('admin.quotations.destroy', $quotation->id) }}"
