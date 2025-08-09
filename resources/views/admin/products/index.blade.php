@@ -8,9 +8,8 @@
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title">Manage Products</h1>
-            <button class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fa fa-plus-circle"></i> Add
-                Product</button>
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add
+                Product</a>
         </div>
     </div>
     <!-- PAGE-HEADER END -->
@@ -53,9 +52,8 @@
 
                                             @if (auth()->user()->user_role != 3)
                                                 <x-buttons.action-pill-button
-                                                    href="{{ route('admin.products.edit', $product->id) }}"
-                                                    iconClass="fa fa-pencil" iconColor="warning"
-                                                    modalTarget="editProductModal" />
+                                                href="{{ route('admin.products.edit', $product->id) }}"
+                                                    iconClass="fa fa-pencil" iconColor="warning" />
                                             @endif
                                             @if (auth()->user()->user_role == 1)
                                                 <x-buttons.delete-button
@@ -74,15 +72,7 @@
     </div>
     <!-- End Row -->
 
-    <!--Add Modal - Right Offcanvas-->
-    <x-Modal.Right-Offcanvas title="Add New Product" action="{{ route('admin.products.store') }}" method="POST">
-        <x-fields.input-field label="Product Name" name="name" />
-        <x-fields.dropdown-field label="Product Type" name="type" :options="['goods' => 'Goods', 'services' => 'Services']" />
-        <x-fields.input-field label="Description" name="description" />
-        <x-fields.input-field label="Price" name="price" type="number" step="0.01" />
-        <x-fields.input-field label="Unit" name="unit" />
-    </x-Modal.Right-Offcanvas>
-    <!--/Right Offcanvas-->
+    
 
 @endsection
 

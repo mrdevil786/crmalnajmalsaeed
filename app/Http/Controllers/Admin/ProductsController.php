@@ -18,6 +18,14 @@ class ProductsController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
+    // SHOW A FORM FOR CREATING A NEW PRODUCT (REUSE CREATE-EDIT-VIEW)
+    public function create()
+    {
+        $isEdit = false;
+        $isCreate = true;
+        return view('admin.products.create-edit-view', compact('isEdit', 'isCreate'));
+    }
+
     // VALIDATE AND STORE A NEW PRODUCT
     public function store(Request $request)
     {
@@ -45,16 +53,18 @@ class ProductsController extends Controller
     public function edit($id)
     {
         $isEdit = true;
+        $isCreate = false;
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product', 'isEdit'));
+        return view('admin.products.create-edit-view', compact('product', 'isEdit', 'isCreate'));
     }
 
     // VIEW A SPECIFIC USER
     public function view($id)
     {
         $isEdit = false;
+        $isCreate = false;
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product', 'isEdit'));
+        return view('admin.products.create-edit-view', compact('product', 'isEdit', 'isCreate'));
     }
 
     // VALIDATE AND UPDATE THE SPECIFIED PRODUCT
