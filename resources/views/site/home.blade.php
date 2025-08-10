@@ -1,282 +1,183 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
-
-    <!-- META DATA -->
     <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Sash – Bootstrap 5  Admin & Dashboard Template">
-    <meta name="author" content="Spruko Technologies Private Limited">
-    <meta name="keywords"
-        content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
+    <meta name="description" content="Al Najm Al Saeed ERP - Employee Login">
+    <meta name="author" content="Al Najm Al Saeed Co. Ltd.">
+    <meta name="keywords" content="ERP, login, employee portal, Al Najm Al Saeed">
 
     <!-- FAVICON -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('../assets/images/brand/favicon.ico') }}" />
 
     <!-- TITLE -->
-    <title>{{ env('APP_NAME') }} – CRM</title>
+    <title>{{ env('APP_NAME') }} – Employee Login</title>
 
-    <!-- BOOTSTRAP CSS -->
-    <link id="style" href="{{ asset('../assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
-
-    <!-- STYLE CSS -->
-    <link href="{{ asset('../assets/css/style.css') }}" rel="stylesheet" />
-    <link href="{{ asset('../assets/css/dark-style.css') }}" rel="stylesheet" />
-
-    <!--- FONT-ICONS CSS -->
-    <link href="{{ asset('../assets/css/icons.css') }}" rel="stylesheet" />
-
-    <!-- COLOR SKIN CSS -->
-    <link id="theme" rel="stylesheet" type="text/css" media="all"
-        href="{{ asset('../assets/colors/color1.css') }}" />
-
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #3d9970 0%, #2d7a5a 100%);
+        }
+        .brand-green {
+            color: #3d9970;
+        }
+        .bg-brand-green {
+            background-color: #3d9970;
+        }
+        .hover-bg-brand-green:hover {
+            background-color: #2d7a5a;
+        }
+        .border-brand-green {
+            border-color: #3d9970;
+        }
+        .text-brand-green {
+            color: #3d9970;
+        }
+        
+        /* Icon visibility fixes */
+        .fas, .fab, .far {
+            display: inline-block !important;
+            font-style: normal !important;
+            font-variant: normal !important;
+            text-rendering: auto !important;
+            -webkit-font-smoothing: antialiased !important;
+        }
+        
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        /* Card hover effects */
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
-<body class="app ltr landing-page horizontal">
-
-    <!-- GLOBAL-LOADER -->
-    <div id="global-loader">
-        <img src="{{ asset('../assets/images/loader.svg') }}" class="loader-img" alt="Loader">
-    </div>
-    <!-- /GLOBAL-LOADER -->
-
-    <!-- PAGE -->
-    <div class="page">
-        <div class="page-main">
-
-            <!-- app-Header -->
-            <div class="hor-header header">
-                <div class="container main-container">
-                    <div class="d-flex">
-                        <!-- sidebar-toggle-->
-                        <a class="logo-horizontal " href="index.html">
-                            <img src="../assets/images/brand/logo.png" class="header-brand-img desktop-logo"
-                                alt="logo">
-                            <img src="../assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
-                                alt="logo">
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <img src="{{ asset('/assets/images/brand/logo-black.svg') }}" alt="Al Najm Al Saeed Logo" class="w-12 h-12 object-contain">
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    @if (Auth()->Check())
+                        <a href="{{ route('admin.dashboard') }}" 
+                           class="bg-brand-green hover-bg-brand-green text-white px-6 py-2.5 rounded-lg font-medium transition-all text-sm sm:text-base shadow-md hover:shadow-lg">
+                            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
                         </a>
-                        <!-- LOGO -->
-                        <div class="d-flex order-lg-2 ms-auto header-right-icons">
-                            <button class="navbar-toggler navresponsive-toggler d-lg-none ms-auto" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent-4"
-                                aria-controls="navbarSupportedContent-4" aria-expanded="false"
-                                aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon fe fe-more-vertical"></span>
-                            </button>
-                            <div class="navbar navbar-collapse responsive-navbar p-0">
-                                <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
-                                    <!-- SEARCH -->
-                                    <div class="header-nav-right p-5">
-                                        @if (Auth()->Check())
-                                            <a href="{{ route('admin.dashboard') }}"
-                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto">Dashboard
-                                            </a>
-                                        @else
-                                            <a href="{{ route('admin.view.login') }}"
-                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto">Login
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @else
+                        <a href="{{ route('admin.view.login') }}" 
+                           class="bg-brand-green hover-bg-brand-green text-white px-6 py-2.5 rounded-lg font-medium transition-all text-sm sm:text-base shadow-md hover:shadow-lg">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                        </a>
+                    @endif
                 </div>
             </div>
-            <!-- /app-Header -->
-
-            <div class="landing-top-header overflow-hidden">
-                <div class="top sticky overflow-hidden">
-                    <!--APP-SIDEBAR-->
-                    <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
-                    <div class="app-sidebar bg-transparent horizontal-main">
-                        <div class="container">
-                            <div class="row">
-                                <div class="main-sidemenu navbar px-0">
-                                    <a class="navbar-brand ps-0 d-none d-lg-block" href="index.html">
-                                        <img alt="" class="logo-2"
-                                            src="{{ asset('../assets/images/brand/logo-3.png') }}">
-                                        <img src="{{ asset('../assets/images/brand/logo.png') }}" class="logo-3"
-                                            alt="logo">
-                                    </a>
-                                    <div class="header-nav-right d-none d-lg-flex">
-                                        @if (Auth()->Check())
-                                            <a href="{{ route('admin.dashboard') }}"
-                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">Dashboard
-                                            </a>
-                                        @else
-                                            <a href="{{ route('admin.view.login') }}"
-                                                class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block">Login
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/APP-SIDEBAR-->
-                </div>
-                <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal"
-                    id="home">
-                    <div class="container px-sm-0">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6 mb-5 pb-5 animation-zidex pos-relative">
-                                <h4 class="fw-semibold mt-7">Manage Your Business</h4>
-                                <h1 class="text-start fw-bold">We Help to Build Your Dream Project with <span
-                                        class="text-primary animate-heading">ERP</span></h1>
-                                <h6 class="pb-3">
-                                    At Al Najm Al Saeed Co. Ltd., we empower you to create exceptional projects across
-                                    various sectors, including construction, HVAC, and IT services. Our comprehensive
-                                    solutions are designed to meet the diverse needs of our clients, ensuring quality
-                                    and efficiency in every endeavor.
-                                </h6>
-
-                                <a href="https://themeforest.net/item/sash-bootstrap-5-admin-dashboard-template/35183671"
-                                    target="_blank" class="btn ripple btn-min w-lg mb-3 me-2 btn-primary"><i
-                                        class="fe fe-play me-2"></i> Get Started
-                                </a>
-                                <a href="https://themeforest.net/user/spruko/portfolio"
-                                    class="btn ripple btn-min w-lg btn-outline-primary mb-3 me-2" target="_blank"><i
-                                        class="fe fe-eye me-2"></i>Discover More
-                                </a>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 my-auto">
-                                <img src="{{ asset('../assets/images/landing/market4.png') }}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
+    </nav>
 
-        <!-- FOOTER OPEN -->
-        <div class="demo-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body">
-                            {{-- <div class="top-footer">
-                                <div class="row">
-                                    <div class="col-lg-4 col-sm-12 col-md-12 reveal revealleft">
-                                        <h6>About</h6>
-                                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                            doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                            veritatis et quasi architecto beatae vitae dicta sunt
-                                            explicabo.
-                                        </p>
-                                        <p class="mb-5 mb-lg-2">Duis aute irure dolor in reprehenderit in voluptate
-                                            velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat .
-                                        </p>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-6 col-md-4 reveal revealleft">
-                                        <h6>Pages</h6>
-                                        <ul class="list-unstyled mb-5 mb-lg-0">
-                                            <li><a href="index.html">Dashboard</a></li>
-                                            <li><a href="alerts.html">Elements</a></li>
-                                            <li><a href="form-elements.html">Forms</a></li>
-                                            <li><a href="charts.html">Charts</a></li>
-                                            <li><a href="datatable.html">Tables</a></li>
-                                            <li><a href="file-attachments.html">Other Pages</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-6 col-md-4 reveal revealleft">
-                                        <h6>Information</h6>
-                                        <ul class="list-unstyled mb-5 mb-lg-0">
-                                            <li><a href="about.html">Our Team</a></li>
-                                            <li><a href="about.html">Contact US</a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="services.html">Services</a></li>
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="terms.html">Terms and Services</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-12 col-md-4 reveal revealleft">
-                                        <div class="">
-                                            <a href="index.html"><img loading="lazy" alt="" class="logo-2 mb-3"
-                                                    src="../assets/images/brand/logo-3.png"></a>
-                                            <a href="index.html"><img src="../assets/images/brand/logo.png"
-                                                    class="logo-3" alt="logo"></a>
-                                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                                                dolore eu fugiat nulla pariatur Excepteur sint occaecat.</p>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter your email"
-                                                        aria-label="Example text with button addon"
-                                                        aria-describedby="button-addon1">
-                                                    <button class="btn btn-primary" type="button"
-                                                        id="button-addon2">Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="btn-list mt-6">
-                                            <button type="button" class="btn btn-icon rounded-pill"><i
-                                                    class="fa fa-facebook"></i></button>
-                                            <button type="button" class="btn btn-icon rounded-pill"><i
-                                                    class="fa fa-youtube"></i></button>
-                                            <button type="button" class="btn btn-icon rounded-pill"><i
-                                                    class="fa fa-twitter"></i></button>
-                                            <button type="button" class="btn btn-icon rounded-pill"><i
-                                                    class="fa fa-instagram"></i></button>
-                                        </div>
-                                        <hr>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            <footer class="main-footer px-0 pb-0 text-center">
-                                <div class="row ">
-                                    <div class="col-md-12 col-sm-12">
-                                        Copyright © <span id="year"></span> <a
-                                            href="javascript:void(0)">Sash</a>.
-                                        Designed with <span class="fa fa-heart text-danger"></span> by <a
-                                            href="javascript:void(0)"> Spruko </a> All rights reserved.
-                                    </div>
-                                </div>
-                            </footer>
+    <!-- Main Content -->
+    <section class="gradient-bg min-h-screen flex items-center justify-center pt-20 pb-16">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-16 max-w-4xl mx-auto">
+                <!-- Company Logo -->
+                <div class="mb-12">
+                    <div class="w-32 h-32 bg-brand-green bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-8">
+                        <img src="{{ asset('/assets/images/brand/logo-1.svg') }}" alt="Al Najm Al Saeed Logo" class="w-20 h-20 object-contain">
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+                        <span class="text-brand-green">Al Najm</span> Al Saeed
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-600 font-medium">Employee Portal</p>
+                </div>
+
+                <!-- Welcome Message -->
+                <div class="mb-12">
+                    <h2 class="text-3xl font-semibold text-gray-900 mb-6">Welcome to Your ERP System</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Access your dashboard to manage invoices, customers, projects, and business operations efficiently.
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                    @if (Auth()->Check())
+                        <a href="{{ route('admin.dashboard') }}" 
+                           class="bg-brand-green hover-bg-brand-green text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-tachometer-alt mr-3 text-xl"></i>Go to Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('admin.view.login') }}" 
+                           class="bg-brand-green hover-bg-brand-green text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-sign-in-alt mr-3 text-xl"></i>Employee Login
+                        </a>
+                    @endif
+                </div>
+
+                <!-- Quick Info -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+                    <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
+                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-file-invoice text-3xl text-blue-600"></i>
                         </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Invoice Management</h3>
+                        <p class="text-gray-600 leading-relaxed">Create, manage, and track invoices with ease</p>
+                    </div>
+                    
+                    <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
+                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-users text-3xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Customer Management</h3>
+                        <p class="text-gray-600 leading-relaxed">Manage customer data and relationships</p>
+                    </div>
+                    
+                    <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
+                        <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-chart-line text-3xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Reports & Analytics</h3>
+                        <p class="text-gray-600 leading-relaxed">View comprehensive business insights</p>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- FOOTER CLOSED -->
-    </div>
+    </section>
 
-    <!-- BACK-TO-TOP -->
-    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center mb-6">
+                <img src="{{ asset('/assets/images/brand/logo-white.svg') }}" alt="Al Najm Al Saeed Logo" class="w-16 h-16 object-contain">
+            </div>
+            <p class="text-gray-400 text-lg">
+                © <span id="year"></span> Al Najm Al Saeed Co. Ltd. All rights reserved.
+            </p>
+        </div>
+    </footer>
 
-    <!-- JQUERY JS -->
-    <script src="{{ asset('../assets/js/jquery.min.js') }}"></script>
-
-    <!-- BOOTSTRAP JS -->
-    <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- COUNTERS JS-->
-    <script src="../assets/plugins/counters/counterup.min.js"></script>
-    <script src="../assets/plugins/counters/waypoints.min.js"></script>
-    <script src="../assets/plugins/counters/counters-1.js"></script>
-
-    <!-- Perfect SCROLLBAR JS-->
-    <script src="../assets/plugins/owl-carousel/owl.carousel.js"></script>
-    <script src="../assets/plugins/company-slider/slider.js"></script>
-
-    <!-- Star Rating Js-->
-    <script src="../assets/plugins/rating/jquery-rate-picker.js"></script>
-    <script src="../assets/plugins/rating/rating-picker.js"></script>
-
-    <!-- Star Rating-1 Js-->
-    <script src="../assets/plugins/ratings-2/jquery.star-rating.js"></script>
-    <script src="../assets/plugins/ratings-2/star-rating.js"></script>
-
-    <!-- Sticky js -->
-    <script src="../assets/js/sticky.js"></script>
-
-    <!-- CUSTOM JS -->
-    <script src="../assets/js/landing.js"></script>
-
+    <!-- Scripts -->
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
-
 </html>
