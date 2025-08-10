@@ -9,7 +9,7 @@
     <meta name="keywords" content="ERP, login, employee portal, Al Najm Al Saeed">
 
     <!-- FAVICON -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('../assets/images/brand/favicon.ico') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/assets/images/brand/logo-2.svg') }}" />
 
     <!-- TITLE -->
     <title>{{ env('APP_NAME') }} – Employee Login</title>
