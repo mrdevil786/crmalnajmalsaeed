@@ -74,7 +74,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <img src="{{ asset('/assets/images/brand/logo-black.svg') }}" alt="Al Najm Al Saeed Logo" class="w-12 h-12 object-contain">
+                        <img src="{{ asset('/assets/images/brand/logo-black.svg') }}" alt="Al Najm Al Saeed Logo" class="w-32 object-contain">
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -166,7 +166,7 @@
     <footer class="bg-gray-900 text-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="flex items-center justify-center mb-6">
-                <img src="{{ asset('/assets/images/brand/logo-white.svg') }}" alt="Al Najm Al Saeed Logo" class="w-16 h-16 object-contain">
+                <img src="{{ asset('/assets/images/brand/logo-white.svg') }}" alt="Al Najm Al Saeed Logo" class="w-48 object-contain">
             </div>
             <p class="text-gray-400 text-lg">
                 © <span id="year"></span> Al Najm Al Saeed Co. Ltd. All rights reserved.
