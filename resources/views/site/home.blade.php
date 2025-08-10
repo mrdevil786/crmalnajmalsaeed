@@ -95,68 +95,66 @@
     </nav>
 
     <!-- Main Content -->
-    <section class="gradient-bg min-h-screen flex items-center justify-center pt-20 pb-16">
+    <section class="bg-white min-h-screen flex items-center justify-center pt-20 pb-20">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-16 max-w-4xl mx-auto">
-                <!-- Company Logo -->
-                <div class="mb-12">
-                    <div class="w-32 h-32 bg-brand-green bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-8">
-                        <img src="{{ asset('/assets/images/brand/logo-1.svg') }}" alt="Al Najm Al Saeed Logo" class="w-20 h-20 object-contain">
-                    </div>
-                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
-                        <span class="text-brand-green">Al Najm</span> Al Saeed
-                    </h1>
-                    <p class="text-xl md:text-2xl text-gray-600 font-medium">Employee Portal</p>
+            <!-- Company Logo -->
+            <div class="mb-12">
+                <div class="w-32 h-32 bg-brand-green bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-8">
+                    <img src="{{ asset('/assets/images/brand/logo-1.svg') }}" alt="Al Najm Al Saeed Logo" class="w-20 h-20 object-contain">
                 </div>
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+                    <span class="text-brand-green">Al Najm</span> Al Saeed
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 font-medium">Employee Portal</p>
+            </div>
 
-                <!-- Welcome Message -->
-                <div class="mb-12">
-                    <h2 class="text-3xl font-semibold text-gray-900 mb-6">Welcome to Your ERP System</h2>
-                    <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        Access your dashboard to manage invoices, customers, projects, and business operations efficiently.
-                    </p>
+            <!-- Welcome Message -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-6">Welcome to Your ERP System</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    Access your dashboard to manage invoices, customers, projects, and business operations efficiently.
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                @if (Auth()->Check())
+                    <a href="{{ route('admin.dashboard') }}" 
+                       class="bg-brand-green hover-bg-brand-green text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i class="fas fa-tachometer-alt mr-3 text-xl"></i>Go to Dashboard
+                    </a>
+                @else
+                    <a href="{{ route('admin.view.login') }}" 
+                       class="bg-brand-green hover-bg-brand-green text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i class="fas fa-sign-in-alt mr-3 text-xl"></i>Employee Login
+                    </a>
+                @endif
+            </div>
+
+            <!-- Quick Info -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+                <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
+                    <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-file-invoice text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Invoice Management</h3>
+                    <p class="text-gray-600 leading-relaxed">Create, manage, and track invoices with ease</p>
                 </div>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-                    @if (Auth()->Check())
-                        <a href="{{ route('admin.dashboard') }}" 
-                           class="bg-brand-green hover-bg-brand-green text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105">
-                            <i class="fas fa-tachometer-alt mr-3 text-xl"></i>Go to Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('admin.view.login') }}" 
-                           class="bg-brand-green hover-bg-brand-green text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105">
-                            <i class="fas fa-sign-in-alt mr-3 text-xl"></i>Employee Login
-                        </a>
-                    @endif
+                
+                <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-users text-3xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Customer Management</h3>
+                    <p class="text-gray-600 leading-relaxed">Manage customer data and relationships</p>
                 </div>
-
-                <!-- Quick Info -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-                    <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
-                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-file-invoice text-3xl text-blue-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Invoice Management</h3>
-                        <p class="text-gray-600 leading-relaxed">Create, manage, and track invoices with ease</p>
+                
+                <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
+                    <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-chart-line text-3xl text-purple-600"></i>
                     </div>
-                    
-                    <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
-                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-users text-3xl text-green-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Customer Management</h3>
-                        <p class="text-gray-600 leading-relaxed">Manage customer data and relationships</p>
-                    </div>
-                    
-                    <div class="info-card text-center p-6 rounded-2xl bg-gray-50 hover:bg-white border border-gray-100">
-                        <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-chart-line text-3xl text-purple-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Reports & Analytics</h3>
-                        <p class="text-gray-600 leading-relaxed">View comprehensive business insights</p>
-                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Reports & Analytics</h3>
+                    <p class="text-gray-600 leading-relaxed">View comprehensive business insights</p>
                 </div>
             </div>
         </div>
